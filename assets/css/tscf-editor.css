@@ -1,0 +1,23 @@
+#tscf-editor{
+    height: 400px;
+}
+
+#tscf-message{
+    opacity: 0;
+    transition: opacity 1s linear 0s;
+    margin-right: 1em;
+}
+#tscf-message.toggle{
+    opacity: 1;
+}
+
+
+#tscf-message .success{
+    color: #4d804f;
+}
+#tscf-message .error{
+    color: #e74656;
+}
+#tscf-message .loading{
+    color: #888;
+}
