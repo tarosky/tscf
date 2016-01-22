@@ -1,7 +1,6 @@
 <?php
 
 namespace Tarosky\TSCF\Utility;
-use Tarosky\TSCF\Data\Parser;
 
 
 /**

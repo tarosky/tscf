@@ -1,0 +1,51 @@
+.tscf{
+
+  &__group{
+    padding: 1em 0;
+    border-bottom: 1px solid #ddd;
+    &:last-child{
+      border-bottom: none;
+    }
+  }
+
+  &__label{
+    font-weight: bold;
+    margin-bottom: 0.25em;
+    display: block;
+    &--inline{
+      display: inline-block;
+      input{
+        margin-right: 0.5em;
+      }
+    }
+    &--multiple{
+      margin-right: 2em;
+    }
+    &--boolean{
+      font-weight: bold;
+    }
+  }
+
+  &__required{
+    margin-left: 0.5em;
+    color: #ff686b;
+  }
+
+  &__fields{
+    margin-bottom: 0.5em;
+  }
+
+  &__input{
+    box-sizing: border-box;
+    &--text,
+    &--number,
+    &--datetime,
+    &--date,
+    &--password,
+    &--select,
+    &--textarea{
+      width: 100%;
+    }
+  }
+
+}

@@ -29,15 +29,46 @@ class Bootstrap extends Singleton {
 			// Add Ajax save point.
 			add_action( 'wp_ajax_tscf', [ $this, 'save_editor' ] );
 		}
-
 		// Check if file is valid.
-		add_action( 'admin_notices', function () {
-			$path = $this->parser->config_file_path();
-			if( ( !$path || !file_exists($path) ) && current_user_can('edit_themes') ){
-				printf('<div class="error"><p>%s</p></div>', '');
-			}
-		} );
+		add_action( 'admin_notices', [ $this, 'admin_notices' ] );
+		// Add hook on edit screen.
+		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes' ], 10, 2 );
+		// Add hook on save_post
+		add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
+	}
 
+	/**
+	 * Show message on admin screen.
+	 */
+	public function admin_notices() {
+		$path = $this->parser->config_file_path();
+		if ( ! $path || ! file_exists( $path ) ) {
+			$message = $this->_s( 'You have no config file. Upload <code>tscf.json</code> to your theme\'s root. ' );
+			if ( current_user_can( 'edit_themes' ) ) {
+				$message .= sprintf( $this->_s( 'Otherwise, you can edit it <a href="%s">directly</a>.' ), admin_url( 'themes.php?page=tscf' ) );
+			}
+			printf( '<div class="error"><p>%s</p></div>', $message );
+		}
+	}
+
+	/**
+	 * Register meta boxes
+	 *
+	 * @param string $post_type
+	 * @param \WP_Post $post
+	 */
+	public function add_meta_boxes( $post_type, $post ) {
+		$this->parser->register( 'post', $post_type, $post );
+	}
+
+	/**
+	 * Register save hook action
+	 *
+	 * @param int $post_id
+	 * @param \WP_Post $post
+	 */
+	public function save_post( $post_id, $post ){
+		$this->parser->prepare('post', $post->post_type, $post);
 	}
 
 	/**
@@ -94,8 +125,9 @@ class Bootstrap extends Singleton {
 	 * @param string $hook_suffix
 	 */
 	public function admin_enqueue_scripts( $hook_suffix ) {
+		// JSON editor
+		$dir = plugin_dir_url( dirname( dirname( dirname( __FILE__ ) ) ) ) . 'assets';
 		if ( 'appearance_page_tscf' === $hook_suffix ) {
-			$dir = plugin_dir_url( dirname( dirname( dirname( __FILE__ ) ) ) ) . 'assets';
 			wp_register_script( 'ace', $dir . '/lib/ace/ace.js', [], '1.2.3', true );
 			wp_enqueue_script( 'tscf-editor', $dir . '/js/editor.js', [
 				'jquery-effects-highlight',
@@ -106,6 +138,9 @@ class Bootstrap extends Singleton {
 				'ace'      => $dir . '/lib/ace',
 			] );
 			wp_enqueue_style( 'tscf-editor', $dir . '/css/tscf-editor.css', [], '1.0.0' );
+		} else {
+			// every page
+			wp_enqueue_style( 'tscf-admin',  $dir.'/css/tscf-admin.css', [], '1.0.0' );
 		}
 	}
 
