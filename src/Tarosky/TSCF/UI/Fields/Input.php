@@ -37,10 +37,13 @@ abstract class Input {
 	protected $default_prototype = [
 		'name'        => '',
 		'label'       => '',
+		'col'         => 1,
+		'clear'       => false,
 		'required'    => '',
 		'default'     => '',
 		'placeholder' => '',
 		'description' => '',
+		'unit'        => '',
 	    'max'         => '',
 	    'min'         => '',
 	];
@@ -94,10 +97,13 @@ abstract class Input {
 
 	public function row() {
 		?>
-		<div class="tscf__group">
+		<div class="tscf__group tscf__col<?= $this->field['col'] ?><?= $this->field['clear'] ? ' tscf__col--clear' : ''?>">
 			<?php if ( $this->show_label ) : ?>
 				<label class="tscf__label" for="<?php echo esc_attr( $this->field['name'] ) ?>">
 					<?php echo esc_html( $this->field['label'] ) ?>
+					<?php if ($this->field['unit']) :?>
+						<small class="tscf__unit"><?= esc_html($this->field['unit']) ?></small>
+					<?php endif;?>
 					<?php if ( $this->field['required'] ) : ?>
 						<small class="tscf__required">* <?php echo esc_attr($this->_s('Required') ) ?></small>
 					<?php endif; ?>

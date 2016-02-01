@@ -91,7 +91,14 @@ class Parser extends Singleton {
 		}
 	}
 
-	public function prepare( $type, $sub_type, $object ){
+	/**
+	 * Prepare field
+	 *
+	 * @param string $type
+	 * @param string $sub_type
+	 * @param \WP_Term|\WP_Post $object
+	 */
+	public function prepare( $type, $sub_type, $object ) {
 		$this->build();
 		$valid_data = $this->filter( $type, $sub_type, $object );
 		switch ( $type ) {
@@ -100,7 +107,7 @@ class Parser extends Singleton {
 				break;
 		}
 		// this is post, so register_meta_box
-		if( class_exists( $class_name ) ){
+		if ( class_exists( $class_name ) ) {
 			foreach ( $valid_data as $data ) {
 				/** @var Base $instance */
 				$instance = new $class_name( $object, $data );
@@ -108,7 +115,7 @@ class Parser extends Singleton {
 			}
 		}
 	}
-	
+
 	/**
 	 * Filter data.
 	 *

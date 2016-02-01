@@ -1,41 +1,65 @@
-.tscf{
+.tscf {
 
-  &__group{
-    padding: 1em 0;
+  &__group {
+    padding: 1em 10px;
+    box-sizing: border-box;
+
     border-bottom: 1px solid #ddd;
-    &:last-child{
+    &:last-child {
       border-bottom: none;
     }
   }
 
-  &__label{
+  &__col {
+    &1 {
+      clear: left;
+    }
+    &2 {
+      float: left;
+      width: 50%;
+    }
+    &3 {
+      float: left;
+      width: 33%;
+    }
+    &--clear {
+      clear: left;
+    }
+  }
+
+  &__label {
     font-weight: bold;
     margin-bottom: 0.25em;
     display: block;
-    &--inline{
+    &--inline {
       display: inline-block;
-      input{
+      input {
         margin-right: 0.5em;
       }
     }
-    &--multiple{
+    &--multiple {
       margin-right: 2em;
     }
-    &--boolean{
+    &--boolean {
       font-weight: bold;
     }
   }
 
-  &__required{
+  &__required {
     margin-left: 0.5em;
     color: #ff686b;
   }
 
-  &__fields{
+  &__unit{
+    margin-left: 0.5em;
+    color: #888;
+  }
+
+  &__fields {
     margin-bottom: 0.5em;
   }
 
-  &__input{
+  &__input {
     box-sizing: border-box;
     &--text,
     &--number,
@@ -43,7 +67,7 @@
     &--date,
     &--password,
     &--select,
-    &--textarea{
+    &--textarea {
       width: 100%;
     }
   }
