@@ -28,13 +28,33 @@ gulp.task('jshint', function(){
     .pipe($.jshint('./assets/.jshintrc'))
     .pipe($.jshint.reporter('jshint-stylish'));
 });
-
-// Copy
-gulp.task('copy', function(){
+// Copy Ace editor
+gulp.task('ace', function(){
   // Copy Ace editor
   return gulp.src('./node_modules/ace-builds/src-min/**/*')
     .pipe(gulp.dest('./assets/lib/ace'));
 });
+// Copy jQuery UI MP6
+gulp.task('mp6', function(){
+  return gulp.src([
+      './node_modules/jquery-ui-mp6/src/**/*',
+      '!./node_modules/jquery-ui-mp6/src/scss/**/*',
+      '!./node_modules/jquery-ui-mp6/src/js/**/*',
+      '!./node_modules/jquery-ui-mp6/src/config.rb'
+  ])
+    .pipe(gulp.dest('./assets/lib/jquery-ui-mp6'))
+});
+// timepicker
+gulp.task('timepickerAddon', function(){
+  return gulp.src([
+    './node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css',
+    './node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js',
+    './node_modules/jquery-ui-timepicker-addon/dist/i18n/**/*'
+  ])
+    .pipe(gulp.dest('./assets/lib/jquery-ui-timepicker-addon'));
+});
+// Copy
+gulp.task('copy', ['ace', 'mp6', 'timepickerAddon']);
 
 // Build
 gulp.task('build', ['sass', 'copy']);

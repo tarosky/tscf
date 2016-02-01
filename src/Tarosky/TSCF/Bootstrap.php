@@ -29,6 +29,7 @@ class Bootstrap extends Singleton {
 			// Add Ajax save point.
 			add_action( 'wp_ajax_tscf', [ $this, 'save_editor' ] );
 		}
+		// Register scripts
 		// Check if file is valid.
 		add_action( 'admin_notices', [ $this, 'admin_notices' ] );
 		// Add hook on edit screen.
@@ -67,8 +68,8 @@ class Bootstrap extends Singleton {
 	 * @param int $post_id
 	 * @param \WP_Post $post
 	 */
-	public function save_post( $post_id, $post ){
-		$this->parser->prepare('post', $post->post_type, $post);
+	public function save_post( $post_id, $post ) {
+		$this->parser->prepare( 'post', $post->post_type, $post );
 	}
 
 	/**
@@ -126,9 +127,10 @@ class Bootstrap extends Singleton {
 	 */
 	public function admin_enqueue_scripts( $hook_suffix ) {
 		// JSON editor
-		$dir = plugin_dir_url( dirname( dirname( dirname( __FILE__ ) ) ) ) . 'assets';
+		$root_dir = dirname( dirname( dirname( __FILE__ ) ) );
+		$dir      = plugin_dir_url( $root_dir ) . 'assets';
 		if ( 'appearance_page_tscf' === $hook_suffix ) {
-			wp_register_script( 'ace', $dir . '/lib/ace/ace.js', [], '1.2.3', true );
+			wp_register_script( 'ace', $dir . '/lib/ace/ace.js', [ ], '1.2.3', true );
 			wp_enqueue_script( 'tscf-editor', $dir . '/js/editor.js', [
 				'jquery-effects-highlight',
 				'ace',
@@ -139,8 +141,40 @@ class Bootstrap extends Singleton {
 			] );
 			wp_enqueue_style( 'tscf-editor', $dir . '/css/tscf-editor.css', [], '1.0.0' );
 		} else {
-			// every page
-			wp_enqueue_style( 'tscf-admin',  $dir.'/css/tscf-admin.css', [], '1.0.0' );
+			// Register MP6 if not exists.
+			wp_register_style( 'jquery-ui-mp6', "{$dir}/lib/jquery-ui-mp6/css/jquery-ui.css", [ ], '1.0.2' );
+			wp_register_style( 'jquery-ui-timepicker-addon', "{$dir}/lib/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.css", [ 'jquery-ui-mp6' ], '1.5.5' );
+			wp_register_script( 'jquery-ui-timepicker-addon', "{$dir}/lib/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js", [
+				'jquery-ui-datepicker',
+				'jquery-ui-slider',
+			], '1.5.5', true );
+			// Check language
+			$lang         = explode( '_', get_locale() );
+			$file_name    = '/lib/jquery-ui-timepicker-addon/jquery-ui-timepicker-%s.js';
+			$base         = basename( $root_dir ) . $file_name;
+			$file_to_load = '';
+			if ( count( $lang ) > 1 ) {
+				$path = sprintf( $base, "{$lang[0]}-{$lang[1]}" );
+				if ( file_exists( $path ) ) {
+					$file_to_load = "{$lang[0]}-{$lang[1]}";
+				}
+			}
+			if ( ! $file_to_load ) {
+				$path = sprintf( $base, $lang[0] );
+				if ( file_exists( $path ) ) {
+					$file_to_load = $lang[0];
+				}
+			}
+			if ( ! $file_to_load ) {
+				$i18n_file = '/lib/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon-i18n.min.js';
+			} else {
+				$i18n_file = sprintf( $file_name,  $file_to_load );
+			}
+			wp_register_script( 'jquery-ui-timepicker-addon-i18n', $dir.$i18n_file, [ 'jquery-ui-timepicker-addon' ], '1.5.5', true );
+			// Check language and find if exists.
+			// Every page.
+			wp_enqueue_style( 'tscf-admin', $dir . '/css/tscf-admin.css', [ 'jquery-ui-timepicker-addon' ], '1.0.0' );
+			wp_enqueue_script( 'tscf-helper', $dir . '/js/tscf-helper.js', [ 'jquery-ui-timepicker-addon-i18n' ], '1.0.0', true );
 		}
 	}
 

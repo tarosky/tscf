@@ -125,15 +125,49 @@ abstract class Input {
 	 * Display field
 	 */
 	protected function display_field() {
+		$classes   = implode( ' ', $this->filter_class( [
+			'tscf__input',
+			'tscf__input--' . $this->type,
+		] ) );
+		$data_attr = [ ];
+		foreach ( $this->filter_data_attributes( [ ] ) as $key => $value ) {
+			$data_attr[] = sprintf( '%s="%s"', $key, esc_attr( $value ) );
+		}
+		$data = implode( ' ', $data_attr )
 		?>
-		<input class="tscf__input tscf__input--<?php echo esc_attr( $this->type ) ?>"
+		<input class="<?php echo esc_attr( $classes ) ?>"
 		       name="<?php echo esc_attr( $this->field['name'] ) ?>" id="<?php echo esc_attr( $this->field['name'] ) ?>"
 		       type="<?php echo esc_attr( $this->type ) ?>"
 			<?php if ( $this->field['placeholder'] ) : ?>
 				placeholder="<?php echo esc_attr( $this->field['placeholder'] ) ?>"
 			<?php endif; ?>
-			   value="<?php echo esc_attr( $this->get_data( false ) ) ?>"/>
+			   value="<?php echo esc_attr( $this->get_data( false ) ) ?>"
+			<?php if ( $data ): ?>
+				<?php echo $data ?>
+			<?php endif; ?> />
 		<?php
+	}
+
+	/**
+	 * Filter data attributes
+	 *
+	 * @param array $data
+	 *
+	 * @return mixed
+	 */
+	protected function filter_data_attributes($data) {
+		return $data;
+	}
+
+	/**
+	 * Filter classes
+	 *
+	 * @param array $classes
+	 *
+	 * @return array
+	 */
+	protected function filter_class($classes) {
+		return $classes;
 	}
 
 	/**

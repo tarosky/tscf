@@ -32,3 +32,20 @@ if ( version_compare( phpversion(), '5.4.*', '<' ) ) {
 function _tscf_admin_notice() {
 	printf( '<div class="error"><p>%s</p></div>', esc_html( __( '[Error] TSCF requires PHP version 5.4 or later. Please', 'tscf' ) ) );
 }
+
+
+function tscf( $key, $object ) {
+	$data = '';
+}
+
+function tscfp( $key, $post = null ) {
+
+}
+
+function tscft( $key, $term = null ) {
+
+}
+
+function tscfc( $key, $comment = nulll ) {
+
+}

@@ -93,9 +93,14 @@ abstract class Base {
 			case 'select':
 			case 'radio':
 			case 'checkbox':
+			case 'date_time';
+			case 'date':
 				$class_name = 'Tarosky\\TSCF\\UI\\Fields\\' . implode( '', array_map( function ( $seg ) {
 					return ucfirst( $seg );
 				}, explode( '_', $lower_name ) ) );
+				break;
+			case 'datetime':
+				$class_name = 'Tarosky\\TSCF\\UI\\Fields\\DateTime';
 				break;
 			case 'textarea':
 				$class_name = 'Tarosky\\TSCF\\UI\\Fields\\TextArea';

@@ -34,6 +34,8 @@
     "gulp-sourcemaps": "^1.5.1",
     "jshint-stylish": "^1.0.1",
     "node-sass": "^2.1.1",
-    "ace-builds": "^1.2.2"
+    "ace-builds": "^1.2.2",
+    "jquery-ui-mp6": "^1.0.2",
+    "jquery-ui-timepicker-addon": "^1.5.5"
   }
 }
