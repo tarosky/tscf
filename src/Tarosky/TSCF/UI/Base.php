@@ -42,7 +42,6 @@ abstract class Base {
 	public function save() {
 		$input_util = Input::instance();
 		if ( $input_util->verify_nonce( $this->name, "_{$this->name}nonce" ) ) {
-			// TODO: Implement save() method.
 			foreach ( $this->fields as $field ) {
 				$class_name = $this->get_field_class( $field );
 				if ( class_exists( $class_name ) ) {
@@ -68,7 +67,7 @@ abstract class Base {
 				$field->row();
 			}
 		}
-		echo '</div>';
+		echo '<div style="clear:left;"></div></div>';
 	}
 
 	/**
@@ -84,6 +83,7 @@ abstract class Base {
 		] );
 		$lower_name = strtolower( $field['type'] );
 		switch ( $lower_name ) {
+			case 'separator':
 			case 'text':
 			case 'hidden':
 			case 'text_area':
