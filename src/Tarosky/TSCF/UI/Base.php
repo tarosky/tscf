@@ -93,7 +93,7 @@ abstract class Base {
 			case 'select':
 			case 'radio':
 			case 'checkbox':
-			case 'date_time';
+			case 'date_time':
 			case 'date':
 				$class_name = 'Tarosky\\TSCF\\UI\\Fields\\' . implode( '', array_map( function ( $seg ) {
 					return ucfirst( $seg );
