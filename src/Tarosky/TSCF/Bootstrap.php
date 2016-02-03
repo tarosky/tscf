@@ -151,7 +151,7 @@ class Bootstrap extends Singleton {
 			// Check language
 			$lang         = explode( '_', get_locale() );
 			$file_name    = '/lib/jquery-ui-timepicker-addon/jquery-ui-timepicker-%s.js';
-			$base         = basename( $root_dir ) . $file_name;
+			$base         = dirname( $root_dir ) . '/assets' . $file_name;
 			$file_to_load = '';
 			if ( count( $lang ) > 1 ) {
 				$path = sprintf( $base, "{$lang[0]}-{$lang[1]}" );
@@ -174,7 +174,7 @@ class Bootstrap extends Singleton {
 			// Check language and find if exists.
 			// Every page.
 			wp_enqueue_style( 'tscf-admin', $dir . '/css/tscf-admin.css', [ 'jquery-ui-timepicker-addon' ], '1.0.0' );
-			wp_enqueue_script( 'tscf-helper', $dir . '/js/tscf-helper.js', [ 'jquery-ui-timepicker-addon-i18n' ], '1.0.0', true );
+			wp_enqueue_script( 'tscf-helper', $dir . '/js/tscf-helper.js', [ 'jquery-ui-timepicker-addon-i18n', 'jquery-effects-highlight', 'jquery-ui-sortable' ], '1.0.0', true );
 		}
 	}
 

@@ -10,6 +10,9 @@
     &:last-child {
       border-bottom: none;
     }
+    .tscf__child &{
+      border-top: none;
+    }
   }
   &__separator{
     padding: 10px 0;
@@ -56,6 +59,17 @@
     &--boolean {
       font-weight: bold;
     }
+    &--iterator {
+      margin-bottom: 10px;
+      position: relative;
+    }
+  }
+
+  &__add{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%) !important;
   }
 
   &__required {
@@ -85,6 +99,53 @@
     }
   }
 
+  &__child{
+    position: relative;
+    border-top: 1px solid #ddd;
+    padding-right: 20px;
+    padding-left : 20px;
+    &:last-child{
+      border-bottom: 1px solid #ddd;
+    }
+    &:nth-child(even){
+      background: #f9f9f9;
+    }
+    &--placeholder{
+      height: 100px;
+      border: 3px dashed #ddd;
+      background: #faffd3;
+    }
+  }
+
+  &__button{
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(0, -50%) !important;
+    -moz-transform: translate(0, -50%) !important;
+    -ms-transform: translate(0, -50%) !important;
+    -o-transform: translate(0, -50%) !important;
+    transform: translate(0, -50%) !important;
+    font-size: 20px;
+    &:link, &:visited{
+      text-decoration: none;
+      color: #aaa;
+    }
+    &:hover, &:active{
+      text-decoration: none;
+      color: #559fdd;
+      outline: none;
+    }
+    &:focus{
+      outline: none;
+    }
+    &--move{
+      cursor: move;
+      left: 5px;
+    }
+    &--delete{
+      right: 5px;
+    }
+  }
 }
 
 #ui-datepicker-div{

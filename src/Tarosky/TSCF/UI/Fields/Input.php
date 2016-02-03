@@ -2,37 +2,21 @@
 
 namespace Tarosky\TSCF\UI\Fields;
 
-use Tarosky\TSCF\Utility\Application;
+
 
 /**
  * Input UI base
  *
  * @package Tarosky\TSCF\UI\Fields
  */
-abstract class Input {
-
-	use Application;
+abstract class Input extends Base{
 
 	protected $type = 'text';
-
-	protected $object = null;
-
-	protected $field = [];
-
-	protected $required_base = [
-		'name',
-		'label',
-	];
 
 	/**
 	 * @var bool Show label?
 	 */
 	protected $show_label = true;
-
-	/**
-	 * @var array Required params
-	 */
-	protected $required = [];
 
 	protected $default_prototype = [
 		'name'        => '',
@@ -47,19 +31,6 @@ abstract class Input {
 	    'max'         => '',
 	    'min'         => '',
 	];
-
-	protected $default = [];
-
-	/**
-	 * Constructor
-	 *
-	 * @param \WP_Term|\WP_Post $object
-	 * @param array $field
-	 */
-	public function __construct( $object, $field ) {
-		$this->field = $this->parse_default( $field );
-		$this->object = $object;
-	}
 
 	/**
 	 * Get data
@@ -95,17 +66,20 @@ abstract class Input {
 		return $data;
 	}
 
+	/**
+	 * Render row
+	 */
 	public function row() {
 		?>
 		<div class="tscf__group tscf__col<?= $this->field['col'] ?><?= $this->field['clear'] ? ' tscf__col--clear' : ''?>">
 			<?php if ( $this->show_label ) : ?>
 				<label class="tscf__label" for="<?php echo esc_attr( $this->field['name'] ) ?>">
 					<?php echo esc_html( $this->field['label'] ) ?>
-					<?php if ($this->field['unit']) :?>
-						<small class="tscf__unit"><?= esc_html($this->field['unit']) ?></small>
+					<?php if ( $this->field['unit'] ) :?>
+						<small class="tscf__unit"><?= esc_html( $this->field['unit'] ) ?></small>
 					<?php endif;?>
 					<?php if ( $this->field['required'] ) : ?>
-						<small class="tscf__required">* <?php echo esc_attr($this->_s('Required') ) ?></small>
+						<small class="tscf__required">* <?php echo esc_attr( $this->_s( 'Required' ) ) ?></small>
 					<?php endif; ?>
 				</label>
 			<?php endif; ?>
@@ -114,7 +88,7 @@ abstract class Input {
 			</div>
 			<?php if ( $this->field['description'] ) : ?>
 				<p class="description">
-					<?php echo wp_kses( $this->field['description'], [ 'a' => ['class', 'href'] ] ) ?>
+					<?php echo wp_kses( $this->field['description'], [ 'a' => [ 'class', 'href' ] ] ) ?>
 				</p>
 			<?php endif; ?>
 		</div>
@@ -129,8 +103,8 @@ abstract class Input {
 			'tscf__input',
 			'tscf__input--' . $this->type,
 		] ) );
-		$data_attr = [ ];
-		foreach ( $this->filter_data_attributes( [ ] ) as $key => $value ) {
+		$data_attr = [];
+		foreach ( $this->filter_data_attributes( [] ) as $key => $value ) {
 			$data_attr[] = sprintf( '%s="%s"', $key, esc_attr( $value ) );
 		}
 		$data = implode( ' ', $data_attr )
@@ -142,7 +116,7 @@ abstract class Input {
 				placeholder="<?php echo esc_attr( $this->field['placeholder'] ) ?>"
 			<?php endif; ?>
 			   value="<?php echo esc_attr( $this->get_data( false ) ) ?>"
-			<?php if ( $data ): ?>
+			<?php if ( $data ) : ?>
 				<?php echo $data ?>
 			<?php endif; ?> />
 		<?php
@@ -191,7 +165,7 @@ abstract class Input {
 	 *
 	 * @return mixed
 	 */
-	protected function normalize_save_data( $data ){
+	protected function normalize_save_data( $data ) {
 		return $data;
 	}
 
@@ -215,17 +189,6 @@ abstract class Input {
 			}
 		}
 		return $error->errors ? $error : true;
-	}
-
-	/**
-	 * Parse default arguments
-	 *
-	 * @param array $field
-	 *
-	 * @return array
-	 */
-	protected function parse_default( $field ) {
-		return wp_parse_args( (array) $field, wp_parse_args( $this->default, $this->default_prototype ) );
 	}
 
 

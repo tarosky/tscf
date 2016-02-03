@@ -43,7 +43,7 @@ abstract class Base {
 		$input_util = Input::instance();
 		if ( $input_util->verify_nonce( $this->name, "_{$this->name}nonce" ) ) {
 			foreach ( $this->fields as $field ) {
-				$class_name = $this->get_field_class( $field );
+				$class_name = static::get_field_class( $field );
 				if ( class_exists( $class_name ) ) {
 					$input = new $class_name( $this->object, $field );
 					$input->save_data();
@@ -61,7 +61,7 @@ abstract class Base {
 		wp_nonce_field( $this->name, "_{$this->name}nonce", false );
 		echo '<div class="tscf">';
 		foreach ( $this->fields as $field ) {
-			$class = $this->get_field_class( $field );
+			$class = static::get_field_class( $field );
 			if ( class_exists( $class ) ) {
 				$field = new $class( $this->object, $field );
 				$field->row();
@@ -77,7 +77,7 @@ abstract class Base {
 	 *
 	 * @return string
 	 */
-	protected function get_field_class( $field ) {
+	public static function get_field_class( $field ) {
 		$field      = wp_parse_args( $field, [
 			'type' => 'text',
 		] );
@@ -95,6 +95,7 @@ abstract class Base {
 			case 'checkbox':
 			case 'date_time':
 			case 'date':
+			case 'iterator':
 				$class_name = 'Tarosky\\TSCF\\UI\\Fields\\' . implode( '', array_map( function ( $seg ) {
 					return ucfirst( $seg );
 				}, explode( '_', $lower_name ) ) );
