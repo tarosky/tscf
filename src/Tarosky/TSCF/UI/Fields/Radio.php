@@ -15,7 +15,13 @@ class Radio extends Input {
 	 */
 	protected function display_field() {
 		$current_value = $this->get_data( false );
-		foreach ( (array) $this->field['options'] as $value => $label ) {
+		$options       = (array) $this->field['options'];
+		if ( isset( $this->field['src'] ) ) {
+			foreach ( get_posts( $this->field['src'] ) as $p ) {
+				$options[$p->ID] = get_the_title( $p );
+			}
+		}
+		foreach ( $options as $value => $label ) {
 			$this->show_input( $value, $label, $current_value );
 		}
 	}
