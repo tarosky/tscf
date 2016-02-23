@@ -43,7 +43,17 @@ abstract class Input extends Base{
 		switch ( get_class( $this->object ) ) {
 			case 'WP_Post':
 			default:
-				$value = get_post_meta( $this->object->ID, $this->field['name'], true );
+				switch ( $this->field['name'] ) {
+					case 'menu_order':
+						$value = $this->object->menu_order;
+						break;
+					case 'excerpt':
+						$value = $this->object->post_excerpt;
+						break;
+					default:
+						$value = get_post_meta( $this->object->ID, $this->field['name'], true );
+						break;
+				}
 				break;
 		}
 		if ( $filter ) {
@@ -150,7 +160,15 @@ abstract class Input extends Base{
 	public function save_data() {
 		$data = $this->normalize_save_data( $this->input->post( $this->field['name'] ) );
 		if ( is_a( $this->object, 'WP_Post' ) ) {
-			update_post_meta( $this->object->ID, $this->field['name'], $data );
+			switch ( $this->field['name'] ) {
+				case 'menu_order':
+				case 'excerpt':
+					// Do nothing, because it'll be saved automatically
+					break;
+				default:
+					update_post_meta( $this->object->ID, $this->field['name'], $data );
+					break;
+			}
 		} elseif ( is_a( $this->object, 'WP_Term' ) ) {
 			update_term_meta( $this->object->term_id, $this->field['name'], $data );
 		} else {
