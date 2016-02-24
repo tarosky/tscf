@@ -1,7 +1,7 @@
 /**
  * Metabox helper.
  */
-
+/* global TSCF:false */
 (function ($) {
   'use strict';
 
@@ -31,6 +31,88 @@
       datePicker($(elt));
     });
   });
+
+
+  //
+  // Image picker
+  //
+  // ----------------------------------
+  //
+  $(document).ready(function () {
+
+    var imageEditor,
+        $currentHolder;
+
+    function imageChange($container){
+      var ids = [];
+      $container.find('img').each(function(index, img){
+        ids.push( $(img).attr('data-image-id') );
+      });
+      $container.prev('input[type=hidden]').val(ids.join(','));
+      $container.effect('highlight', {}, 1000);
+    }
+
+    $('.tscf')
+      .on('click', '.tscf__image--add', function (e) {
+        e.preventDefault();
+        $currentHolder = $(this).prev('.tscf__placeholder');
+        var currentCount = $currentHolder.find('img').length;
+        var limit = parseInt( $currentHolder.attr('data-limit'), 10 );
+        if ( currentCount >= limit ) {
+          return;
+        }
+        if ( !imageEditor ) {
+          // Create editor if not exists
+          imageEditor = wp.media({
+            className: 'media-frame tscf__imageEditor',
+            frame    : 'select',
+            multiple : true,
+            title    : $(this).text(),
+            library  : {
+              type: 'image'
+            },
+            button   : {
+              text: TSCF.select
+            }
+          });
+          // Bind event
+          imageEditor.on('select', function () {
+            var currentCount = $currentHolder.find('img').length;
+            var limit = parseInt( $currentHolder.attr('data-limit'), 10 );
+            var repeatLimit = limit - currentCount;
+            var counter = 0;
+            imageEditor.state().get('selection').each(function(image){
+              if ( counter < repeatLimit ) {
+                var attachment = image.toJSON();
+                var src;
+                if (attachment.sizes.thumbnail) {
+                  //サムネイルがあればその画像
+                  src = attachment.sizes.thumbnail.url;
+                } else {
+                  //なければフルサイズを取得
+                  src = attachment.sizes.full.url;
+                }
+                var $div = $('<div class="tscf__image">' +
+                  '<img data-image-id="' + attachment.id + '" class="tscf__image--object" src="' + src + '" />' +
+                  '<a class="button tscf__image--delete" href="#">' + TSCF.delete + '</a></div>');
+                $currentHolder.find('.tscf__placeholder--limit').before($div);
+              }
+              counter++;
+            });
+            imageChange($currentHolder);
+          });
+        }
+        // Open image editor
+        imageEditor.open();
+      })
+      .on('click', '.tscf__image--delete', function (e) {
+        e.preventDefault();
+        var $container = $(this).parents('.tscf__placeholder');
+        $(this).parents('.tscf__image').remove();
+        imageChange($container);
+      });
+  });
+
 
 
   //

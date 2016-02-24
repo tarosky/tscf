@@ -146,6 +146,50 @@
       right: 5px;
     }
   }
+
+  &__placeholder{
+
+    min-height: 80px;
+    padding: 10px;
+    &--limit{
+      padding-top: 10px;
+      clear: both;
+      text-align: center;
+      color: #aaa;
+      font-weight: bold;
+    }
+
+  }
+
+  &__image{
+    position: relative;
+    display: inline-block;
+
+    &--object{
+      float: left;
+      margin: 0 10px 10px 0;
+    }
+    &--delete{
+      position: absolute;
+      opacity: 0;
+      top: 50%;
+      left: 50%;
+      $centerize:translate(-50%, -50%) !important;
+      -webkit-transform: $centerize;
+      -moz-transform: $centerize;
+      -ms-transform: $centerize;
+      -o-transform: $centerize;
+      transform: $centerize;
+      .tscf__image:hover &{
+        opacity: 1;
+      }
+    }
+  }
+
+
+  textarea#excerpt{
+    height: auto;
+  }
 }
 
 #ui-datepicker-div{

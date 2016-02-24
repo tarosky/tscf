@@ -4,7 +4,8 @@
   "description": "TaroSky's Custom Field manage",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "gulp build",
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",

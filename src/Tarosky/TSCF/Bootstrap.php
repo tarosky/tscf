@@ -175,6 +175,10 @@ class Bootstrap extends Singleton {
 			// Every page.
 			wp_enqueue_style( 'tscf-admin', $dir . '/css/tscf-admin.css', [ 'jquery-ui-timepicker-addon' ], '1.0.0' );
 			wp_enqueue_script( 'tscf-helper', $dir . '/js/tscf-helper.js', [ 'jquery-ui-timepicker-addon-i18n', 'jquery-effects-highlight', 'jquery-ui-sortable' ], '1.0.0', true );
+			wp_localize_script('tscf-helper', 'TSCF', [
+				'delete' => $this->_s('Delete'),
+			    'select' => $this->_s('Select'),
+			] );
 		}
 	}
 

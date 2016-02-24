@@ -96,6 +96,7 @@ abstract class Base {
 			case 'date_time':
 			case 'date':
 			case 'iterator':
+			case 'image':
 				$class_name = 'Tarosky\\TSCF\\UI\\Fields\\' . implode( '', array_map( function ( $seg ) {
 					return ucfirst( $seg );
 				}, explode( '_', $lower_name ) ) );

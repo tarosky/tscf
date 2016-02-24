@@ -13,12 +13,14 @@ License: GPL v3 or later.
 
 defined( 'ABSPATH' ) or die();
 
+// Add translation.
+load_plugin_textdomain( 'tscf', false, 'tscf/languages' );
+
+// Start
 if ( version_compare( phpversion(), '5.4.*', '<' ) ) {
 	add_action( 'admin_notices', '_tscf_admin_notice' );
 } else {
 	// Requirements O.K.
-	// Add translation.
-	load_plugin_textdomain( 'tscf', false, 'tscf/languages' );
 	require __DIR__ . '/vendor/autoload.php';
 	call_user_func( [ 'Tarosky\\TSCF\\Bootstrap', 'instance' ] );
 }
