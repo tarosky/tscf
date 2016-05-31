@@ -4,8 +4,18 @@
     padding: 1em 10px;
     box-sizing: border-box;
     border-top: 1px solid #ddd;
-    &:first-child{
+    &:first-child {
       border-top: none;
+      & + .tscf__col2{
+        border-top: none;
+      }
+      & + .tscf__col3{
+        border-top: none;
+        & + .tscf__col3{
+          border-top: none;
+        }
+      }
+
     }
     &:last-child {
       border-bottom: none;

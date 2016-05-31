@@ -48,6 +48,29 @@ function tscft( $key, $term = null ) {
 
 }
 
-function tscfc( $key, $comment = nulll ) {
+function tscfc( $key, $comment = null ) {
 
+}
+
+/**
+ * Return group as array
+ *
+ * @param string $group
+ * @param null|int|WP_Post $post
+ *
+ * @return array
+ */
+function tscf_repeat_field( $group, $post = null ) {
+	$post = get_post( $post );
+	$atts = [];
+	foreach ( get_post_custom( $post->ID ) as $key => $values ) {
+		if ( preg_match( "#{$group}_(.*)_([0-9]+)#u", $key, $matches )  ) {
+			if ( ! isset( $atts[$matches[2]] ) ) {
+				$atts[$matches[2]] = [];
+			}
+			$atts[$matches[2]][$matches[1]] = current( $values );
+		}
+	}
+	ksort( $atts );
+	return $atts;
 }

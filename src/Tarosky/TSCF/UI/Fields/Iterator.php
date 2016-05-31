@@ -27,6 +27,9 @@ class Iterator extends Base {
 				<?= esc_html( $this->field['label'] ) ?>
 				<a class="button tscf__add" href="#">追加</a>
 			</div>
+			<?php if ( $desc = $this->field['description'] ) : ?>
+			<p class="description"><?php echo esc_html( $desc ) ?></p>
+			<?php endif; ?>
 			<div class="tscf__childList">
 				<?php
 				$counter = 0;

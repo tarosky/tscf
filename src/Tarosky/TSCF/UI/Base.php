@@ -1,7 +1,7 @@
 <?php
 
 namespace Tarosky\TSCF\UI;
-use Tarosky\Beckham\Utility\Input;
+use Tarosky\TSCF\Utility\Input;
 use Tarosky\TSCF\Utility\Application;
 
 /**
