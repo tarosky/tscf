@@ -2,33 +2,46 @@
  * Metabox helper.
  */
 /* global TSCF:false */
+/* global wp:false */
 (function ($) {
   'use strict';
 
-  function dateTimePicker($elem){
+  function dateTimePicker($elem) {
     $elem.datetimepicker({
       dateFormat: $elem.attr('data-date-format'),
       timeFormat: $elem.attr('data-time-format'),
-      separator: $elem.attr('data-separator')
+      separator : $elem.attr('data-separator')
     });
   }
 
-  function datePicker($elem){
+  function datePicker($elem) {
     $elem.datepicker({
       dateFormat: $elem.attr('data-date-format')
     });
   }
 
-
   // Datepicker
-  $(document).ready(function(){
+  $(document).ready(function () {
     // Date time picker
-    $('.tscf__datetimepicker').each(function(i, elt){
+    $('.tscf__datetimepicker').each(function (i, elt) {
       dateTimePicker($(elt));
     });
     // Date picker
-    $('.tscf__datepicker').each(function(i, elt){
+    $('.tscf__datepicker').each(function (i, elt) {
       datePicker($(elt));
+    });
+    // Activate datepicker if newly created.
+    $('.tscf--iterator').on('created.tscf', '.tscf__child', function () {
+      var $elem;
+      if ( ( $elem = $(this).find('.tscf__datetimepicker') ) && $elem.length ) {
+        $elem.each(function(i, elt){
+          dateTimePicker($(elt));
+        });
+      } else if ( ( $elem = $(this).find('.tscf__datepicker') ) && $elem.length) {
+        $elem.each(function(i, elt){
+          datePicker($(elt));
+        });
+      }
     });
   });
 
@@ -43,10 +56,10 @@
     var imageEditor,
         $currentHolder;
 
-    function imageChange($container){
+    function imageChange($container) {
       var ids = [];
-      $container.find('img').each(function(index, img){
-        ids.push( $(img).attr('data-image-id') );
+      $container.find('img').each(function (index, img) {
+        ids.push($(img).attr('data-image-id'));
       });
       $container.prev('input[type=hidden]').val(ids.join(','));
       $container.effect('highlight', {}, 1000);
@@ -57,11 +70,11 @@
         e.preventDefault();
         $currentHolder = $(this).prev('.tscf__placeholder');
         var currentCount = $currentHolder.find('img').length;
-        var limit = parseInt( $currentHolder.attr('data-limit'), 10 );
-        if ( currentCount >= limit ) {
+        var limit = parseInt($currentHolder.attr('data-limit'), 10);
+        if (currentCount >= limit) {
           return;
         }
-        if ( !imageEditor ) {
+        if (!imageEditor) {
           // Create editor if not exists
           imageEditor = wp.media({
             className: 'media-frame tscf__imageEditor',
@@ -78,11 +91,11 @@
           // Bind event
           imageEditor.on('select', function () {
             var currentCount = $currentHolder.find('img').length;
-            var limit = parseInt( $currentHolder.attr('data-limit'), 10 );
+            var limit = parseInt($currentHolder.attr('data-limit'), 10);
             var repeatLimit = limit - currentCount;
             var counter = 0;
-            imageEditor.state().get('selection').each(function(image){
-              if ( counter < repeatLimit ) {
+            imageEditor.state().get('selection').each(function (image) {
+              if (counter < repeatLimit) {
                 var attachment = image.toJSON();
                 var src;
                 if (attachment.sizes.thumbnail) {
@@ -114,7 +127,6 @@
   });
 
 
-
   //
   // Iterator
   //
@@ -122,22 +134,24 @@
   //
 
   // Add button for iterator.
-  $('.tscf--iterator').on('click', '.tscf__add', function(e){
+  $('.tscf--iterator').on('click', '.tscf__add', function (e) {
     e.preventDefault();
     // Check if max
     var $container = $(this).parents('.tscf--iterator'),
-        max = parseInt($container.attr('data-max'), 10),
+        max        = parseInt($container.attr('data-max'), 10),
         $template  = $container.find('.tscf__template');
-    if( ! max || $container.find('.tscf__child').length < max ){
-      $container.find('.tscf__childList').append($template.html());
+    if (!max || $container.find('.tscf__child').length < max) {
+      var $newElem = $($template.html());
+      $newElem.appendTo($container.find('.tscf__childList'));
       $container.trigger('compute.tscf');
+      $newElem.trigger('created.tscf');
     }
   });
 
   // Remove button for iterator
-  $('.tscf--iterator').on('click', '.tscf__button', function(e){
+  $('.tscf--iterator').on('click', '.tscf__button', function (e) {
     e.preventDefault();
-    if( $(this).hasClass('tscf__button--delete') ){
+    if ($(this).hasClass('tscf__button--delete')) {
       var $parent = $(this).parents('.tscf--iterator');
       $(this).parents('.tscf__child').remove();
       $parent.trigger('compute.tscf');
@@ -146,26 +160,26 @@
 
   // Sortable
   $('.tscf__childList').sortable({
-    axis: 'y',
-    handle: '.tscf__button--move',
+    axis       : 'y',
+    handle     : '.tscf__button--move',
     placeholder: 'tscf__child--placeholder',
-    update: function(event, ui){
+    update     : function (event, ui) {
       ui.item.parents('.tscf--iterator').trigger('compute.tscf');
     }
   });
 
   // Change index
-  $('.tscf--iterator').on('compute.tscf', function(e, noHighlight){
+  $('.tscf--iterator').on('compute.tscf', function (e, noHighlight) {
     var prefix = $(this).attr('data-prefix'),
         length = 0;
-    if(! noHighlight){
+    if (!noHighlight) {
       $(this).effect('highlight', {}, 500);
     }
-    $(this).find('.tscf__child').each(function(index, elt){
+    $(this).find('.tscf__child').each(function (index, elt) {
       length++;
-      $.each(['id', 'for', 'name'], function(nameIndex, prop){
+      $.each(['id', 'for', 'name'], function (nameIndex, prop) {
         $(elt).find('[' + prop + '^=' + prefix + '_]').each(function (i, input) {
-          $(input).attr(prop, $(input).attr(prop).replace(/_[0-9]+(\[?)/, function(){
+          $(input).attr(prop, $(input).attr(prop).replace(/_[0-9]+(\[?)/, function () {
             return '_' + ( index + 1 ) + arguments[1];
           }));
         });
@@ -175,7 +189,7 @@
   });
 
   // Set initial value
-  $(document).ready(function(){
+  $(document).ready(function () {
     $('.tscf--iterator').trigger('compute.tscf', [true]);
   });
 
