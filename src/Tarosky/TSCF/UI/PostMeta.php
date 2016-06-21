@@ -3,7 +3,7 @@
 namespace Tarosky\TSCF\UI;
 
 
-class PostMeta extends Base{
+class PostMeta extends Base {
 
 	/**
 	 * PostMeta constructor.

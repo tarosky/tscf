@@ -37,7 +37,7 @@ function _tscf_admin_notice() {
 
 
 function tscf( $key, $object ) {
-	$data = '';
+	
 }
 
 function tscfp( $key, $post = null ) {
@@ -73,4 +73,23 @@ function tscf_repeat_field( $group, $post = null ) {
 	}
 	ksort( $atts );
 	return $atts;
+}
+
+/**
+ * Get images
+ *
+ * @param string $key
+ * @param null|int|WP_Post $post
+ *
+ * @return array
+ */
+function tscf_images( $key, $post = null ){
+	$post = get_post( $post );
+	$image_ids = array_filter( array_map( 'trim', explode( ',', get_post_meta( $post->ID, $key, true ) ) ) );
+	return get_posts( [
+		'post_type' => 'attachment',
+	    'post__in'  => $image_ids,
+	    'orderby'   => 'post__in',
+	    'posts_per_page' => -1,
+	] );
 }

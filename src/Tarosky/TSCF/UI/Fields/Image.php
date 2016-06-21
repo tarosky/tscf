@@ -17,6 +17,7 @@ class Image extends Hidden {
 	 */
 	protected function display_field() {
 		parent::display_field();
+		wp_enqueue_media();
 		$media_ids = array_filter( explode(',', $this->get_data( false ) ), function( $id ){
 			return is_numeric($id);
 		} );

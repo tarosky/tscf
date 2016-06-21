@@ -66,6 +66,7 @@ class Parser extends Singleton {
 			'name' => '',
 		    'label' => '',
 		    'type' => 'post',
+		    'slug' => [],
 		    'fields' => [],
 		]);
 	}
