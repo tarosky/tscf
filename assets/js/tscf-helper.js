@@ -125,7 +125,60 @@
         imageChange($container);
       });
   });
+  
+  
+  //
+  // URL Selector
+  //
+  // ----------------------------------
+  //
+  $(document).ready(function () {
 
+    var fileSelector,
+        $currentInput,
+        setUrl = function(input){
+          $(input).parents('.tscf__url--wrapper').find('.tscf-preview-button').attr('href', $(input).val());
+        };
+
+    // Previewer
+    $('.tscf')
+      .on('click', '.tscf-select-button', function(e){
+        e.preventDefault();
+        $currentInput = $(this).parents('.tscf__url--wrapper').find('.tscf__input--url');
+        // Create editor if not exists
+        if ( !fileSelector) {
+
+        fileSelector = wp.media({
+          className: 'media-frame tscf__imageEditor',
+          frame    : 'select',
+          multiple : false,
+          title    : '',
+          button   : {
+            text: TSCF.select
+          }
+        });
+        }
+        fileSelector.open();
+      })
+      .on('change keyup', '.tscf__input--url', function(){
+        setUrl(this);
+      });
+
+    $('.tscf__input--url').each(function(index, input){
+      setUrl(input);
+    });
+
+    $(".tscf-preview-button").livePreview({
+      trigger: 'hover',
+      viewWidth: 400,
+      viewHeight: 300,
+      targetWidth: 1200,
+      targetHeight: 900,
+      scale: '0.3333',
+      offset: 50,
+      position: 'left'
+    });
+  });
 
   //
   // Iterator

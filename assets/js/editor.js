@@ -3,8 +3,11 @@
  */
 
 /*global TSCF: false*/
+/*global ace: false*/
 
 jQuery(document).ready(function($){
+
+  "use strict";
 
   var editor = ace.edit("tscf-editor");
   editor.setTheme("ace/theme/github");

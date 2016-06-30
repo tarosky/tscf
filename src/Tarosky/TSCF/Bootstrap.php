@@ -172,9 +172,11 @@ class Bootstrap extends Singleton {
 			}
 			wp_register_script( 'jquery-ui-timepicker-addon-i18n', $dir.$i18n_file, [ 'jquery-ui-timepicker-addon' ], '1.5.5', true );
 			// Check language and find if exists.
+			wp_register_script( 'jquery-live-preview', "{$dir}/js/jquery-live-preview.js", ['jquery'], '1.1.0', true );
+			wp_register_style( 'jquery-live-preview', "{$dir}/css/livepreview.css", [], '1.1.0', 'screen' );
 			// Every page.
-			wp_enqueue_style( 'tscf-admin', $dir . '/css/tscf-admin.css', [ 'jquery-ui-timepicker-addon' ], '1.0.0' );
-			wp_enqueue_script( 'tscf-helper', $dir . '/js/tscf-helper.js', [ 'jquery-ui-timepicker-addon-i18n', 'jquery-effects-highlight', 'jquery-ui-sortable' ], '1.0.0', true );
+			wp_enqueue_style( 'tscf-admin', $dir . '/css/tscf-admin.css', [ 'jquery-ui-timepicker-addon', 'jquery-live-preview' ], '1.0.0' );
+			wp_enqueue_script( 'tscf-helper', $dir . '/js/tscf-helper.js', [ 'jquery-ui-timepicker-addon-i18n', 'jquery-effects-highlight', 'jquery-ui-sortable', 'jquery-live-preview' ], '1.0.0', true );
 			wp_localize_script('tscf-helper', 'TSCF', [
 				'delete' => $this->_s('Delete'),
 			    'select' => $this->_s('Select'),

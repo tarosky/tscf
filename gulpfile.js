@@ -44,6 +44,19 @@ gulp.task('mp6', function(){
   ])
     .pipe(gulp.dest('./assets/lib/jquery-ui-mp6'))
 });
+// Copy jQuery Live Preview
+gulp.task('livePreview', function(){
+  return gulp.src([
+    './node_modules/jquery-live-preview/**/*',
+    '!./node_modules/jquery-live-preview/.npmignore',
+    '!./node_modules/jquery-live-preview/Gruntfile.js',
+    '!./node_modules/jquery-live-preview/index.html',
+    '!./node_modules/jquery-live-preview/license.txt',
+    '!./node_modules/jquery-live-preview/package.json',
+    '!./node_modules/jquery-live-preview/readme.md'
+  ])
+    .pipe(gulp.dest('./assets/lib/jquery-live-preview'))
+});
 // timepicker
 gulp.task('timepickerAddon', function(){
   return gulp.src([

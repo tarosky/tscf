@@ -22,7 +22,8 @@
     "url": "https://github.com/tarosky/tscf/issues"
   },
   "homepage": "https://github.com/tarosky/tscf#readme",
-  "devDependencies":{
+  "devDependencies": {
+    "ace-builds": "^1.2.2",
     "browser-sync": "^2.11.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.1.0",
@@ -33,10 +34,10 @@
     "gulp-plumber": "^1.0.0",
     "gulp-sass": "^2.0.0",
     "gulp-sourcemaps": "^1.5.1",
-    "jshint-stylish": "^1.0.1",
-    "node-sass": "^2.1.1",
-    "ace-builds": "^1.2.2",
+    "jquery-live-preview": "alanphoon/jquery-live-preview",
     "jquery-ui-mp6": "^1.0.2",
-    "jquery-ui-timepicker-addon": "^1.5.5"
+    "jquery-ui-timepicker-addon": "^1.5.5",
+    "jshint-stylish": "^1.0.1",
+    "node-sass": "^2.1.1"
   }
 }

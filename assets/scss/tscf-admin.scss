@@ -196,6 +196,23 @@
     }
   }
 
+  &__url{
+    $pad: 180px;
+
+    &--wrapper{
+      position: relative;
+    }
+    &--inner{
+      margin-right: $pad;
+    }
+    &--controller{
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: $pad;
+      text-align: right;
+    }
+  }
 
   textarea#excerpt{
     height: auto;
