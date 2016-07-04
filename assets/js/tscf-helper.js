@@ -33,12 +33,12 @@
     // Activate datepicker if newly created.
     $('.tscf--iterator').on('created.tscf', '.tscf__child', function () {
       var $elem;
-      if ( ( $elem = $(this).find('.tscf__datetimepicker') ) && $elem.length ) {
-        $elem.each(function(i, elt){
+      if (( $elem = $(this).find('.tscf__datetimepicker') ) && $elem.length) {
+        $elem.each(function (i, elt) {
           dateTimePicker($(elt));
         });
-      } else if ( ( $elem = $(this).find('.tscf__datepicker') ) && $elem.length) {
-        $elem.each(function(i, elt){
+      } else if (( $elem = $(this).find('.tscf__datepicker') ) && $elem.length) {
+        $elem.each(function (i, elt) {
           datePicker($(elt));
         });
       }
@@ -125,8 +125,8 @@
         imageChange($container);
       });
   });
-  
-  
+
+
   //
   // URL Selector
   //
@@ -136,47 +136,54 @@
 
     var fileSelector,
         $currentInput,
-        setUrl = function(input){
+        setUrl = function (input) {
           $(input).parents('.tscf__url--wrapper').find('.tscf-preview-button').attr('href', $(input).val());
         };
 
     // Previewer
     $('.tscf')
-      .on('click', '.tscf-select-button', function(e){
+      .on('click', '.tscf-select-button', function (e) {
         e.preventDefault();
         $currentInput = $(this).parents('.tscf__url--wrapper').find('.tscf__input--url');
         // Create editor if not exists
-        if ( !fileSelector) {
+        if (!fileSelector) {
 
-        fileSelector = wp.media({
-          className: 'media-frame tscf__imageEditor',
-          frame    : 'select',
-          multiple : false,
-          title    : '',
-          button   : {
-            text: TSCF.select
-          }
-        });
+          fileSelector = wp.media({
+            className: 'media-frame tscf__fileSelector',
+            frame    : 'select',
+            multiple : false,
+            title    : '',
+            button   : {
+              text: TSCF.select
+            }
+          });
+          // Bind event
+          fileSelector.on('select', function () {
+            fileSelector.state().get('selection').each(function (file) {
+              $currentInput.val(file.get('url'));
+              $currentInput.trigger('change');
+            });
+          });
         }
         fileSelector.open();
       })
-      .on('change keyup', '.tscf__input--url', function(){
+      .on('change keyup', '.tscf__input--url', function () {
         setUrl(this);
       });
 
-    $('.tscf__input--url').each(function(index, input){
+    $('.tscf__input--url').each(function (index, input) {
       setUrl(input);
     });
 
     $(".tscf-preview-button").livePreview({
-      trigger: 'hover',
-      viewWidth: 400,
-      viewHeight: 300,
-      targetWidth: 1200,
+      trigger     : 'click',
+      viewWidth   : 400,
+      viewHeight  : 300,
+      targetWidth : 1200,
       targetHeight: 900,
-      scale: '0.3333',
-      offset: 50,
-      position: 'left'
+      scale       : '0.3333',
+      offset      : 50,
+      position    : 'left'
     });
   });
 
@@ -185,7 +192,6 @@
   //
   // ----------------------------------
   //
-
   // Add button for iterator.
   $('.tscf--iterator').on('click', '.tscf__add', function (e) {
     e.preventDefault();
