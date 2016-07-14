@@ -59,7 +59,7 @@ abstract class Base {
 	/**
 	 * Save data
 	 *
-	 * @return mixed
+	 * @return int
 	 */
 	abstract public function save_data();
 }

@@ -128,11 +128,20 @@ SQL;
 
 	/**
 	 * Delete all registered field and save them.
+	 *
+	 * @return int
 	 */
 	public function save_data() {
 		// Delete all data
 		$this->delete_all_field();
+		// Clear cache
+		if ( is_a( $this->object, 'WP_Post' ) ) {
+			clean_post_cache( $this->object );
+		} elseif ( is_a( $this->object, 'WP_Term' ) ) {
+			clean_term_cache( $this->object->term_id, $this->object->taxonomy );
+		}
 		// Save it all
+		$saved = 0;
 		$length = $this->input->post( "_index_of_{$this->field['name']}" );
 		for ( $index = 1; $index <= $length; $index ++ ) {
 			foreach ( $this->field['fields'] as $field ) {
@@ -140,10 +149,12 @@ SQL;
 				$class_name    = UIBase::get_field_class( $field );
 				if ( class_exists( $class_name ) ) {
 					$input = new $class_name( $this->object, $field );
-					$input->save_data();
+					$save = $input->save_data();
+					$saved += $save;
 				}
 			}
 		}
+		return $saved;
 	}
 
 	/**

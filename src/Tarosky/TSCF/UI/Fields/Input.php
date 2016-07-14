@@ -156,6 +156,8 @@ abstract class Input extends Base{
 
 	/**
 	 * Save data
+	 * 
+	 * @return int
 	 */
 	public function save_data() {
 		$data = $this->normalize_save_data( $this->input->post( $this->field['name'] ) );
@@ -164,15 +166,17 @@ abstract class Input extends Base{
 				case 'menu_order':
 				case 'excerpt':
 					// Do nothing, because it'll be saved automatically
+					return 0;
 					break;
 				default:
-					update_post_meta( $this->object->ID, $this->field['name'], $data );
+					return update_post_meta( $this->object->ID, $this->field['name'], $data ) ? 1 : 0;
 					break;
 			}
 		} elseif ( is_a( $this->object, 'WP_Term' ) ) {
-			update_term_meta( $this->object->term_id, $this->field['name'], $data );
+			return update_term_meta( $this->object->term_id, $this->field['name'], $data ) ? 1 : 0;
 		} else {
 			// Do nothing.
+			return 0;
 		}
 	}
 

@@ -6,6 +6,13 @@
 (function ($) {
   'use strict';
 
+
+  //
+  // Date Picker
+  //
+  // ----------------------------------
+  //
+
   function dateTimePicker($elem) {
     $elem.datetimepicker({
       dateFormat: $elem.attr('data-date-format'),
@@ -37,7 +44,8 @@
         $elem.each(function (i, elt) {
           dateTimePicker($(elt));
         });
-      } else if (( $elem = $(this).find('.tscf__datepicker') ) && $elem.length) {
+      }
+      if (( $elem = $(this).find('.tscf__datepicker') ) && $elem.length) {
         $elem.each(function (i, elt) {
           datePicker($(elt));
         });
