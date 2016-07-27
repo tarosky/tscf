@@ -58,6 +58,17 @@ class Parser extends Singleton {
 			return;
 		}
 		$json = json_decode( file_get_contents( $path ), true );
+		
+		/**
+		 * tscf_json_object
+		 * 
+		 * JSONの配列を加工する
+		 * 
+		 * @param array $json
+		 * @param string $path
+		 * @return array
+		 */
+		$json = apply_filters( 'tscf_json_object', $json, $path );
 		if ( is_null( $json ) ) {
 			return;
 		}
