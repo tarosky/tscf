@@ -27,7 +27,6 @@ abstract class Input extends Base{
 		'default'     => '',
 		'placeholder' => '',
 		'description' => '',
-		'unit'        => '',
 	    'max'         => '',
 	    'min'         => '',
 	];
@@ -156,7 +155,7 @@ abstract class Input extends Base{
 
 	/**
 	 * Save data
-	 * 
+	 *
 	 * @return int
 	 */
 	public function save_data() {

@@ -9,7 +9,7 @@
   "jquery": true,
   "globals": {
     "angular": false,
-    "Hametuha": true,
+    "TSCF": false,
     "google": false,
     "WP_API_Settings": false,
     "Modernizr": false,

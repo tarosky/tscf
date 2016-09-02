@@ -47,6 +47,59 @@ class Parser extends Singleton {
 	}
 
 	/**
+	 * Get all available type
+	 *
+	 * @return array
+	 */
+	public function available_types() {
+		return [
+			'text'      => __( 'Text', 'tscf' ),
+			'text_area' => __( 'Text(Multi line)', 'tscf' ),
+			'password'  => __( 'Password', 'tscf' ),
+			'number'    => __( 'Number', 'tscf' ),
+			'boolean'   => __( 'Boolean', 'tscf' ),
+			'select'    => __( 'Select', 'tscf' ),
+			'radio'     => __( 'Radio Button', 'tscf' ),
+			'checkbox'  => __( 'Check Box', 'tscf' ),
+			'date_time' => __( 'DATETIME', 'tscf' ),
+			'date'      => __( 'DATE', 'tscf' ),
+			'iterator'  => __( 'Iterator', 'tscf' ),
+			'image'     => __( 'Image', 'tscf' ),
+			'url'       => __( 'URL', 'tscf' ),
+			'separator' => __( 'Separator', 'tscf' ),
+			'hidden'    => __( 'Hidden', 'tscf' ),
+		    'custom'    => __( 'Custom Class', 'tscf' ),
+		];
+	}
+
+	/**
+	 * Get field object list.
+	 *
+	 * @param string $type
+	 *
+	 * @return \WP_Error|array
+	 */
+	public function get_field( $type ) {
+		if ( 'custom' == $type ) {
+			return new \WP_Error( 'invalid_custom_class', __( 'Custom class name "custom" is prohibited.', 'tscf' ) );
+		}
+		$fields = $this->available_types();
+		if ( array_key_exists( $type, $fields ) ) {
+			$class_name = '\\Tarosky\\TSCF\\UI\\Fields\\'.implode( '', array_map( 'ucfirst', explode( '_', $type ) ) );
+		} else {
+			if ( ! class_exists( $type ) ) {
+				return new \WP_Error( 'invalid_custom_class', sprintf( __( 'Custom Class %s doesn\'t exist.' ), $type ) );
+			}
+			$repl = new \ReflectionClass( $type );
+			if ( ! $repl->isSubclassOf( '\\Tarosky\\TSCF\\UI\\Fields\\Base' ) || ! $repl->isInstantiable() ) {
+				return new \WP_Error( 'invalid_custom_class', sprintf( __( 'Custom Class %s doesn\'t exist.' ), $type ) );
+			}
+			$class_name = $type;
+		}
+		return $class_name::get_field_list();
+	}
+
+	/**
 	 * Build this class.
 	 */
 	public function build() {
@@ -58,12 +111,12 @@ class Parser extends Singleton {
 			return;
 		}
 		$json = json_decode( file_get_contents( $path ), true );
-		
+
 		/**
 		 * tscf_json_object
-		 * 
-		 * JSONの配列を加工する
-		 * 
+		 *
+		 * Filter JSON array
+		 *
 		 * @param array $json
 		 * @param string $path
 		 * @return array
@@ -237,6 +290,25 @@ class Parser extends Singleton {
 	 * @return true|\WP_Error
 	 */
 	public function validate() {
+		return true;
+	}
+
+	/**
+	 * Check if file is editable.
+	 *
+	 * @return bool|\WP_Error
+	 */
+	public function editable() {
+		$path = $this->config_file_path();
+		if ( file_exists( $path ) ) {
+			if ( ! is_writable( $path ) ) {
+				return new \WP_Error( 'uneditable', __( 'File exists but not editable!', 'tscf' ) );
+			}
+		} else {
+			if ( ! is_writable( dirname( $path ) ) ) {
+				return new \WP_Error( 'uneditable', sprintf( __( 'Directory %s is now writable!', 'tscf' ), dirname( $path ) ) );
+			}
+		}
 		return true;
 	}
 

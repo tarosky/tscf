@@ -21,6 +21,8 @@ abstract class Base {
 
 	protected $default_prototype = [];
 
+	protected $default_to_drop = [];
+
 	protected $required_base = [
 		'name',
 		'label',
@@ -53,7 +55,13 @@ abstract class Base {
 	 * @return array
 	 */
 	protected function parse_default( $field ) {
-		return wp_parse_args( (array) $field, wp_parse_args( $this->default, $this->default_prototype ) );
+		$default = wp_parse_args( $this->default, $this->default_prototype );
+		foreach ( $this->default_to_drop as $key ) {
+			if ( isset( $default[ $key ] ) ) {
+				unset( $default[ $key ] );
+			}
+		}
+		return wp_parse_args( (array) $field, $default );
 	}
 
 	/**
@@ -62,4 +70,25 @@ abstract class Base {
 	 * @return int
 	 */
 	abstract public function save_data();
+
+	/**
+	 * Get field data.
+	 *
+	 * @return array
+	 */
+	public static function get_field_list() {
+		$field = new static( null, [] );
+		$names = [];
+		foreach ( $field->parse_default( [] ) as $key => $value ) {
+			switch ( $key ) {
+				case 'options':
+					$names[ $key ] = (object) null;
+					break;
+				default:
+					$names[ $key ] = $value;
+					break;
+			}
+		}
+		return $names;
+	}
 }

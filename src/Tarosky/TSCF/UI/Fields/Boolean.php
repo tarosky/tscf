@@ -8,6 +8,8 @@ class Boolean extends Input {
 
 	protected $type = 'checkbox';
 
+	protected $default_to_drop = [ 'max', 'min', 'placeholder' ];
+
 	protected function display_field() {
 		?>
 		<label class="tscf__label--inline tscf__label--boolean">

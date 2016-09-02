@@ -37,7 +37,7 @@ function _tscf_admin_notice() {
 
 
 function tscf( $key, $object ) {
-	
+
 }
 
 function tscfp( $key, $post = null ) {
@@ -64,14 +64,15 @@ function tscf_repeat_field( $group, $post = null ) {
 	$post = get_post( $post );
 	$atts = [];
 	foreach ( get_post_custom( $post->ID ) as $key => $values ) {
-		if ( preg_match( "#{$group}_(.*)_([0-9]+)#u", $key, $matches )  ) {
-			if ( ! isset( $atts[$matches[2]] ) ) {
-				$atts[$matches[2]] = [];
+		if ( preg_match( "#{$group}_(.*)_([0-9]+)#u", $key, $matches ) ) {
+			if ( ! isset( $atts[ $matches[2] ] ) ) {
+				$atts[ $matches[2] ] = [];
 			}
-			$atts[$matches[2]][$matches[1]] = current( $values );
+			$atts[ $matches[2] ][ $matches[1] ] = current( $values );
 		}
 	}
 	ksort( $atts );
+
 	return $atts;
 }
 
@@ -83,13 +84,14 @@ function tscf_repeat_field( $group, $post = null ) {
  *
  * @return array
  */
-function tscf_images( $key, $post = null ){
-	$post = get_post( $post );
+function tscf_images( $key, $post = null ) {
+	$post      = get_post( $post );
 	$image_ids = array_filter( array_map( 'trim', explode( ',', get_post_meta( $post->ID, $key, true ) ) ) );
+
 	return get_posts( [
-		'post_type' => 'attachment',
-	    'post__in'  => $image_ids,
-	    'orderby'   => 'post__in',
-	    'posts_per_page' => -1,
+		'post_type'      => 'attachment',
+		'post__in'       => $image_ids,
+		'orderby'        => 'post__in',
+		'posts_per_page' => - 1,
 	] );
 }

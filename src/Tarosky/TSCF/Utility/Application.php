@@ -9,6 +9,8 @@ namespace Tarosky\TSCF\Utility;
  * @package Tarosky\TSCF\Utility
  * @property-read Input $input
  * @property-read Parser $parser
+ * @property-read string $root_dir
+ * @property-read string $url
  */
 trait Application {
 
@@ -40,11 +42,31 @@ trait Application {
 	}
 
 	/**
+	 * WordPress allows file edit?
+	 *
+	 * @return bool
+	 */
+	protected function file_editable() {
+		return ( ! defined( 'DISALLOW_FILE_EDIT' ) || ! DISALLOW_FILE_EDIT );
+	}
+
+	/**
+	 * Detect if current page's suffix is editor's.
+	 *
+	 * @param string $hook_suffix
+	 *
+	 * @return bool
+	 */
+	protected function is_editor( $hook_suffix ) {
+		return 'appearance_page_tscf' === $hook_suffix;
+	}
+
+	/**
 	 * Getter
 	 *
 	 * @param string $name
 	 *
-	 * @return null|static
+	 * @return null|static|string
 	 */
 	public function __get( $name ) {
 		switch ( $name ) {
@@ -53,6 +75,12 @@ trait Application {
 				break;
 			case 'parser':
 				return Parser::instance();
+				break;
+			case 'root_dir':
+				return dirname( dirname( dirname( dirname( __FILE__ ) ) ) );
+				break;
+			case 'url':
+				return plugin_dir_url( $this->root_dir ) . 'assets';
 				break;
 			default:
 				return null;

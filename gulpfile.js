@@ -1,81 +1,100 @@
 var gulp        = require('gulp'),
     $           = require('gulp-load-plugins')(),
+    eventStream = require('event-stream'),
     browserSync = require('browser-sync');
 
 // Sass
-gulp.task('sass',function(){
+gulp.task('sass', function () {
 
   var filter = $.filter('**/*.css');
 
   return gulp.src(['./assets/scss/**/*.scss'])
-    .pipe($.plumber())
+    .pipe($.plumber({
+      errorHandler: $.notify.onError('<%= error.message %>')
+    }))
     .pipe($.sourcemaps.init())
     .pipe($.sass({
       errLogToConsole: true,
-      outputStyle: 'compressed',
-      sourceComments: 'normal',
-      sourcemap: true
+      outputStyle    : 'compressed',
+      sourceComments : 'normal',
+      sourcemap      : true
     }))
     .pipe($.sourcemaps.write('./map'))
     .pipe(gulp.dest('./assets/css'));
 });
 
 
-
 // JS Hint
-gulp.task('jshint', function(){
-  return gulp.src(['./assets/js/**/*.js'])
+gulp.task('jshint', function () {
+  return gulp.src(['./assets/js/src/**/*.js'])
+    .pipe($.plumber({
+      errorHandler: $.notify.onError('<%= error.message %>')
+    }))
     .pipe($.jshint('./assets/.jshintrc'))
     .pipe($.jshint.reporter('jshint-stylish'));
 });
-// Copy Ace editor
-gulp.task('ace', function(){
-  // Copy Ace editor
-  return gulp.src('./node_modules/ace-builds/src-min/**/*')
-    .pipe(gulp.dest('./assets/lib/ace'));
+
+gulp.task('jsBundle', function(){
+  return gulp.src('./assets/js/src/*.js')
+    .pipe($.plumber({
+      errorHandler: $.notify.onError('<%= error.message %>')
+    }))
+    .pipe($.sourcemaps.init())
+    .pipe($.include({
+      extensions: "js"
+    }))
+    .pipe($.uglify())
+    .pipe($.sourcemaps.write('./map'))
+    .pipe(gulp.dest('./assets/js/dist'));
+
 });
-// Copy jQuery UI MP6
-gulp.task('mp6', function(){
-  return gulp.src([
+
+// Copy
+gulp.task('copy', function () {
+  return eventStream.merge(
+    // Angular
+    gulp.src([
+      './node_modules/angular/angular.min.js',
+      './node_modules/angular-ui-sortable/dist/sortable.min.js'
+    ]).pipe(gulp.dest('./assets/lib/angular')),
+
+    // MP6
+    gulp.src([
       './node_modules/jquery-ui-mp6/src/**/*',
       '!./node_modules/jquery-ui-mp6/src/scss/**/*',
       '!./node_modules/jquery-ui-mp6/src/js/**/*',
       '!./node_modules/jquery-ui-mp6/src/config.rb'
-  ])
-    .pipe(gulp.dest('./assets/lib/jquery-ui-mp6'))
+    ])
+      .pipe(gulp.dest('./assets/lib/jquery-ui-mp6')),
+
+    // LivePreview
+    gulp.src([
+      './node_modules/jquery-live-preview/js/jquery-live-preview.min.js'
+    ])
+      .pipe(gulp.dest('./assets/lib/jquery-live-preview')),
+    gulp.src([
+      './node_modules/jquery-live-preview/images/icon_loading.gif'
+    ])
+      .pipe(gulp.dest('./assets/lib/jquery-live-preview/images')),
+    // Time picker
+    gulp.src([
+      './node_modules/jquery-ui-timepicker-addon/dist/**/*',
+      '!./node_modules/jquery-ui-timepicker-addon/dist/index.html',
+      '!./node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-sliderAccess.js',
+      '!./node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.css',
+      '!./node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.js',
+    ])
+      .pipe(gulp.dest('./assets/lib/jquery-ui-timepicker-addon'))
+  );
 });
-// Copy jQuery Live Preview
-gulp.task('livePreview', function(){
-  return gulp.src([
-    './node_modules/jquery-live-preview/**/*',
-    '!./node_modules/jquery-live-preview/.npmignore',
-    '!./node_modules/jquery-live-preview/Gruntfile.js',
-    '!./node_modules/jquery-live-preview/index.html',
-    '!./node_modules/jquery-live-preview/license.txt',
-    '!./node_modules/jquery-live-preview/package.json',
-    '!./node_modules/jquery-live-preview/readme.md'
-  ])
-    .pipe(gulp.dest('./assets/lib/jquery-live-preview'))
-});
-// timepicker
-gulp.task('timepickerAddon', function(){
-  return gulp.src([
-    './node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css',
-    './node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js',
-    './node_modules/jquery-ui-timepicker-addon/dist/i18n/**/*'
-  ])
-    .pipe(gulp.dest('./assets/lib/jquery-ui-timepicker-addon'));
-});
-// Copy
-gulp.task('copy', ['ace', 'mp6', 'timepickerAddon']);
 
 // Build
-gulp.task('build', ['sass', 'copy']);
+gulp.task('build', ['sass', 'copy', 'jsBundle']);
 
 // watch
-gulp.task('watch',function(){
+gulp.task('watch', function () {
   // Make SASS
-  gulp.watch('./assets/scss/**/*.scss',['sass']);
-  // Check JS syntax
-  gulp.watch('./assets/js/**/*.js',['jshint']);
+  gulp.watch('./assets/scss/**/*.scss', ['sass']);
+  // Check JS syntax and bundle them
+  gulp.watch('./assets/js/src/**/*.js', ['jshint', 'jsBundle']);
 });

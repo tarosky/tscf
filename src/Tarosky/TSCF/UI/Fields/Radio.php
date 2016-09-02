@@ -10,6 +10,8 @@ class Radio extends Input {
 		'options' => [],
 	];
 
+	protected $default_to_drop = [ 'min', 'max', 'placeholder' ];
+
 	/**
 	 * Show field
 	 */

@@ -1,24 +1,295 @@
 #tscf-editor {
-  height: 400px;
+
+  *[ng-cloak] {
+    visibility: hidden;
+  }
+
+  .tscfe {
+    width: 100%;
+    overflow-x: hidden;
+    $pad: 30px;
+    &-main {
+      float: left;
+      padding-right: 200px + $pad;
+      padding-top: $pad;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    &-side {
+      width: 200px;
+      float: left;
+      margin-left: -200px - 1 - $pad / 2;
+      padding-top: $pad;
+      padding-left: $pad / 2;
+      padding-bottom: $pad * 2;
+      border-left: 1px solid #ddd;
+    }
+    &-clear {
+      clear: left;
+    }
+
+    &-message {
+      transition: opacity 1s linear 0s;
+      margin-right: 1em;
+      &.toggle {
+        opacity: 1;
+      }
+      .success {
+        color: #4d804f;
+      }
+      .error {
+        color: #e74656;
+      }
+      .loading {
+        color: #888;
+      }
+    }
+
+    &-nav {
+      padding: 20px 0;
+      &-item {
+        $active: #f9e84b;
+        $divider: #ddd;
+        margin: 0;
+        padding: 10px;
+        cursor: pointer;
+        transition: background-color .3s linear;
+        border-bottom: 1px solid $divider;
+        &:first-child {
+          border-top: 1px solid $divider;
+        }
+        &:hover {
+          background-color: $active;
+        }
+        &.active {
+          border-left: 3px solid $active;
+          background: #ececec;
+        }
+      }
+
+    }
+
+    &-field {
+      &-inner {
+        position: relative;
+      }
+      &-controls {
+        width: 120px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 2;
+        button {
+          display: inline-block;
+          border: none;
+          border-radius: 50%;
+          height: 32px;
+          width: 32px;
+          font-size: 32px;
+          text-align: center;
+          padding: 0;
+          cursor: pointer;
+          transition: background-color .3s linear, color .3s linear;
+          color: #666;
+          background-color: transparent;
+          &:hover {
+            color: #fff;
+            background-color: #666;
+          }
+          &:focus {
+            outline: none;
+          }
+          &.button-add {
+            color: #0073aa;
+            &:hover {
+              background-color: #0073aa;
+              color: #fff;
+            }
+          }
+          &.button-delete {
+            color: red;
+            &:hover {
+              background-color: red;
+              color: #fff;
+            }
+          }
+          span {
+            vertical-align: top;
+            width: 20px;
+            height: 20px;
+            line-height: 32px;
+            font-size: 20px;
+          }
+        }
+      }
+      &-title {
+        margin-right: 120px;
+        margin-top: 0;
+        position: relative;
+        z-index: 1;
+        &-number {
+          position: absolute;
+          display: block;
+          background: #0073aa;
+          color: #fff;
+          border-radius: 50%;
+          height: 2em;
+          width: 2em;
+          text-align: center;
+          line-height: 2em;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        &-label {
+          padding-left: 2.5em;
+        }
+        &-name {
+          color: #888;
+        }
+
+      }
+
+      &-meta {
+
+      }
+
+      &-items {
+
+      }
+
+      &-item {
+        padding: 5px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        hr{
+          margin-top: 10px;
+        }
+        &-inner {
+          background: #fff;
+          border-radius: 3px;
+          padding: 10px;
+          & > p {
+            margin: 0;
+            padding: 5px 0;
+            border-bottom: 1px dotted #ddd;
+            &:first-child {
+              padding-top: 0;
+            }
+            &:last-child {
+              border-bottom: none;
+            }
+          }
+        }
+        &-meta {
+          position: relative;
+          padding-right: 80px;
+          .block {
+            display: block;
+            margin-bottom: 5px;
+            & > span {
+              display: inline-block;
+              width: 5em;
+            }
+          }
+        }
+        h4{
+          font-size: 1em;
+          font-weight: normal;
+          padding: 3px;
+          background: #f9f9f9;
+        }
+        .description ,
+        .attributes {
+          .block {
+            margin-top: 5px;
+            textarea {
+              box-sizing: border-box;
+              width: 100%;
+            }
+            span {
+              display: block;
+            }
+          }
+        }
+        &-controller {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 80px;
+          text-align: right;
+          button {
+            cursor: pointer;
+          }
+        }
+
+        &:last-child {
+          padding-bottom: 10px;
+        }
+        &.clear {
+          clear: left;
+        }
+        &.col1 {
+          clear: left;
+        }
+        &.col2 {
+          width: 50%;
+          float: left;
+        }
+        &.col3 {
+          width: 33.3333%;
+          float: left;
+        }
+        &.col2,
+        &.col3 {
+          .block > span {
+            display: block;
+            margin-bottom: 3px;
+          }
+          input, select{
+            margin-left: 0;
+          }
+        }
+
+        label {
+          font-weight: bold;
+          margin-right: 0.5em;
+          input, input, select {
+            font-weight: normal;
+            margin-left: 5px;
+          }
+        }
+      }
+    }
+  }
+
+  .form-table {
+    textarea {
+      box-sizing: border-box;
+      width: 100%;
+    }
+  }
+
+  .post-type-field {
+    label {
+      display: inline-block;
+      margin-right: 1em;
+      input {
+        margin-right: 0.2em;
+      }
+    }
+  }
+
+  label.block {
+    display: block;
+  }
+
+  .toggle {
+    display: none;
+  }
+
 }
 
 #tscf-message {
-  opacity: 0;
-  transition: opacity 1s linear 0s;
-  margin-right: 1em;
-  &.toggle {
-    opacity: 1;
-  }
-  .success {
-    color: #4d804f;
-  }
-
-  .error {
-    color: #e74656;
-  }
-
-  .loading {
-    color: #888;
-  }
 
 }
