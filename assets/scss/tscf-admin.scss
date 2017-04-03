@@ -1,5 +1,5 @@
 .tscf {
-
+  padding: 1.5em;
   &__group {
     padding: 1em 10px;
     box-sizing: border-box;
@@ -25,11 +25,12 @@
     }
   }
   &__separator{
+    margin-top: 1.5em;
     padding: 10px 0;
     text-align: center;
-    border-top: 3px double #ddd;
+    background-color: #0073aa;
     font-weight: bold;
-    color: #666;
+    color: #fff;
     clear: left;
   }
   &__col {
