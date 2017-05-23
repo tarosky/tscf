@@ -97,6 +97,7 @@ abstract class Base {
 			case 'date':
 			case 'iterator':
 			case 'image':
+			case 'video':
 			case 'url':
 				$class_name = 'Tarosky\\TSCF\\UI\\Fields\\' . implode( '', array_map( function ( $seg ) {
 					return ucfirst( $seg );

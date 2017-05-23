@@ -55,19 +55,28 @@
 
 
   //
-  // Image picker
+  // Media picker
   //
   // ----------------------------------
   //
   $(document).ready(function () {
 
     var imageEditor,
+        videoEditor,
         $currentHolder;
 
     function imageChange($container) {
       var ids = [];
       $container.find('img').each(function (index, img) {
         ids.push($(img).attr('data-image-id'));
+      });
+      $container.prev('input[type=hidden]').val(ids.join(','));
+      $container.effect('highlight', {}, 1000);
+    }
+    function videoChange($container) {
+      var ids = [];
+      $container.find('video').each(function (index, video) {
+        ids.push($(video).attr('data-video-id'));
       });
       $container.prev('input[type=hidden]').val(ids.join(','));
       $container.effect('highlight', {}, 1000);
@@ -132,7 +141,61 @@
         $(this).parents('.tscf__image').remove();
         imageChange($container);
       });
-  });
+      
+    $('.tscf')
+      .on('click', '.tscf__video--add', function (e) {
+        e.preventDefault();
+        $currentHolder = $(this).prev('.tscf__placeholder');
+        var currentCount = $currentHolder.find('video').length;
+        var limit = parseInt($currentHolder.attr('data-limit'), 10);
+        if (currentCount >= limit) {
+          return;
+        }
+        if (!videoEditor) {
+          // Create editor if not exists
+          videoEditor = wp.media({
+            className: 'media-frame tscf__videoEditor',
+            frame    : 'select',
+            multiple : true,
+            title    : $(this).text(),
+            library  : {
+              type: 'video'
+            },
+            button   : {
+              text: TSCF.select
+            }
+          });
+          // Bind event
+          videoEditor.on('select', function () {
+            var currentCount = $currentHolder.find('video').length;
+            var limit = parseInt($currentHolder.attr('data-limit'), 10);
+            var repeatLimit = limit - currentCount;
+            var counter = 0;
+            videoEditor.state().get('selection').each(function (video) {
+              if (counter < repeatLimit) {
+                var attachment = video.toJSON();
+                var src;
+                src = attachment.url;
+                var $div = $('<div class="tscf__video">' +
+                  '<video data-video-id="' + attachment.id + '" class="tscf__video--object" src="' + src + '" />' +
+                  '<a class="button tscf__video--delete" href="#">' + TSCF.delete + '</a></div>');
+                $currentHolder.find('.tscf__placeholder--limit').before($div);
+              }
+              counter++;
+            });
+            videoChange($currentHolder);
+          });
+        }
+        // Open video editor
+        videoEditor.open();
+      })
+      .on('click', '.tscf__video--delete', function (e) {
+        e.preventDefault();
+        var $container = $(this).parents('.tscf__placeholder');
+        $(this).parents('.tscf__video').remove();
+        videoChange($container);
+      });
+    });
 
 
   //
