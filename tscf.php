@@ -4,7 +4,7 @@ Plugin Name: TSCF - Tarosky Custom Filed manager
 Plugin URI: https://github.com/tarosky/tscf
 Description: TaroSky's Custom Field manager. Scalable, Well-Structured and Maintainable. Requires PHP5.4 or later.
 Author: Takahashi Fumiki<ftakahashi@tarosky.co.jp>
-Version: 1.0
+Version: 1.0.0
 Author URI: https://tarosky.co.jp
 Text Domain: tscf
 Domain Path: /languages/
@@ -13,16 +13,30 @@ License: GPL v3 or later.
 
 defined( 'ABSPATH' ) or die();
 
-// Add translation.
-load_plugin_textdomain( 'tscf', false, 'tscf/languages' );
+// Register bootstrap
+add_action( 'plugins_loaded', '_tscf_plugins_loaded' );
 
-// Start
-if ( version_compare( phpversion(), '5.4.*', '<' ) ) {
-	add_action( 'admin_notices', '_tscf_admin_notice' );
-} else {
-	// Requirements O.K.
-	require __DIR__ . '/vendor/autoload.php';
-	call_user_func( [ 'Tarosky\\TSCF\\Bootstrap', 'instance' ] );
+/**
+ * Plugin bootstrap
+ *
+ * @internal
+ */
+function _tscf_plugins_loaded() {
+	// Add translation.
+	load_plugin_textdomain( 'tscf', false, 'tscf/languages' );
+	// Start
+	if ( version_compare( phpversion(), '5.4.*', '<' ) ) {
+		add_action( 'admin_notices', '_tscf_admin_notice' );
+	} else {
+		// Requirements O.K.
+		$path = __DIR__ . '/vendor/autoload.php';
+		if ( ! file_exists( $path ) ) {
+			trigger_error( __( 'Mmm...TSCF plugin\'s auto loader missing. Did you run composer install?', 'tscf' ), E_USER_WARNING );
+		} else {
+			require $path;
+			call_user_func( [ 'Tarosky\\TSCF\\Bootstrap', 'instance' ] );
+		}
+	}
 }
 
 /**
@@ -32,9 +46,16 @@ if ( version_compare( phpversion(), '5.4.*', '<' ) ) {
  * @return void
  */
 function _tscf_admin_notice() {
-	printf( '<div class="error"><p>%s</p></div>', esc_html( __( '[Error] TSCF requires PHP version 5.4 or later. Please', 'tscf' ) ) );
+	printf( '<div class="error"><p>%s</p></div>', esc_html( __( '[Error] TSCF requires PHP version 5.4 or later. Please consider upgrading your PHP.', 'tscf' ) ) );
 }
 
+
+/**
+ *
+ */
+function tscf_version() {
+
+}
 
 function tscf( $key, $object ) {
 

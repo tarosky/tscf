@@ -85,8 +85,17 @@ angular.module('tscf').directive('tscfItems', [ '$http', '$window', 'ui', functi
         updateType(i);
       };
 
-
-
+      /**
+       * Move field
+       * @param {Number} current
+       * @param {Number} step
+       */
+      $scope.move = function(current, step){
+        var next = current + step;
+        var tmp = angular.copy($scope.fields[next]);
+        $scope.fields[next] = $scope.fields[current];
+        $scope.fields[current] = tmp;
+      };
 
       /**
        * Remove field

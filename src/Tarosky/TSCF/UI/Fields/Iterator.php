@@ -12,7 +12,11 @@ class Iterator extends Base {
 	protected $required = [ 'fields' ];
 
 	protected $default = [
-		'max' => 5,
+		'col'         => 1,
+		'clear'       => false,
+		'max'         => 5,
+	    'description' => '',
+	    'field'       => [],
 	];
 
 	/**

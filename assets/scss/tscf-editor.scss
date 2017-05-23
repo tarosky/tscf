@@ -167,6 +167,7 @@
         }
         &-inner {
           background: #fff;
+          border: 1px solid #ddd;
           border-radius: 3px;
           padding: 10px;
           & > p {
@@ -220,6 +221,9 @@
           text-align: right;
           button {
             cursor: pointer;
+          }
+          .button-move{
+            cursor: move;
           }
         }
 

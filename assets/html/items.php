@@ -40,6 +40,12 @@
 					<button class="button-delete" ng-click="removeField(j)" title="<?php esc_attr_e( 'Remove Field', 'tscf' ) ?>">
 						<span class="dashicons dashicons-no"></span>
 					</button>
+					<button class="button-up" ng-if="0 < j" title="<?php esc_attr_e( 'Move down', 'tscf' ) ?>" ng-click="move(j, -1)">
+						<span class="dashicons dashicons-arrow-up-alt2"></span>
+					</button>
+					<button class="button-down" ng-if="fields.length - 1 != j" title="<?php esc_attr_e( 'Move up', 'tscf' ) ?>" ng-click="move(j, 1)">
+						<span class="dashicons dashicons-arrow-down-alt2"></span>
+					</button>
 				</div>
 			</div>
 

@@ -1,11 +1,12 @@
 {
   "name": "tscf",
   "version": "1.0.0",
-  "description": "TaroSky's Custom Field manage",
+  "description": "TaroSky's Custom Field manager",
   "main": "gulpfile.js",
   "scripts": {
-    "start": "gulp build",
-    "watch": "gulp watch"
+    "start": "gulp build && gulp watch",
+    "watch": "gulp watch",
+    "package": "gulp build"
   },
   "repository": {
     "type": "git",

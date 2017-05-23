@@ -74,7 +74,7 @@ class Bootstrap extends Singleton {
 			// Check language
 			$lang         = explode( '_', get_locale() );
 			$file_name    = '/lib/jquery-ui-timepicker-addon/i18n/jquery-ui-timepicker-%s.js';
-			$base         = $this->root_dir. '/assets' . $file_name;
+			$base         = $this->root_dir . '/assets' . $file_name;
 			$file_to_load = '';
 			if ( count( $lang ) > 1 ) {
 				$path = sprintf( $base, "{$lang[0]}-{$lang[1]}" );

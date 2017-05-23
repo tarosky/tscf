@@ -3,9 +3,9 @@ TSCF - Tarosky Custom Filed manage
 
 Contributors: Takahashi_Fumiki, tarosky  
 Tags: custom field  
-Requires at least: 4.4.0  
-Tested up to: 4.4.3  
-Stable tag: 1.0  
+Requires at least: 4.7.0
+Tested up to: 4.7.5
+Stable tag: 1.0.0
 License: GPLv3 or later  
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -13,13 +13,13 @@ TaroSky's Custom Field manager. Scalable, Well-Structured and Maintainable. Requ
 
 ## Description
 
-Custom fileds are stuff box for WordPress. They can store almost everything. Number,  Date, CSV and nested array.
+Custom fields are stuff box for WordPress. They can store almost everything. Number,  Date, CSV and nested array.
 
 Besides that, custom fields can be used for many purpose. 
 
 * To display extra information for posts.
 * To sort posts by their event date.
-* To hide posts from unregsitered user.
+* To hide posts from unregistered user.
 
 Thus, they can be easily uncontrollable.
 

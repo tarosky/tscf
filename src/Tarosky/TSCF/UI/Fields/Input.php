@@ -84,7 +84,7 @@ abstract class Input extends Base{
 			<?php if ( $this->show_label ) : ?>
 				<label class="tscf__label" for="<?php echo esc_attr( $this->field['name'] ) ?>">
 					<?php echo esc_html( $this->field['label'] ) ?>
-					<?php if ( $this->field['unit'] ) :?>
+					<?php if ( isset( $this->field['unit'] ) ) :?>
 						<small class="tscf__unit"><?= esc_html( $this->field['unit'] ) ?></small>
 					<?php endif;?>
 					<?php if ( $this->field['required'] ) : ?>
