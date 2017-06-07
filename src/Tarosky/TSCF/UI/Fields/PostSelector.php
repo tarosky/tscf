@@ -28,7 +28,7 @@ class PostSelector extends Input {
 	 */
 	protected function display_field() {
 		?>
-		<input type="hidden" name="<?php echo esc_attr( $this->field['name'] ) ?>" value="<?= esc_attr( $this->get_data() ) ?>" />
+		<input type="hidden" name="<?php echo esc_attr( $this->field['name'] ) ?>" value="<?= esc_attr( $this->get_data( false ) ) ?>" />
 		<select class="tscf__input tscf__input--token"
 				data-post-type="<?= esc_attr( $this->field['post_type'] ) ?>"
 				data-limit="<?= esc_attr( $this->field['max'] ) ?>"
@@ -37,7 +37,9 @@ class PostSelector extends Input {
 					multiple="multiple"
 				<?php endif; ?>
 		>
-			<?php foreach ( array_filter( explode( ',', $this->get_data() ) ) as $post_id ) : ?>
+			<?php foreach ( array_filter( explode( ',', $this->get_data() ), function( $id ) {
+				return is_numeric( $id );
+			}  ) as $post_id ) : ?>
 				<option value="<?= esc_attr( $post_id ) ?>" selected><?= esc_html( get_the_title( $post_id ) ) ?></option>
 			<?php endforeach; ?>
 		</select>

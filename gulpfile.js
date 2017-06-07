@@ -95,7 +95,11 @@ gulp.task('copy', function () {
       .pipe(gulp.dest('./assets/lib/select2/js')),
     gulp.src([
       './node_modules/select2/dist/css/select2.min.css'
-    ]).pipe(gulp.dest('./assets/lib/select2/css'))
+    ]).pipe(gulp.dest('./assets/lib/select2/css')),
+    // Ace editor
+    gulp.src([
+      './node_modules/ace-builds/src-min-noconflict/**/*'
+    ]).pipe(gulp.dest('./assets/lib/ace'))
   );
 });
 

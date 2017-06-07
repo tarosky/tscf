@@ -1,23 +1,42 @@
 <?php
 /**
- *
+ * Utility functions
  *
  * @package tscf
  */
 
 /**
+ * Get plugin version
  *
+ * @since 1.0.0
+ * @return string
  */
 function tscf_version() {
-
+	static $info = null;
+	if ( is_null( $info ) ) {
+		$info = get_file_data( __DIR__ . '/tscf.php', [
+			'version' => 'Version'
+		] );
+	}
+	return $info['version'];
 }
+
 
 function tscf( $key, $object ) {
 
 }
 
+/**
+ * Get meta for post
+ *
+ * @param string $key
+ * @param null|int|WP_Post $post
+ *
+ * @return mixed
+ */
 function tscfp( $key, $post = null ) {
-
+	$post = get_post( $post );
+	return $post ? get_post_meta( $post->ID, $key, true ) : '';
 }
 
 function tscft( $key, $term = null ) {
@@ -41,8 +60,13 @@ function tscf_post_list( $key, $post = null ) {
 	if ( ! $post ) {
 		return [];
 	}
+	$post_ids = array_filter( explode( ',', get_post_meta( $post->ID, $key, true ) ) );
+	if ( empty( $post_ids ) ) {
+		return [];
+	}
 	$args = [
-		'post__in' => array_filter( explode( ',', get_post_meta( $post->ID, $key, true ) ) ),
+		'post_type' => 'any',
+		'post__in' => $post_ids,
 	    'post_status' => 'publish',
 	    'suppress_filters' => false,
 	    'orderby' => 'post__in',

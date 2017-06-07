@@ -122,6 +122,14 @@
 						<span><?php _e( 'Post Type', 'tscf' ) ?></span>
 						<input type="text" ng-model="field.post_type"/>
 					</label>
+					<label class="block" ng-if="field.hasOwnProperty('language')">
+						<span><?php _e( 'Language', 'tscf' ) ?></span>
+						<input type="text" ng-model="field.language"/>
+					</label>
+					<label class="block" ng-if="field.hasOwnProperty('theme')">
+						<span><?php _e( 'Theme', 'tscf' ) ?></span>
+						<input type="text" ng-model="field.theme"/>
+					</label>
 				</div>
 				<div class="options" ng-if="field.hasOwnProperty('options')">
 					<h4><?php _e( 'Options', 'tscf' ) ?></h4>

@@ -70,6 +70,7 @@ class Parser extends Singleton {
 			'taxonomy_single' => __( 'Single Taxonomy', 'tscf' ),
 		    'custom'    => __( 'Custom Class', 'tscf' ),
 		    'post_selector' => __( 'Select from Post', 'tscf' ),
+		    'code_editor' => __( 'Code Editor', 'tscf' ),
 		];
 	}
 

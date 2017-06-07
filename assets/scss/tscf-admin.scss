@@ -1,5 +1,5 @@
 .tscf {
-  padding: 1.5em;
+
   &__group {
     padding: 1.5em 10px;
     box-sizing: border-box;
@@ -114,9 +114,17 @@
     &--textarea {
       width: 100%;
     }
-    &--token{
-      min-width: 300px;
+    &--ace{
+      display: none;
     }
+    &--token{
+      width: 90%;
+      max-width: 100%;
+    }
+  }
+  &__ace{
+    height: auto;
+    min-height: 5em;
   }
   &childList{
     margin-top: 20px;

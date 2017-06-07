@@ -110,6 +110,8 @@ class Bootstrap extends Singleton {
 				}
 			}
 			wp_register_style( 'select2', "{$this->url}/lib/select2/css/select2.min.css", [], '4.0.3' );
+			// AceEditor
+			wp_register_script( 'ace-editor', "{$this->url}/lib/ace/ace.js", [], '1.2.6', true );
 			// Every page.
 			wp_enqueue_style( 'tscf-admin', $this->url . '/css/tscf-admin.css', [
 				'jquery-ui-timepicker-addon',
@@ -121,7 +123,8 @@ class Bootstrap extends Singleton {
 				'jquery-effects-highlight',
 				'jquery-ui-sortable',
 				'jquery-live-preview',
-				( $has_select2_locale ? 'select2-local' : 'select2' )
+				( $has_select2_locale ? 'select2-local' : 'select2' ),
+			    'ace-editor'
 			], '1.0.0', true );
 			wp_localize_script( 'tscf-helper', 'TSCF', [
 				'delete' => __( 'Delete', 'tscf' ),

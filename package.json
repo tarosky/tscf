@@ -7,7 +7,7 @@
     "start": "gulp build && gulp watch",
     "watch": "gulp watch",
     "package": "gulp build",
-	"gulp": "gulp"
+    "gulp": "gulp"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/tarosky/tscf#readme",
   "devDependencies": {
+    "ace-builds": "^1.2.6",
     "angular": "^1.5.8",
     "angular-ui-sortable": "^0.14.3",
     "browser-sync": "^2.11.0",

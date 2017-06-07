@@ -21,8 +21,13 @@ class Url extends Text{
 				<?php parent::display_field(); ?>
 			</div>
 			<div class="tscf__url--controller">
-				<button class="tscf-select-button button"><?php _e( 'Select File', 'tscf' ) ?></button>
-				<a class="tscf-preview-button button" href="#" target="_blank"><?php _e( 'Preview', 'tscf' ) ?></a>
+				<button class="tscf-select-button button-primary">
+					<span class="dashicons dashicons-images-alt2"></span>
+					<?php _e( 'Select', 'tscf' ) ?>
+				</button>
+				<a class="tscf-preview-button button" href="#" target="_blank" title="<?php esc_attr_e( 'Preview', 'tscf' ) ?>">
+					<span class="dashicons dashicons-visibility"></span>
+				</a>
 			</div>
 		</div>
 		<?php

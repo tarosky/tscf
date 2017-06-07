@@ -56,6 +56,7 @@ class Rest extends Singleton {
 			return new \WP_Error( 'no_permission', __( 'No post found.', 'tscf' ), [ 'response' => 403 ] );
 		}
 		$query = new \WP_Query( [
+			'post_status' => 'any',
 			'post_type' => $request['post_type'],
 		    's' => trim( str_replace( '+', ' ', $request['q'] ) ),
 		    'posts_per_page' => 10,

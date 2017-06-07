@@ -102,6 +102,7 @@ abstract class Base {
 			case 'url':
 			case 'taxonomy_single':
 			case 'post_selector':
+			case 'code_editor':
 				$class_name = 'Tarosky\\TSCF\\UI\\Fields\\' . implode( '', array_map( function ( $seg ) {
 					return ucfirst( $seg );
 				}, explode( '_', $lower_name ) ) );

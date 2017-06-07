@@ -49,5 +49,3 @@ function tscf_plugins_loaded() {
 function tscf_admin_notice() {
 	printf( '<div class="error"><p>%s</p></div>', esc_html( __( '[Error] TSCF requires PHP version 5.4 and over. Please consider upgrading your PHP.', 'tscf' ) ) );
 }
-
-
