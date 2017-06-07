@@ -7,7 +7,7 @@ namespace Tarosky\TSCF\UI\Fields;
 /**
  * Input UI base
  *
- * @package Tarosky\TSCF\UI\Fields
+ * @package tscf
  */
 abstract class Input extends Base{
 
@@ -88,7 +88,7 @@ abstract class Input extends Base{
 						<small class="tscf__unit"><?= esc_html( $this->field['unit'] ) ?></small>
 					<?php endif;?>
 					<?php if ( $this->field['required'] ) : ?>
-						<small class="tscf__required">* <?php echo esc_attr( $this->_s( 'Required' ) ) ?></small>
+						<small class="tscf__required">* <?php echo esc_attr_e( 'Required', 'tscf' ) ?></small>
 					<?php endif; ?>
 				</label>
 			<?php endif; ?>
@@ -201,12 +201,12 @@ abstract class Input extends Base{
 		// Check required key.
 		foreach ( $required as $key ) {
 			if ( $key && ! isset( $this->field[ $key ] ) ) {
-				$error->add( 'param_error', $this->_s( '%s is required for field %s', $key, $this->field['label'] ) );
+				$error->add( 'param_error', sprintf( __( '%1$s is required for field %1$s', 'tscf' ), $key, $this->field['label'] ) );
 			}
 		}
 		if ( isset( $this->field['min'], $this->field['max'] ) && is_numeric( $this->field['max'] ) && is_numeric( $this->field['max'] ) ) {
 			if ( $this->field['min'] > $this->field['max'] ) {
-				$error->add( 'param_error', $this->_s( 'min property of %s must be less than max property.' ) );
+				$error->add( 'param_error', __( 'min property of %s must be less than max property.', 'tscf' ) );
 			}
 		}
 		return $error->errors ? $error : true;

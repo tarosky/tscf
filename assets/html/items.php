@@ -29,6 +29,13 @@
 					<input type="text" placeholder="<?php _e( 'Class Name' ) ?>"
 					       ng-hide="'custom' != field.type" ng-model="field.class_name"/>
 				</label>
+				<label class="block" ng-if="'taxonomy_single' == field.type">
+					<span>
+						<?php _e( 'Taxonomy', 'tscf' ) ?>
+						<span class="required">*</span>
+					</span>
+					<input type="text" ng-model="field.taxonomy"/>
+				</label>
 				<label class="block">
 					<input type="checkbox"
 					       ng-model="field.required"/><?php _e( 'Required', 'tscf' ) ?>
@@ -110,6 +117,10 @@
 					<label class="block" ng-if="field.hasOwnProperty('limit')">
 						<span><?php _e( 'Image Limit', 'tscf' ) ?></span>
 						<input type="number" ng-model="field.limit"/>
+					</label>
+					<label class="block" ng-if="field.hasOwnProperty('post_type')">
+						<span><?php _e( 'Post Type', 'tscf' ) ?></span>
+						<input type="text" ng-model="field.post_type"/>
 					</label>
 				</div>
 				<div class="options" ng-if="field.hasOwnProperty('options')">

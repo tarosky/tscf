@@ -6,6 +6,8 @@ angular.module('tscf').controller( 'tscfEditor', [ '$scope', '$http', '$log', fu
 
   $scope.settings = TSCF.settings;
 
+  console.log(TSCF);
+
   $scope.errors = TSCF.errors;
 
   /**

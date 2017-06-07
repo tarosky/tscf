@@ -6,7 +6,8 @@
   "scripts": {
     "start": "gulp build && gulp watch",
     "watch": "gulp watch",
-    "package": "gulp build"
+    "package": "gulp build",
+	"gulp": "gulp"
   },
   "repository": {
     "type": "git",
@@ -44,6 +45,7 @@
     "jquery-ui-mp6": "^1.0.2",
     "jquery-ui-timepicker-addon": "^1.5.5",
     "jshint-stylish": "^1.0.1",
-    "node-sass": "^2.1.1"
+    "node-sass": "^2.1.1",
+    "select2": "^4.0.3"
   }
 }

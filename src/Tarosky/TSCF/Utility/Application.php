@@ -17,6 +17,7 @@ trait Application {
 	/**
 	 * Shorthand for __ and sprintf-ready.
 	 *
+	 * @deprecated 1.0.0
 	 * @param string $string
 	 *
 	 * @return string
@@ -35,6 +36,7 @@ trait Application {
 	/**
 	 * Short hand for _e
 	 *
+	 * @deprecated 1.0.0
 	 * @param string $string
 	 */
 	public function _e( $string ) {
@@ -58,7 +60,7 @@ trait Application {
 	 * @return bool
 	 */
 	protected function is_editor( $hook_suffix ) {
-		return 'appearance_page_tscf' === $hook_suffix;
+		return 'settings_page_tscf' === $hook_suffix;
 	}
 
 	/**

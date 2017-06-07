@@ -2,7 +2,7 @@
  * Editor for TSCF
  */
 
-/*global TSCF: false*/
+/*global TSCF: true*/
 /*global ace: false*/
 
 jQuery(document).ready(function ($) {

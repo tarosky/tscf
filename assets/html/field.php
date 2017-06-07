@@ -70,7 +70,7 @@
 					<label><?php _e( 'Post Type', 'tscf' ) ?></label>
 				</th>
 				<td id="post-type-field-{{i}}">
-					<label ng-repeat="postType in postTypes">
+					<label ng-repeat="postType in postTypes" class="tscfe-label-block">
 						<input type="checkbox" ng-value="postType.name" ng-click="changeCheckbox(i)"
 						       ng-checked="-1 < setting.post_types.indexOf(postType.name)"/>
 						{{postType.label}}

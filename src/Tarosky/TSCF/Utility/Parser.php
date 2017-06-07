@@ -26,9 +26,10 @@ class Parser extends Singleton {
 	 * @return string
 	 */
 	public function config_file_path() {
+		$path = '';
 		foreach ( [ get_stylesheet_directory(), get_template_directory() ] as $dir ) {
 			if ( file_exists( $dir . DIRECTORY_SEPARATOR . 'tscf.json' ) ) {
-				return $dir . DIRECTORY_SEPARATOR . 'tscf.json';
+				$path = $dir . DIRECTORY_SEPARATOR . 'tscf.json';
 			}
 		}
 
@@ -38,12 +39,10 @@ class Parser extends Singleton {
 		 * Returns file path to read.
 		 *
 		 * @package tscf
-		 *
 		 * @param string $path Default empty string.
-		 *
 		 * @return string
 		 */
-		return (string) apply_filters( 'tscf_config_file_path', '' );
+		return (string) apply_filters( 'tscf_config_file_path', $path );
 	}
 
 	/**
@@ -68,7 +67,9 @@ class Parser extends Singleton {
 			'url'       => __( 'URL', 'tscf' ),
 			'separator' => __( 'Separator', 'tscf' ),
 			'hidden'    => __( 'Hidden', 'tscf' ),
+			'taxonomy_single' => __( 'Single Taxonomy', 'tscf' ),
 		    'custom'    => __( 'Custom Class', 'tscf' ),
+		    'post_selector' => __( 'Select from Post', 'tscf' ),
 		];
 	}
 

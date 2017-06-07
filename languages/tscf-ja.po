@@ -1,0 +1,490 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TSCF - Tarosky Custom Filed manager\n"
+"POT-Creation-Date: 2017-06-07 16:28+0900\n"
+"PO-Revision-Date: 2017-06-07 16:36+0900\n"
+"Last-Translator: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
+"Language-Team: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.0\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: tscf.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+"X-Poedit-SearchPathExcluded-2: vendor\n"
+
+#: admin.php:12 src/Tarosky/TSCF/Bootstrap.php:22
+msgid "Tarosky Custom Field config file editor"
+msgstr "Tarosky Custom Field 設定ファイルエディター"
+
+#: admin.php:30
+msgid "Add Field Group"
+msgstr "フィールドグループを追加"
+
+#: admin.php:32
+msgid "Save"
+msgstr "保存"
+
+#: assets/html/field.php:6
+msgid "Setting"
+msgstr "設定"
+
+#: assets/html/field.php:9
+msgid "Add New"
+msgstr "新規追加"
+
+#: assets/html/field.php:12
+msgid "Remove"
+msgstr "削除"
+
+#: assets/html/field.php:21
+msgid "Fields"
+msgstr "フィールド"
+
+#: assets/html/field.php:21
+msgid "Field"
+msgstr "フィールド"
+
+#: assets/html/field.php:29 assets/html/items.php:10 assets/html/options.php:5
+msgid "Label"
+msgstr "ラベル"
+
+#: assets/html/field.php:39 assets/html/items.php:17
+msgid "Key"
+msgstr "キー"
+
+#: assets/html/field.php:46
+msgid "Should be unique. Only alphanumeric characters or _."
+msgstr "ユニークでなければなりません。英数字とアンダースコア(_)のみ。"
+
+#: assets/html/field.php:52
+msgid "Position"
+msgstr "位置"
+
+#: assets/html/field.php:61
+msgid "Priority"
+msgstr "優先度"
+
+#: assets/html/field.php:70 assets/html/items.php:122
+msgid "Post Type"
+msgstr "投稿タイプ"
+
+#: assets/html/items.php:24
+msgid "Type"
+msgstr "タイプ"
+
+#: assets/html/items.php:29
+msgid "Class Name"
+msgstr "クラス名"
+
+#: assets/html/items.php:34
+msgid "Taxonomy"
+msgstr "タクソノミー"
+
+#: assets/html/items.php:41 src/Tarosky/TSCF/UI/Fields/Input.php:91
+msgid "Required"
+msgstr "必須"
+
+#: assets/html/items.php:44
+msgid "Detail"
+msgstr "詳細"
+
+#: assets/html/items.php:47
+msgid "Remove Field"
+msgstr "フィールドを削除"
+
+#: assets/html/items.php:50
+msgid "Move down"
+msgstr "下に移動"
+
+#: assets/html/items.php:53
+msgid "Move up"
+msgstr "上に移動"
+
+#: assets/html/items.php:62
+msgid "Layout"
+msgstr "レイアウト"
+
+#: assets/html/items.php:69
+msgid "Clear Float"
+msgstr "フロート解除"
+
+#: assets/html/items.php:73
+msgid "Instruction"
+msgstr "指示"
+
+#: assets/html/items.php:75
+msgid "Place holder"
+msgstr "プレースホルダー"
+
+#: assets/html/items.php:79
+msgid "Default Value"
+msgstr "初期値"
+
+#: assets/html/items.php:83
+msgid "Description"
+msgstr "説明"
+
+#: assets/html/items.php:88
+msgid "Attributes"
+msgstr "属性"
+
+#: assets/html/items.php:90
+msgid "Date Format"
+msgstr "データ形式"
+
+#: assets/html/items.php:94
+msgid "Time Separator"
+msgstr "時間と日付の区切り文字"
+
+#: assets/html/items.php:98
+msgid "Time Format"
+msgstr "時間の書式"
+
+#: assets/html/items.php:102
+msgid "Rows"
+msgstr "行数"
+
+#: assets/html/items.php:106
+msgid "Max"
+msgstr "最大"
+
+#: assets/html/items.php:110
+msgid "Min"
+msgstr "最小"
+
+#: assets/html/items.php:114
+msgid "Unit"
+msgstr "単位"
+
+#: assets/html/items.php:118
+msgid "Image Limit"
+msgstr "画像の上限"
+
+#: assets/html/items.php:127
+msgid "Options"
+msgstr "オプション"
+
+#: assets/html/options.php:2
+msgid "Add Option"
+msgstr "オプションを追加"
+
+#: assets/html/options.php:6
+msgid "Value"
+msgstr "値"
+
+#: src/Tarosky/TSCF/Bootstrap.php:23
+msgid "Custom Field Config"
+msgstr "カスタムフィールド設定"
+
+#: src/Tarosky/TSCF/Bootstrap.php:127 src/Tarosky/TSCF/UI/Fields/Image.php:32
+#: src/Tarosky/TSCF/UI/Fields/Video.php:31
+msgid "Delete"
+msgstr "削除"
+
+#: src/Tarosky/TSCF/Bootstrap.php:128 src/Tarosky/TSCF/Utility/Parser.php:60
+msgid "Select"
+msgstr "選択"
+
+#: src/Tarosky/TSCF/Editor.php:40
+msgid ""
+"You have no config file. Upload <code>tscf.json</code> to your theme's root."
+msgstr ""
+"設定ファイルがありません。<code>tscf.json</code>をテーマのルートにアップロー"
+"ドしてください。"
+
+#: src/Tarosky/TSCF/Editor.php:42
+#, php-format
+msgid "Otherwise, you can edit it <a href=\"%s\">directly</a>."
+msgstr "もしくは、<a href=\"%s\">直接作成</a>することができます。"
+
+#: src/Tarosky/TSCF/Editor.php:107
+msgid "Are you sure to delete this item?"
+msgstr "このアイテムを削除してよろしいですか？"
+
+#: src/Tarosky/TSCF/Editor.php:111
+msgid "New Field"
+msgstr "新しいフィールド"
+
+#: src/Tarosky/TSCF/Editor.php:114
+#, php-format
+msgid "%d col"
+msgstr "%d 列"
+
+#: src/Tarosky/TSCF/Editor.php:118 src/Tarosky/TSCF/Editor.php:122
+#, php-format
+msgid "%d cols"
+msgstr "%d 列"
+
+#: src/Tarosky/TSCF/Editor.php:128
+msgid "Normal"
+msgstr "ノーマル"
+
+#: src/Tarosky/TSCF/Editor.php:132
+msgid "Side"
+msgstr "横"
+
+#: src/Tarosky/TSCF/Editor.php:136
+msgid "Advanced"
+msgstr "アドバンスド"
+
+#: src/Tarosky/TSCF/Editor.php:142
+msgid "High"
+msgstr "高い"
+
+#: src/Tarosky/TSCF/Editor.php:146
+msgid "Default"
+msgstr "通常"
+
+#: src/Tarosky/TSCF/Editor.php:150
+msgid "Core"
+msgstr "コア"
+
+#: src/Tarosky/TSCF/Editor.php:154
+msgid "Low"
+msgstr "低い"
+
+#: src/Tarosky/TSCF/Editor.php:175 src/Tarosky/TSCF/Editor.php:244
+msgid "Invalid access."
+msgstr "無効なアクセスです。"
+
+#: src/Tarosky/TSCF/Editor.php:179 src/Tarosky/TSCF/Editor.php:248
+msgid "Permission denied."
+msgstr "権限がありません。"
+
+#: src/Tarosky/TSCF/Editor.php:185
+msgid "Data is mall-formed. Nothing saved."
+msgstr "データ形式が不正です。保存されませんでした。"
+
+#: src/Tarosky/TSCF/Editor.php:194
+msgid "Config file saved."
+msgstr "設定ファイルが保存されました。"
+
+#: src/Tarosky/TSCF/Editor.php:208
+msgid "You have no permission."
+msgstr "権限がありません。"
+
+#: src/Tarosky/TSCF/Editor.php:219
+msgid "Such templalte doesn't exist."
+msgstr "そのようなテンプレートは存在しません。"
+
+#: src/Tarosky/TSCF/Editor.php:259
+#, php-format
+msgid "Field %s is available."
+msgstr "フィールド %s は利用可能です。"
+
+#: src/Tarosky/TSCF/Rest.php:56 src/Tarosky/TSCF/Rest.php:64
+msgid "No post found."
+msgstr "投稿が見つかりませんでした。"
+
+#: src/Tarosky/TSCF/UI/Fields/Image.php:35
+#: src/Tarosky/TSCF/UI/Fields/Video.php:34
+#, php-format
+msgid "You can select %s."
+msgstr "%s から選ぶことができます。"
+
+#: src/Tarosky/TSCF/UI/Fields/Image.php:35
+#, php-format
+msgid "%d image"
+msgid_plural "%d images"
+msgstr[0] "%d つの画像"
+
+#: src/Tarosky/TSCF/UI/Fields/Image.php:37
+#: src/Tarosky/TSCF/UI/Fields/Video.php:36
+msgid "Select or Upload"
+msgstr "選択またはアップロード"
+
+#: src/Tarosky/TSCF/UI/Fields/Input.php:204
+#, php-format
+msgid "%1$s is required for field %1$s"
+msgstr "フィールド %1$s には %1$s が必須です。"
+
+#: src/Tarosky/TSCF/UI/Fields/Input.php:209
+#, php-format
+msgid "min property of %s must be less than max property."
+msgstr "%sのminプロパティはmaxプロパティより小さくなくてはなりません。"
+
+#: src/Tarosky/TSCF/UI/Fields/PostSelector.php:48
+#, php-format
+msgid "You can choose %s."
+msgstr "%s を選ぶことができます。"
+
+#: src/Tarosky/TSCF/UI/Fields/PostSelector.php:50
+#, php-format
+msgid "%d post"
+msgid_plural "%d posts"
+msgstr[0] "%d 件の投稿"
+
+#: src/Tarosky/TSCF/UI/Fields/TaxonomySingle.php:24
+msgid "Not set"
+msgstr "セットされていません。"
+
+#: src/Tarosky/TSCF/UI/Fields/Url.php:24
+msgid "Select File"
+msgstr "ファイルを選択"
+
+#: src/Tarosky/TSCF/UI/Fields/Url.php:25
+msgid "Preview"
+msgstr "プレビュー"
+
+#: src/Tarosky/TSCF/UI/Fields/Video.php:34
+#, php-format
+msgid "%d video"
+msgid_plural "%d videos"
+msgstr[0] "%d ビデオ"
+
+#: src/Tarosky/TSCF/Utility/Input.php:99
+msgid "No file is specified"
+msgstr "ファイルが指定されていません。"
+
+#: src/Tarosky/TSCF/Utility/Input.php:104
+msgid "Uploaded file is too large."
+msgstr "アップロードされたファイルが大きすぎます。"
+
+#: src/Tarosky/TSCF/Utility/Input.php:107
+msgid "Failed to upload."
+msgstr "アップロードできませんでした。"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:55
+msgid "Text"
+msgstr "テキスト"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:56
+msgid "Text(Multi line)"
+msgstr "テキスト（複数行）"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:57
+msgid "Password"
+msgstr "パスワード"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:58
+msgid "Number"
+msgstr "数字"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:59
+msgid "Boolean"
+msgstr "真偽値"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:61
+msgid "Radio Button"
+msgstr "ラジオボタン"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:62
+msgid "Check Box"
+msgstr "チェックボックス"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:63
+msgid "DATETIME"
+msgstr "日時"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:64
+msgid "DATE"
+msgstr "日付"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:65
+msgid "Iterator"
+msgstr "繰り返しフィールド"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:66
+msgid "Image"
+msgstr "画像"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:67
+msgid "URL"
+msgstr "URL"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:68
+msgid "Separator"
+msgstr "区切り文字"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:69
+msgid "Hidden"
+msgstr "非表示"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:70
+msgid "Single Taxonomy"
+msgstr "単一のタクソノミー"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:71
+msgid "Custom Class"
+msgstr "カスタムクラス"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:72
+msgid "Select from Post"
+msgstr "投稿から選択"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:85
+msgid "Custom class name \"custom\" is prohibited."
+msgstr "\"custom\"というカスタムクラス名は禁止されています。"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:92
+#: src/Tarosky/TSCF/Utility/Parser.php:96
+#, php-format
+msgid "Custom Class %s doesn't exist."
+msgstr "カスタムクラス %s は存在しません。"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:271
+#: src/Tarosky/TSCF/Utility/Parser.php:275
+#, php-format
+msgid "%s is not writable."
+msgstr "%s は書き込み不可です。"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:279
+msgid "Failed to save data."
+msgstr "データの保存に失敗しました。"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:306
+msgid "File exists but not editable!"
+msgstr "ファイルは存在しますが、書き込み不可能です！"
+
+#: src/Tarosky/TSCF/Utility/Parser.php:310
+#, php-format
+msgid "Directory %s is now writable!"
+msgstr "ディレクトリ %s は書き込み可能です！"
+
+#: tscf.php:34
+msgid "Mmm...TSCF plugin's auto loader missing. Did you run composer install?"
+msgstr ""
+"うーん、TSCFプラグインのオートローダーが存在しません。composer install は実"
+"行しましたか？"
+
+#: tscf.php:50
+msgid ""
+"[Error] TSCF requires PHP version 5.4 and over. Please consider upgrading "
+"your PHP."
+msgstr ""
+"[エラー] TSCF は PHP5.4以上必須です。PHPのアップグレードを検討して下さい。"
+
+#. Plugin Name of the plugin/theme
+msgid "TSCF - Tarosky Custom Filed manager"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/tarosky/tscf"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"TaroSky's Custom Field manager. Scalable, Well-Structured and Maintainable. "
+"Requires PHP5.4 or later."
+msgstr ""
+"Tarsokyが提供するカスタムフィールド管理スイートです。拡張可能な上に考え抜か"
+"れた設計、メンテナンス性も高いです。PHP5.4以上必須。"
+
+#. Author of the plugin/theme
+msgid "Takahashi Fumiki<ftakahashi@tarosky.co.jp>"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://tarosky.co.jp"
+msgstr ""

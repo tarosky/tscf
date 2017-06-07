@@ -18,9 +18,9 @@ class Bootstrap extends Singleton {
 		// show admin screen.
 		if ( $this->file_editable() ) {
 			add_action( 'admin_menu', function () {
-				add_theme_page(
-					$this->_s( 'Tarosky Custom Field config file editor' ),
-					$this->_s( 'Custom Field Config' ), 'edit_themes', 'tscf',
+				add_options_page(
+					__( 'Tarosky Custom Field config file editor', 'tscf' ),
+					__( 'Custom Field Config', 'tscf' ), 'manage_options', 'tscf',
 					function() {
 						include plugin_dir_path( dirname( dirname( dirname( __FILE__ ) ) ) ) . 'admin.php';
 					}
@@ -31,6 +31,8 @@ class Bootstrap extends Singleton {
 		}
 		// Register Ajax
 		Editor::instance();
+		// Register REST API
+		Rest::instance();
 		// Add hook on edit screen.
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes' ], 10, 2 );
 		// Add hook on save_post
@@ -95,22 +97,37 @@ class Bootstrap extends Singleton {
 			}
 			wp_register_script( 'jquery-ui-timepicker-addon-i18n', $this->url . $i18n_file, [ 'jquery-ui-timepicker-addon' ], '1.5.5', true );
 			// Check language and find if exists.
-			wp_register_script( 'jquery-live-preview', "{$this->url}/lib/jquery-live-preview/js/jquery-live-preview.min.js", [ 'jquery' ], '1.1.0', true );
+			wp_register_script( 'jquery-live-preview', "{$this->url}/lib/jquery-live-preview/jquery-live-preview.min.js", [ 'jquery' ], '1.1.0', true );
 			wp_register_style( 'jquery-live-preview', "{$this->url}/css/livepreview.css", [], '1.1.0', 'screen' );
+			// Select2
+			$has_select2_locale = false;
+			wp_register_script( 'select2', "{$this->url}/lib/select2/js/select2.min.js", ['jquery'], '4.0.3', true );
+			if ( 0 !== strpos( get_locale(), 'en' ) ) {
+				list($lang) = explode('_', strtolower( get_locale() ) );
+				if ( file_exists( "{$this->root_dir}/assets/lib/select2/i18n/{$lang}.js" ) ) {
+					$has_select2_locale = true;
+					wp_register_script( 'select2-local', "{$this->url}/lib/select2/js/i18n/{$lang}.js", ['select2'], '4.0.3', true );
+				}
+			}
+			wp_register_style( 'select2', "{$this->url}/lib/select2/css/select2.min.css", [], '4.0.3' );
 			// Every page.
 			wp_enqueue_style( 'tscf-admin', $this->url . '/css/tscf-admin.css', [
 				'jquery-ui-timepicker-addon',
 				'jquery-live-preview',
+			    'select2'
 			], '1.0.0' );
 			wp_enqueue_script( 'tscf-helper', $this->url . '/js/dist/tscf-helper.js', [
 				'jquery-ui-timepicker-addon-i18n',
 				'jquery-effects-highlight',
 				'jquery-ui-sortable',
 				'jquery-live-preview',
+				( $has_select2_locale ? 'select2-local' : 'select2' )
 			], '1.0.0', true );
 			wp_localize_script( 'tscf-helper', 'TSCF', [
 				'delete' => __( 'Delete', 'tscf' ),
 				'select' => __( 'Select', 'tscf' ),
+			    'nonce'  => wp_create_nonce( 'wp_rest' ),
+			    'root'   => rest_url('/tscf/v1'),
 			] );
 		}
 	}

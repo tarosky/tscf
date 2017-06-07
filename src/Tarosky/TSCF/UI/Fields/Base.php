@@ -56,7 +56,9 @@ abstract class Base {
 	 */
 	protected function parse_default( $field ) {
 		$default = wp_parse_args( $this->default, $this->default_prototype );
+		error_log(var_export($default, true));
 		foreach ( $this->default_to_drop as $key ) {
+			error_log($key);
 			if ( isset( $default[ $key ] ) ) {
 				unset( $default[ $key ] );
 			}

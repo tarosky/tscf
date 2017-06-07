@@ -45,6 +45,7 @@ abstract class Base {
 			foreach ( $this->fields as $field ) {
 				$class_name = static::get_field_class( $field );
 				if ( class_exists( $class_name ) ) {
+					/** @var \Tarosky\TSCF\UI\Fields\Input $input */
 					$input = new $class_name( $this->object, $field );
 					$input->save_data();
 				}
@@ -99,6 +100,8 @@ abstract class Base {
 			case 'image':
 			case 'video':
 			case 'url':
+			case 'taxonomy_single':
+			case 'post_selector':
 				$class_name = 'Tarosky\\TSCF\\UI\\Fields\\' . implode( '', array_map( function ( $seg ) {
 					return ucfirst( $seg );
 				}, explode( '_', $lower_name ) ) );

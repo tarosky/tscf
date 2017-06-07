@@ -116,6 +116,7 @@ class Iterator extends Base {
 SQL;
 		$keys    = $wpdb->get_col( $wpdb->prepare( $query, $object_id, $key ) );
 		$indexes = [ ];
+		return $indexes;
 		foreach ( $this->field['fields'] as $field ) {
 			$regexp = "/{$this->field['name']}_{$field['name']}_([0-9]+)/";
 			foreach ( $keys as $key ) {

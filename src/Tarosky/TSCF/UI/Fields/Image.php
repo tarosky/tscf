@@ -29,12 +29,12 @@ class Image extends Hidden {
 						'data-image-id' => $media_id,
 					    'tscf__image--object'
 					] ) ?>
-					<a class="button tscf__image--delete" href="#"><?php $this->_e('Delete') ?></a>
+					<a class="button tscf__image--delete" href="#"><?php esc_html_e('Delete', 'tscf' ) ?></a>
 				</div>
 			<?php endforeach; ?>
-			<div class="tscf__placeholder--limit"><?php $this->_e('You can select %d images.', $this->field['limit']) ?></div>
+			<div class="tscf__placeholder--limit"><?php sprintf( __( 'You can select %s.', 'tscf' ), sprintf( _n( '%d image', '%d images', $this->field['limit'], 'tscf' ), $this->field['limit'] ) ) ?></div>
 		</div>
-		<a class="button tscf__image--add" href="#"><?php $this->_e('Select or Upload') ?></a>
+		<a class="button tscf__image--add" href="#"><?php esc_html_e( 'Select or Upload', 'tscf' ) ?></a>
 		<?php
 	}
 

@@ -114,6 +114,9 @@
     &--textarea {
       width: 100%;
     }
+    &--token{
+      min-width: 300px;
+    }
   }
   &childList{
     margin-top: 20px;

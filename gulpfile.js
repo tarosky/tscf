@@ -82,9 +82,20 @@ gulp.task('copy', function () {
       '!./node_modules/jquery-ui-timepicker-addon/dist/index.html',
       '!./node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-sliderAccess.js',
       '!./node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.css',
-      '!./node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.js',
+      '!./node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.js'
     ])
-      .pipe(gulp.dest('./assets/lib/jquery-ui-timepicker-addon'))
+      .pipe(gulp.dest('./assets/lib/jquery-ui-timepicker-addon')),
+    // Select2
+    gulp.src([
+      './node_modules/select2/dist/js/**/*.js',
+      '!./node_modules/select2/dist/js/select2.js',
+      '!./node_modules/select2/dist/js/select2.full.js',
+      '!./node_modules/select2/dist/js/select2.full.min.js'
+    ])
+      .pipe(gulp.dest('./assets/lib/select2/js')),
+    gulp.src([
+      './node_modules/select2/dist/css/select2.min.css'
+    ]).pipe(gulp.dest('./assets/lib/select2/css'))
   );
 });
 

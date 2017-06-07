@@ -37,9 +37,9 @@ class Editor extends Singleton {
 	public function admin_notices() {
 		$path = $this->parser->config_file_path();
 		if ( ! $path || ! file_exists( $path ) ) {
-			$message = $this->_s( 'You have no config file. Upload <code>tscf.json</code> to your theme\'s root. ' );
-			if ( current_user_can( 'edit_themes' ) ) {
-				$message .= sprintf( $this->_s( 'Otherwise, you can edit it <a href="%s">directly</a>.' ), admin_url( 'themes.php?page=tscf' ) );
+			$message = __( 'You have no config file. Upload <code>tscf.json</code> to your theme\'s root.', 'tscf' );
+			if ( current_user_can( 'manage_options' ) ) {
+				$message .= sprintf( __( 'Otherwise, you can edit it <a href="%s">directly</a>.', 'tscf' ), admin_url( 'options-general.php?page=tscf' ) );
 			}
 			printf( '<div class="error"><p>%s</p></div>', $message );
 		}
@@ -83,7 +83,7 @@ class Editor extends Singleton {
 			$errors = array_merge( $errors, $validation->get_error_messages() );
 		}
 		// Settings
-		$settings = json_decode( $this->parser->get_content(), true );
+		$settings = json_decode( $this->parser->get_content(), true ) ?: [];
 		// Post types
 		$post_types = [];
 		foreach ( get_post_types( [], OBJECT ) as $post_type ) {
@@ -185,7 +185,7 @@ class Editor extends Singleton {
 				throw new \Exception( __( 'Data is mall-formed. Nothing saved.', 'tscf' ), 400 );
 			}
 			// Save check
-			$error = $this->parser->save( json_encode( $data, JSON_PRETTY_PRINT ) );
+			$error = $this->parser->save( json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE ) );
 			if ( is_wp_error( $error ) ) {
 				throw new \Exception( $error->get_error_message(), $error->get_error_code() );
 			}

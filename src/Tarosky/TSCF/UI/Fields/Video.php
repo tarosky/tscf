@@ -26,14 +26,14 @@ class Video extends Hidden {
 			<?php foreach( $media_ids as $media_id ) : ?>
 				<div class="tscf__video">
 					<div class="tscf__video">
-						<video data-video-id="<?= $media_id; ?>" class="tscf__video--object" src="<?= wp_get_attachment_url( $media_id ) ?>" />
+						<video data-video-id="<?= $media_id; ?>" class="tscf__video--object" src="<?= wp_get_attachment_url( $media_id ) ?>"></video>
 					</div>
-					<a class="button tscf__video--delete" href="#"><?php $this->_e('Delete') ?></a>
+					<a class="button tscf__video--delete" href="#"><?php esc_html_e('Delete', 'tscf' ) ?></a>
 				</div>
 			<?php endforeach; ?>
-			<div class="tscf__placeholder--limit"><?php $this->_e('You can select %d images.', $this->field['limit']) ?></div>
+			<div class="tscf__placeholder--limit"><?php sprintf( __( 'You can select %s.', 'tscf' ), sprintf( _n( '%d video', '%d videos', $this->field['limit'], 'tscf' ), $this->field['limit'] ) ) ?></div>
 		</div>
-		<a class="button tscf__video--add" href="#"><?php $this->_e('Select or Upload') ?></a>
+		<a class="button tscf__video--add" href="#"><?php esc_html_e( 'Select or Upload', 'tscf' ) ?></a>
 		<?php
 	}
 

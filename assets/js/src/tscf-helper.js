@@ -6,26 +6,55 @@
 (function ($) {
   'use strict';
 
-
-  //
-  // Date Picker
-  //
-  // ----------------------------------
-  //
-
-  function dateTimePicker($elem) {
+  // Timepicker
+  var dateTimePicker = function($elem) {
     $elem.datetimepicker({
       dateFormat: $elem.attr('data-date-format'),
       timeFormat: $elem.attr('data-time-format'),
       separator : $elem.attr('data-separator')
     });
-  }
+  };
 
-  function datePicker($elem) {
+  // Date picker
+  var datePicker = function($elem) {
     $elem.datepicker({
       dateFormat: $elem.attr('data-date-format')
     });
-  }
+  };
+
+  // Select2
+  var select2 = function($elem) {
+    var max = parseInt($elem.attr('data-limit'), 10);
+    var postType = $elem.attr('data-post-type');
+    var config = {
+      minimumInputLength: 1,
+      ajax: {
+        url: TSCF.root + '/posts',
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+          return {
+            q: params.term, // search term
+            post_type: postType,
+            _wpnonce: TSCF.nonce
+          };
+        },
+        processResults: function (data, params) {
+          return {
+            results: data.posts
+          };
+        },
+        cache: true
+      }
+    };
+    if (0 < max) {
+      config.maximumSelectionLength = max;
+    }
+    $elem.select2(config);
+    $elem.change(function(e){
+      $(this).prev('input').val($(this).val().join(','));
+    });
+  };
 
   // Datepicker
   $(document).ready(function () {
@@ -36,6 +65,10 @@
     // Date picker
     $('.tscf__datepicker').each(function (i, elt) {
       datePicker($(elt));
+    });
+    // select2
+    $('.tscf__input--token').each(function(i, elt){
+      select2($(elt));
     });
     // Activate datepicker if newly created.
     $('.tscf--iterator').on('created.tscf', '.tscf__child', function () {
@@ -322,5 +355,6 @@
   $(document).ready(function () {
     $('.tscf--iterator').trigger('compute.tscf', [true]);
   });
+
 
 })(jQuery);

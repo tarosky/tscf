@@ -66,7 +66,14 @@
           background: #ececec;
         }
       }
+    }
 
+    &-label-block{
+      display: inline-block;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 3px 10px;
+      margin: 5px 5px 5px 0;
     }
 
     &-field {
@@ -258,7 +265,7 @@
         label {
           font-weight: bold;
           margin-right: 0.5em;
-          input, input, select {
+          input, input, select, textarea {
             font-weight: normal;
             margin-left: 5px;
           }

@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) or die( 'Do not load directly!' );
 
 		<h2>
 			<span class="dashicons dashicons-hammer"></span>
-			<?php $this->_e( 'Tarosky Custom Field config file editor' ) ?>
+			<?php esc_html_e( 'Tarosky Custom Field config file editor', 'tscf' ) ?>
 		</h2>
 
 		<hr/>
@@ -27,9 +27,9 @@ defined( 'ABSPATH' ) or die( 'Do not load directly!' );
 
 			<tscf-alert errors="errors"></tscf-alert>
 
-			<button class="button" ng-click="addGroup()"><?php _e( 'Add Field Group', 'tscf' ) ?></button>
+			<button class="button" ng-click="addGroup()"><?php esc_html_e( 'Add Field Group', 'tscf' ) ?></button>
 
-			<button class="button-primary" ng-click="saveFields()"><?php _e( 'Save', 'tscf' ) ?></button>
+			<button class="button-primary" ng-click="saveFields()"><?php esc_html_e( 'Save', 'tscf' ) ?></button>
 
 			<tscf-nav settings="settings" index="index"></tscf-nav>
 
