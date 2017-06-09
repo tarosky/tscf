@@ -115,19 +115,15 @@ class Iterator extends Base {
 			  AND meta_key LIKE %s
 SQL;
 		$keys    = $wpdb->get_col( $wpdb->prepare( $query, $object_id, $key ) );
-		$indexes = [ ];
-		return $indexes;
-		foreach ( $this->field['fields'] as $field ) {
-			$regexp = "/{$this->field['name']}_{$field['name']}_([0-9]+)/";
-			foreach ( $keys as $key ) {
-				if ( preg_match( $regexp, $key, $matches ) ) {
-					if ( false === array_search( $matches[1], $indexes ) ) {
-						$indexes[] = $matches[1];
-					}
+		$indexes = [];
+		foreach ( $keys as $k ) {
+			if ( preg_match( '#_([0-9]+)$#u', $k, $matches ) ) {
+				if ( false === array_search( $matches[1], $indexes ) ) {
+					$indexes[] = $matches[1];
 				}
 			}
 		}
-
+		sort( $indexes );
 		return $indexes;
 	}
 
