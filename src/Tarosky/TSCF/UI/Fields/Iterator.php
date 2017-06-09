@@ -16,7 +16,7 @@ class Iterator extends Base {
 		'clear'       => false,
 		'max'         => 5,
 	    'description' => '',
-	    'field'       => [],
+	    'fields'       => [],
 	];
 
 	/**

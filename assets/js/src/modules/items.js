@@ -17,6 +17,8 @@ angular.module('tscf').directive('tscfItems', [ '$http', '$window', 'ui', functi
 
       $scope.types = [];
 
+      $scope.childTypes = [];
+
       $scope.toggle = function(target){
         ui.toggle(target);
       };
@@ -27,6 +29,17 @@ angular.module('tscf').directive('tscfItems', [ '$http', '$window', 'ui', functi
             name: prop,
             label: TSCF.types[prop]
           });
+          switch ( prop ) {
+            case 'iterator':
+              // Skip
+              break;
+            default:
+              $scope.childTypes.push({
+                name : prop,
+                label: TSCF.types[prop]
+              });
+              break;
+          }
         }
       }
 
@@ -107,6 +120,17 @@ angular.module('tscf').directive('tscfItems', [ '$http', '$window', 'ui', functi
           $scope.fields.splice(i, 1);
         }
       };
+
+      $scope.addChildField = function(i) {
+        if ( ! $scope.fields[i].fields ) {
+          $scope.fields[i].fields = [];
+        }
+        $scope.fields[i].fields.push({
+          "name": "",
+          "label": "",
+          "type": "text"
+        });
+      }
 
     }
   };

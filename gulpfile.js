@@ -55,6 +55,7 @@ gulp.task('copy', function () {
     // Angular
     gulp.src([
       './node_modules/angular/angular.min.js',
+      './node_modules/angular/angular.min.js.map',
       './node_modules/angular-ui-sortable/dist/sortable.min.js'
     ]).pipe(gulp.dest('./assets/lib/angular')),
 

@@ -135,6 +135,37 @@
 					<h4><?php _e( 'Options', 'tscf' ) ?></h4>
 					<tscf-options options="field.options"></tscf-options>
 				</div>
+				<div class="fields" ng-if="'iterator' == field.type">
+					<h4>
+						<button ng-click="addChildField(j)"><?php _e( 'Add Field', 'tscf' ) ?></button>
+						<?php _e( 'Fields', 'tscf' ) ?>
+					</h4>
+
+					<div class="tscfe-field-child" ng-repeat="(k, f) in field.fields">
+						<label class="block">
+							<span>
+								<?php _e( 'Label', 'tscf' ) ?>
+								<span class="required">*</span>
+							</span>
+							<input type="text" ng-model="f.label"/>
+						</label>
+						<label class="block">
+							<span>
+								<?php _e( 'Key', 'tscf' ) ?>
+								<span class="required">*</span>
+							</span>
+							<input type="text" ng-model="f.name"/>
+						</label>
+						<label class="block">
+							<span>
+								<?php _e( 'Type', 'tscf' ) ?>
+								<span class="required">*</span>
+							</span>
+							<select ng-model="f.type" ng-change="changeChildType(j, k)"
+									ng-options="type.name as type.label for type in childTypes"></select>
+						</label>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

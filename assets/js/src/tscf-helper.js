@@ -7,40 +7,40 @@
   'use strict';
 
   // Timepicker
-  var dateTimePicker = function($elem) {
+  var dateTimePicker = function ($elem) {
     $elem.datetimepicker({
-      dateFormat: $elem.attr('data-date-format'),
-      timeFormat: $elem.attr('data-time-format'),
-      separator : $elem.attr('data-separator'),
-      changeYear: true,
+      dateFormat : $elem.attr('data-date-format'),
+      timeFormat : $elem.attr('data-time-format'),
+      separator  : $elem.attr('data-separator'),
+      changeYear : true,
       changeMonth: true
     });
   };
 
   // Date picker
-  var datePicker = function($elem) {
+  var datePicker = function ($elem) {
     $elem.datepicker({
-      dateFormat: $elem.attr('data-date-format'),
-      changeYear: true,
+      dateFormat : $elem.attr('data-date-format'),
+      changeYear : true,
       changeMonth: true
     });
   };
 
   // Select2
-  var select2 = function($elem) {
+  var select2 = function ($elem) {
     var max = parseInt($elem.attr('data-limit'), 10);
     var postType = $elem.attr('data-post-type');
     var config = {
       minimumInputLength: 1,
-      ajax: {
-        url: TSCF.root + '/posts',
-        dataType: 'json',
-        delay: 250,
-        data: function (params) {
+      ajax              : {
+        url           : TSCF.root + '/posts',
+        dataType      : 'json',
+        delay         : 250,
+        data          : function (params) {
           return {
-            q: params.term, // search term
+            q        : params.term, // search term
             post_type: postType,
-            _wpnonce: TSCF.nonce
+            _wpnonce : TSCF.nonce
           };
         },
         processResults: function (data, params) {
@@ -48,16 +48,16 @@
             results: data.posts
           };
         },
-        cache: true
+        cache         : true
       }
     };
     if (0 < max) {
       config.maximumSelectionLength = max;
     }
     $elem.select2(config);
-    $elem.change(function(e){
+    $elem.change(function (e) {
       var value = $(this).val();
-      if ( 'string' !== typeof value) {
+      if ('string' !== typeof value) {
         value = value.join(',');
       }
       $(this).prev('input').val(value);
@@ -65,27 +65,26 @@
   };
 
   // Code Editor
-  var codeEditor = function($textArea) {
+  var codeEditor = function ($textArea) {
     var lang = $textArea.attr('data-language');
     var theme = $textArea.attr('data-theme');
-    var editor = ace.edit( $textArea.next('.tscf__ace').get(0) );
+    var editor = ace.edit($textArea.next('.tscf__ace').get(0));
     editor.setTheme('ace/theme/' + theme);
     editor.getSession().setMode('ace/mode/' + lang);
     editor.setOptions({
       maxLines: 500
     });
-    var save = function() {
+    var save = function () {
       $textArea.val(editor.getValue());
     };
     var timer = null;
-    editor.getSession().on('change', function(e) {
-      if ( timer ) {
+    editor.getSession().on('change', function (e) {
+      if (timer) {
         clearTimeout(timer);
       }
       timer = setTimeout(save, 1000);
     });
   };
-
 
 
   // Datepicker
@@ -99,26 +98,28 @@
       datePicker($(elt));
     });
     // select2
-    $('.tscf__input--token').each(function(i, elt){
+    $('.tscf__input--token').each(function (i, elt) {
       select2($(elt));
     });
     // Ace
-    $('.tscf__input--ace').each(function(i, elt){
+    $('.tscf__input--ace').each(function (i, elt) {
       codeEditor($(elt));
     });
     // Activate datepicker if newly created.
     $('.tscf--iterator').on('created.tscf', '.tscf__child', function () {
       var $elem;
-      if (( $elem = $(this).find('.tscf__datetimepicker') ) && $elem.length) {
-        $elem.each(function (i, elt) {
-          dateTimePicker($(elt));
-        });
-      }
-      if (( $elem = $(this).find('.tscf__datepicker') ) && $elem.length) {
-        $elem.each(function (i, elt) {
-          datePicker($(elt));
-        });
-      }
+      $.each([
+        ['.tscf__datetimepicker', dateTimePicker],
+        ['.tscf__datepicker', datePicker],
+        ['.tscf__input--token', select2],
+        ['.tscf__input--ace', codeEditor]
+      ], function (index, config) {
+        if (( $elem = $(this).find(config[0]) ) && $elem.length) {
+          $elem.each(function (i, elt) {
+            config[1]($(elt));
+          });
+        }
+      });
     });
   });
 
@@ -142,6 +143,7 @@
       $container.prev('input[type=hidden]').val(ids.join(','));
       $container.effect('highlight', {}, 1000);
     }
+
     function videoChange($container) {
       var ids = [];
       $container.find('video').each(function (index, video) {
@@ -210,7 +212,7 @@
         $(this).parents('.tscf__image').remove();
         imageChange($container);
       });
-      
+
     $('.tscf')
       .on('click', '.tscf__video--add', function (e) {
         e.preventDefault();
@@ -264,7 +266,7 @@
         $(this).parents('.tscf__video').remove();
         videoChange($container);
       });
-    });
+  });
 
 
   //

@@ -14,6 +14,9 @@ class CodeEditor extends TextArea {
 		'placeholder','max','min'
 	];
 
+	/**
+	 * Save code
+	 */
 	protected function display_field() {
 		?>
 		<textarea class="tscf__input--ace" rows="<?php echo esc_attr( $this->field['rows'] ) ?>"

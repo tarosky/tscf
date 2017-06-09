@@ -272,7 +272,20 @@
         }
       }
     }
+    &-field-child {
+      display: block;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      &:last-child {
+        border-bottom: none;
+      }
+      .block > span{
+        display: inline-block;
+        width: 6em;
+      }
+    }
   }
+
 
   .form-table {
     textarea {
