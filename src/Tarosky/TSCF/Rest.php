@@ -28,7 +28,16 @@ class Rest extends Singleton {
 				    ],
 			        'post_type' => [
 			        	'validate_callback' => function($var) {
-							return post_type_exists( $var );
+			        		foreach ( explode( ',', $var ) as $post_type ) {
+			        			if ( 'any' == $post_type ) {
+			        				continue;
+			        			} else {
+			        				if ( ! post_type_exists( $post_type ) ) {
+			        					return false;
+			        				}
+			        			}
+			        		}
+							return true;
 				        },
 			        ],
 			    ],
@@ -57,7 +66,7 @@ class Rest extends Singleton {
 		}
 		$query = new \WP_Query( [
 			'post_status' => 'any',
-			'post_type' => $request['post_type'],
+			'post_type' => explode( ',', $request['post_type'] ),
 		    's' => trim( str_replace( '+', ' ', $request['q'] ) ),
 		    'posts_per_page' => 10,
 		] );
