@@ -32,6 +32,7 @@
     var postType = $elem.attr('data-post-type');
     var config = {
       minimumInputLength: 1,
+      allowClear        : true,
       ajax              : {
         url           : TSCF.root + '/posts',
         dataType      : 'json',
@@ -57,7 +58,9 @@
     $elem.select2(config);
     $elem.change(function (e) {
       var value = $(this).val();
-      if ('string' !== typeof value) {
+      if ( null === value ) {
+        value = '';
+      } else if ('string' !== typeof value) {
         value = value.join(',');
       }
       $(this).prev('input').val(value);
