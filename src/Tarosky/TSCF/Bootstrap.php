@@ -26,9 +26,9 @@ class Bootstrap extends Singleton {
 					}
 				);
 			} );
-			// Add scripts.
-			add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 		}
+		// Add scripts.
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 		// Register Ajax
 		Editor::instance();
 		// Register REST API
