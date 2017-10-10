@@ -4,7 +4,7 @@ Plugin Name: TSCF - Tarosky Custom Filed manager
 Plugin URI: https://github.com/tarosky/tscf
 Description: TaroSky's Custom Field manager. Scalable, Well-Structured and Maintainable. Requires PHP5.4 or later.
 Author: TAROSKY INC. <info@tarosky.co.jp>
-Version: 1.0.2
+Version: 1.0.3
 Author URI: https://tarosky.co.jp
 Text Domain: tscf
 Domain Path: /languages/
@@ -35,7 +35,7 @@ function tscf_plugins_loaded() {
 		} else {
 			require __DIR__ . '/functions.php';
 			require $path;
-			call_user_func( [ 'Tarosky\\TSCF\\Bootstrap', 'instance' ] );
+			call_user_func( array( 'Tarosky\\TSCF\\Bootstrap', 'instance' ) );
 		}
 	}
 }

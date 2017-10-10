@@ -77,7 +77,7 @@ class Rest extends Singleton {
 			'posts' => array_map( function( $post ) {
 				return [
 					'id' => (int) $post->ID,
-				    'text' => get_the_title( $post ),
+				    'text' => sprintf( '%1$s(%2$s)', get_the_title( $post ), tscf_post_status( $post ) ),
 				];
 			}, $query->posts ),
 		    'total' => $query->found_posts,

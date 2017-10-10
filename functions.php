@@ -15,7 +15,7 @@ function tscf_version() {
 	static $info = null;
 	if ( is_null( $info ) ) {
 		$info = get_file_data( __DIR__ . '/tscf.php', [
-			'version' => 'Version'
+			'version' => 'Version',
 		] );
 	}
 	return $info['version'];
@@ -111,8 +111,9 @@ function tscf_repeat_field( $group, $post = null ) {
 /**
  * Get images
  *
- * @param string                  $key
- * @param null|int|WP_Post $post
+ * @package tscf
+ * @param string           $key  Post meta key.
+ * @param null|int|WP_Post $post Post object.
  *
  * @return array
  */
@@ -128,4 +129,21 @@ function tscf_images( $key, $post = null ) {
 		'orderby'        => 'post__in',
 		'posts_per_page' => - 1,
 	] );
+}
+
+/**
+ * Get post status label.
+ *
+ * @package tscf
+ * @since   1.0.3
+ * @param null|int|WP_Post $post Post object.
+ * @return string
+ */
+function tscf_post_status( $post = null ) {
+    $status = get_post_status( $post );
+    if ( ! $status ) {
+        return '';
+    }
+    $status_obj = get_post_status_object( $status );
+    return $status_obj ? $status_obj->label : '';
 }

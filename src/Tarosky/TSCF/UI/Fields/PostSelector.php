@@ -40,7 +40,13 @@ class PostSelector extends Input {
 			<?php foreach ( array_filter( explode( ',', $this->get_data() ), function( $id ) {
 				return is_numeric( $id );
 			}  ) as $post_id ) : ?>
-				<option value="<?= esc_attr( $post_id ) ?>" selected><?= esc_html( get_the_title( $post_id ) ) ?></option>
+				<option value="<?= esc_attr( $post_id ) ?>" selected>
+                    <?= esc_html( sprintf(
+                            '%1$s(%2$s)',
+                            get_the_title( $post_id ),
+                            tscf_post_status( $post_id )
+                    ) ) ?>
+                </option>
 			<?php endforeach; ?>
 		</select>
 		<?php if ( $this->field['max'] ) : ?>
