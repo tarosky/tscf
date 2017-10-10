@@ -4,8 +4,8 @@ TSCF - Tarosky Custom Filed manage
 Contributors: Takahashi_Fumiki, tarosky  
 Tags: custom field  
 Requires at least: 4.7.0
-Tested up to: 4.7.5
-Stable tag: 1.0.0
+Tested up to: 4.8.2
+Stable tag: 1.0.3
 License: GPLv3 or later  
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
