@@ -32,6 +32,7 @@
     var postType = $elem.attr('data-post-type');
     var config = {
       minimumInputLength: 1,
+      placeholder       : "", // @see {https://github.com/select2/select2/issues/3497}
       allowClear        : true,
       ajax              : {
         url           : TSCF.root + '/posts',
