@@ -147,3 +147,33 @@ function tscf_post_status( $post = null ) {
     $status_obj = get_post_status_object( $status );
     return $status_obj ? $status_obj->label : '';
 }
+
+/**
+ * Get referencing posts
+ *
+ * @param string           $key
+ * @param array            $args
+ * @param null|int|WP_Post $post
+ * @return array
+ */
+function tscf_referencing_posts( $key, $args = [], $post = null ) {
+    global $wpdb;
+    $post = get_post( $post );
+    $query = <<<SQL
+      SELECT DISTINCT post_id FROM {$wpdb->postmeta}
+      WHERE meta_key = %s
+        AND FIND_IN_SET(%s, meta_value)
+SQL;
+    $post_ids = $wpdb->get_col( $wpdb->prepare( $query, $key, $post->ID ) );
+    if ( ! $post_ids ) {
+        return [];
+    }
+	$args = array_merge( [
+		'post_type' => 'any',
+		'post__in' => $post_ids,
+		'post_status' => 'publish',
+		'posts_per_page' => -1,
+		'suppress_filters' => false,
+	], $args );
+	return get_posts( $args );
+}
