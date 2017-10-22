@@ -118,7 +118,7 @@
         ['.tscf__input--token', select2],
         ['.tscf__input--ace', codeEditor]
       ], function (index, config) {
-        if (( $elem = $(this).find(config[0]) ) && $elem.length) {
+        if (( $elem = $(this).find($(config[0])).selector ) && $elem.length ) {
           $elem.each(function (i, elt) {
             config[1]($(elt));
           });
