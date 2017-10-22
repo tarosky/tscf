@@ -113,12 +113,12 @@
     $('.tscf--iterator').on('created.tscf', '.tscf__child', function () {
       var $elem;
       $.each([
-        ['.tscf__datetimepicker', dateTimePicker],
-        ['.tscf__datepicker', datePicker],
-        ['.tscf__input--token', select2],
-        ['.tscf__input--ace', codeEditor]
+        ['datetimepicker', dateTimePicker],
+        ['datepicker', datePicker],
+        ['input--token', select2],
+        ['input--ace', codeEditor]
       ], function (index, config) {
-        if (( $elem = $(this).find($(config[0])).selector ) && $elem.length ) {
+        if (( $elem = $(this).find($('.tscf__'+config[0])).selector ) && $elem.length ) {
           $elem.each(function (i, elt) {
             config[1]($(elt));
           });
