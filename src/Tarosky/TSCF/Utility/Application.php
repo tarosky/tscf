@@ -49,6 +49,7 @@ trait Application {
 	 * @return bool
 	 */
 	protected function file_editable() {
+		
 		return ( ! defined( 'DISALLOW_FILE_EDIT' ) || ! DISALLOW_FILE_EDIT );
 	}
 
@@ -79,10 +80,14 @@ trait Application {
 				return Parser::instance();
 				break;
 			case 'root_dir':
-				return dirname( dirname( dirname( dirname( __FILE__ ) ) ) );
+				return dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
 				break;
 			case 'url':
-				return plugin_dir_url( $this->root_dir ) . 'assets';
+				if ( false !== strpos( $this->root_dir, 'wp-content/plugins' ) ) {
+					return plugin_dir_url( $this->root_dir . '/assets' ) . 'assets';
+				} else {
+					return str_replace( $this->root_dir, ABSPATH, home_url( '/' ) );
+				}
 				break;
 			default:
 				return null;

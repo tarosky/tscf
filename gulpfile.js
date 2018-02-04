@@ -30,7 +30,9 @@ gulp.task('jshint', function () {
     .pipe($.plumber({
       errorHandler: $.notify.onError('<%= error.message %>')
     }))
-    .pipe($.jshint('./assets/.jshintrc'))
+    .pipe($.jshint({
+      lookup: './assets/.jshintrc'
+    }))
     .pipe($.jshint.reporter('jshint-stylish'));
 });
 
@@ -110,7 +112,7 @@ gulp.task('build', ['sass', 'copy', 'jsBundle']);
 // watch
 gulp.task('watch', function () {
   // Make SASS
-  gulp.watch('./assets/scss/**/*.scss', ['sass']);
+  gulp.watch('assets/scss/**/*.scss', ['sass']);
   // Check JS syntax and bundle them
-  gulp.watch('./assets/js/src/**/*.js', ['jshint', 'jsBundle']);
+  gulp.watch('assets/js/src/**/*.js', ['jshint', 'jsBundle']);
 });

@@ -6,6 +6,11 @@ namespace Tarosky\TSCF;
 use Tarosky\TSCF\Pattern\Singleton;
 use Tarosky\TSCF\Utility\Application;
 
+/**
+ * Bootstrap file
+ *
+ * @package tscf
+ */
 class Bootstrap extends Singleton {
 
 	use Application;
@@ -22,21 +27,29 @@ class Bootstrap extends Singleton {
 					__( 'Tarosky Custom Field config file editor', 'tscf' ),
 					__( 'Custom Field Config', 'tscf' ), 'manage_options', 'tscf',
 					function() {
-						include plugin_dir_path( dirname( dirname( dirname( __FILE__ ) ) ) ) . 'admin.php';
+						include $this->root_dir . '/admin.php';
 					}
 				);
 			} );
 		}
 		// Add scripts.
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
-		// Register Ajax
+		// Register Ajax.
 		Editor::instance();
-		// Register REST API
+		// Register REST API.
 		Rest::instance();
 		// Add hook on edit screen.
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes' ], 10, 2 );
-		// Add hook on save_post
+		// Add hook on save_post.
 		add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
+	}
+	
+	/**
+	 * Load text domain.
+	 */
+	public function load_text_domain() {
+		$mo = sprintf( 'hashboard-%s.mo', get_user_locale() );
+		return load_textdomain( 'tscf', $this->root_dir . '/languages/' . $mo );
 	}
 
 	/**

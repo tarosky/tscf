@@ -208,7 +208,7 @@ class Editor extends Singleton {
 				throw new \Exception( __( 'You have no permission.', 'tscf' ), 401 );
 			}
 			$templates = [];
-			$base = dirname( $this->root_dir );
+			$base = $this->root_dir;
 			foreach ( scandir( $base.'/assets/html' ) as $file ) {
 				if ( preg_match( '/^([^.].*)\.php$/u', $file, $match ) ) {
 					$templates[] = $match[1];

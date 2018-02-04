@@ -1,6 +1,6 @@
 <?php
 /** @var \Tarosky\TSCF\Bootstrap $this */
-defined( 'ABSPATH' ) or die( 'Do not load directly!' );
+defined( 'ABSPATH' ) || die( 'Do not load directly!' );
 ?>
 
 <div class="wrap" ng-app="tscf" id="tscf-editor">

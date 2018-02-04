@@ -1,6 +1,5 @@
 /vendor/
 /node_modules/
-/assets/css/
-/assets/lib/
-/assets/js/dist/
 npm-debug.log
+composer.lock
+
