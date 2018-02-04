@@ -49,7 +49,7 @@ class Bootstrap extends Singleton {
 	 * Load text domain.
 	 */
 	public function load_text_domain() {
-		$mo = sprintf( 'hashboard-%s.mo', get_user_locale() );
+		$mo = sprintf( 'tscf-%s.mo', get_user_locale() );
 		return load_textdomain( 'tscf', $this->root_dir . '/languages/' . $mo );
 	}
 
