@@ -86,7 +86,7 @@ trait Application {
 				if ( false !== strpos( $this->root_dir, 'wp-content/plugins' ) ) {
 					return plugin_dir_url( $this->root_dir . '/assets' ) . 'assets';
 				} else {
-					return str_replace( ABSPATH, home_url( '/' ), $this->root_dir );
+					return str_replace( ABSPATH, home_url( '/' ), $this->root_dir ) . '/assets';
 				}
 				break;
 			default:
