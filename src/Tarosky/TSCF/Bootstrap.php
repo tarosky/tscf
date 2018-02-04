@@ -19,6 +19,7 @@ class Bootstrap extends Singleton {
 	 * Register hooks.
 	 */
 	protected function on_construct() {
+		require_once $this->root_dir . '/functions.php';
 		// IF file is editable,
 		// show admin screen.
 		if ( $this->file_editable() ) {
