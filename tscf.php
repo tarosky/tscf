@@ -4,7 +4,7 @@
  Plugin URI: https://github.com/tarosky/tscf
  Description: TaroSky's Custom Field manager. Scalable, Well-Structured and Maintainable. Requires PHP5.4 or later.
  Author: TAROSKY INC. <info@tarosky.co.jp>
- Version: 1.1.1
+ Version: 1.1.5
  Author URI: https://tarosky.co.jp
  Text Domain: tscf
  Domain Path: /languages/
