@@ -92,7 +92,7 @@ class Iterator extends Base {
 	 */
 	public function get_field_indexes() {
 		global $wpdb;
-		$key = $this->field['name'] . '_%';
+		$key = $this->field['name'] . '\_%';
 
 		switch ( get_class( $this->object ) ) {
 			case 'WP_Post':
@@ -183,7 +183,7 @@ SQL;
 			  AND {$id_name} = %d
 SQL;
 
-		return $wpdb->query( $wpdb->prepare( $query, "{$this->field['name']}_%", $id ) );
+		return $wpdb->query( $wpdb->prepare( $query, "{$this->field['name']}\_%", $id ) );
 
 	}
 }
