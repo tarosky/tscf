@@ -74,10 +74,20 @@ class Rest extends Singleton {
 			return new \WP_Error( 'no_posts', __( 'No post found.', 'tscf' ), [ 'response' => 404 ] );
 		}
 		return new \WP_REST_Response( [
-			'posts' => array_map( function( $post ) {
+			'posts' => array_map( function( $post ) use ( $request ) {
+				$text = sprintf( '%1$s(%2$s)', get_the_title( $post ), tscf_post_status( $post ) );
+				/**
+				 * tscf_post_search_response_text
+				 *
+				 * @param string $text
+				 * @param null|int|WP_post $post
+				 * @param \WP_REST_Request $request
+				 * @return string
+				 */
+				$text = apply_filters( 'tscf_post_search_response_text', $text, $post, $request );
 				return [
 					'id' => (int) $post->ID,
-				    'text' => sprintf( '%1$s(%2$s)', get_the_title( $post ), tscf_post_status( $post ) ),
+					'text' => $text,
 				];
 			}, $query->posts ),
 		    'total' => $query->found_posts,

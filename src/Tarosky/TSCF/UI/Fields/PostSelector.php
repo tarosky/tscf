@@ -41,11 +41,23 @@ class PostSelector extends Input {
 				return is_numeric( $id );
 			}  ) as $post_id ) : ?>
 				<option value="<?= esc_attr( $post_id ) ?>" selected>
-                    <?= esc_html( sprintf(
-                            '%1$s(%2$s)',
-                            get_the_title( $post_id ),
-                            tscf_post_status( $post_id )
-                    ) ) ?>
+					<?php
+					$text = sprintf(
+						'%1$s(%2$s)',
+						get_the_title( $post_id ),
+						tscf_post_status( $post_id )
+					);
+					/**
+					 * tscf_post_selector_option_text
+					 *
+					 * @param string $text
+					 * @param int $post_id
+					 * @param array $field
+					 * @return string
+					 */
+					$text = apply_filters( 'tscf_post_selector_option_text', $text, $post_id, $this->field );
+					?>
+					<?= esc_html( $text ) ?>
                 </option>
 			<?php endforeach; ?>
 		</select>
