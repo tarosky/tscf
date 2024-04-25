@@ -2,4 +2,8 @@
 /node_modules/
 npm-debug.log
 composer.lock
-
+/wordpress
+package-lock.json
+/assets/js/dist/
+/assets/css/
+/assets/lib/
