@@ -26,15 +26,12 @@ gulp.task('sass', function () {
 
 
 // JS Hint
-gulp.task('jshint', function () {
+gulp.task('lint:js', function () {
   return gulp.src(['./assets/js/src/**/*.js'])
     .pipe($.plumber({
       errorHandler: $.notify.onError('<%= error.message %>')
     }))
-    .pipe($.jshint({
-      lookup: './assets/.jshintrc'
-    }))
-    .pipe($.jshint.reporter('jshint-stylish'));
+    .pipe($.eslint());
 });
 
 gulp.task('jsBundle', function(){
