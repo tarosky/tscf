@@ -47,6 +47,6 @@
     "jquery-ui-timepicker-addon": "^1.5.5",
     "jshint": "^2.9.5",
     "jshint-stylish": "^2.2.1",
-    "select2": "^4.0.3"
+    "select2": "^4.0.6"
   }
 }
