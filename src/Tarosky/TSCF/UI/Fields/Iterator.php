@@ -15,8 +15,8 @@ class Iterator extends Base {
 		'col'         => 1,
 		'clear'       => false,
 		'max'         => 5,
-	    'description' => '',
-	    'fields'       => [],
+		'description' => '',
+		'fields'      => [],
 	];
 
 	/**
@@ -25,14 +25,14 @@ class Iterator extends Base {
 	public function row() {
 		?>
 		<div class="tscf__group tscf__col--clear tscf--iterator"
-		     data-max="<?php echo esc_attr( $this->field['max'] ) ?>"
-		     data-prefix="<?php echo esc_attr( $this->field['name'] ) ?>">
+			 data-max="<?php echo esc_attr( $this->field['max'] ); ?>"
+			 data-prefix="<?php echo esc_attr( $this->field['name'] ); ?>">
 			<div class="tscf__label--iterator">
-				<?= esc_html( $this->field['label'] ) ?>
+				<?php echo esc_html( $this->field['label'] ); ?>
 				<a class="button tscf__add" href="#">追加</a>
 			</div>
 			<?php if ( $desc = $this->field['description'] ) : ?>
-			<p class="description"><?php echo esc_html( $desc ) ?></p>
+			<p class="description"><?php echo esc_html( $desc ); ?></p>
 			<?php endif; ?>
 			<div class="tscf__childList">
 				<?php
@@ -43,10 +43,10 @@ class Iterator extends Base {
 				?>
 			</div>
 			<script type="text/template" class="tscf__template">
-				<?= $this->single_row( 9999 ) ?>
+				<?php echo $this->single_row( 9999 ); ?>
 			</script>
-			<input type="hidden" class="tscf__index" name="_index_of_<?php echo $this->field['name'] ?>"
-			       value="<?php echo esc_attr( $counter ) ?>"/>
+			<input type="hidden" class="tscf__index" name="_index_of_<?php echo $this->field['name']; ?>"
+				   value="<?php echo esc_attr( $counter ); ?>"/>
 		</div>
 		<?php
 	}
@@ -106,7 +106,7 @@ class Iterator extends Base {
 				$table      = $wpdb->termmeta;
 				break;
 			default:
-				return [ ];
+				return [];
 				break;
 		}
 		$query   = <<<SQL
@@ -142,15 +142,15 @@ SQL;
 			clean_term_cache( $this->object->term_id, $this->object->taxonomy );
 		}
 		// Save it all
-		$saved = 0;
+		$saved  = 0;
 		$length = $this->input->post( "_index_of_{$this->field['name']}" );
 		for ( $index = 1; $index <= $length; $index ++ ) {
 			foreach ( $this->field['fields'] as $field ) {
 				$field['name'] = "{$this->field['name']}_{$field['name']}_{$index}";
 				$class_name    = UIBase::get_field_class( $field );
 				if ( class_exists( $class_name ) ) {
-					$input = new $class_name( $this->object, $field );
-					$save = $input->save_data();
+					$input  = new $class_name( $this->object, $field );
+					$save   = $input->save_data();
 					$saved += $save;
 				}
 			}

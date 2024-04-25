@@ -1,7 +1,8 @@
-var gulp        = require('gulp'),
-    $           = require('gulp-load-plugins')(),
-    eventStream = require('event-stream'),
-    browserSync = require('browser-sync');
+const gulp = require('gulp');
+const $ = require('gulp-load-plugins')();
+const mergeStream = require( 'merge-stream' );
+
+let plumber = true;
 
 // Sass
 gulp.task('sass', function () {
@@ -25,15 +26,12 @@ gulp.task('sass', function () {
 
 
 // JS Hint
-gulp.task('jshint', function () {
+gulp.task('lint:js', function () {
   return gulp.src(['./assets/js/src/**/*.js'])
     .pipe($.plumber({
       errorHandler: $.notify.onError('<%= error.message %>')
     }))
-    .pipe($.jshint({
-      lookup: './assets/.jshintrc'
-    }))
-    .pipe($.jshint.reporter('jshint-stylish'));
+    .pipe($.eslint());
 });
 
 gulp.task('jsBundle', function(){
@@ -53,7 +51,7 @@ gulp.task('jsBundle', function(){
 
 // Copy
 gulp.task('copy', function () {
-  return eventStream.merge(
+  return mergeStream(
     // Angular
     gulp.src([
       './node_modules/angular/angular.min.js',
@@ -107,12 +105,19 @@ gulp.task('copy', function () {
 });
 
 // Build
-gulp.task('build', ['sass', 'copy', 'jsBundle']);
+gulp.task('build', gulp.parallel( 'sass', 'copy', 'jsBundle' ) );
 
 // watch
 gulp.task('watch', function () {
   // Make SASS
-  gulp.watch('assets/scss/**/*.scss', ['sass']);
+  gulp.watch('assets/scss/**/*.scss', gulp.task( 'sass' ) );
   // Check JS syntax and bundle them
-  gulp.watch('assets/js/src/**/*.js', ['jshint', 'jsBundle']);
+  gulp.watch('assets/js/src/**/*.js', gulp.parallel( 'jshint', 'jsBundle' ) );
 });
+
+// Toggle plumber.
+gulp.task( 'noplumber', ( done ) => {
+	plumber = false;
+	done();
+} );
+

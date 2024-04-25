@@ -44,7 +44,7 @@ class Bootstrap extends Singleton {
 		// Add hook on save_post.
 		add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
 	}
-	
+
 	/**
 	 * Load text domain.
 	 */
@@ -130,7 +130,7 @@ class Bootstrap extends Singleton {
 			wp_enqueue_style( 'tscf-admin', $this->url . '/css/tscf-admin.css', [
 				'jquery-ui-timepicker-addon',
 				'jquery-live-preview',
-			    'select2',
+				'select2',
 			], tscf_version() );
 			wp_enqueue_script( 'tscf-helper', $this->url . '/js/dist/tscf-helper.js', [
 				'jquery-ui-timepicker-addon-i18n',
@@ -138,13 +138,13 @@ class Bootstrap extends Singleton {
 				'jquery-ui-sortable',
 				'jquery-live-preview',
 				( $has_select2_locale ? 'select2-local' : 'select2' ),
-			    'ace-editor',
+				'ace-editor',
 			], tscf_version(), true );
 			wp_localize_script( 'tscf-helper', 'TSCF', [
 				'delete' => __( 'Delete', 'tscf' ),
 				'select' => __( 'Select', 'tscf' ),
-			    'nonce'  => wp_create_nonce( 'wp_rest' ),
-			    'root'   => rest_url( '/tscf/v1' ),
+				'nonce'  => wp_create_nonce( 'wp_rest' ),
+				'root'   => rest_url( '/tscf/v1' ),
 			] );
 		} // End if().
 	}

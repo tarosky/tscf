@@ -10,39 +10,39 @@ class Rest extends Singleton {
 	const NONCE_NAME = 'tscf_nonce';
 
 	protected function on_construct() {
-		add_action( 'rest_api_init', [$this, 'rest_api_init'] );
+		add_action( 'rest_api_init', [ $this, 'rest_api_init' ] );
 	}
 
 	public function rest_api_init() {
 		register_rest_route( 'tscf/v1', '/posts', [
 			[
-				'method' => 'GET',
-			    'permission_callback' => function() {
+				'method'              => 'GET',
+				'permission_callback' => function() {
 					return current_user_can( 'edit_posts' );
-			    },
-			    'args' => [
-			    	'q' => [
-			    		'validate_callback' => function($var) {
+				},
+				'args'                => [
+					'q'         => [
+						'validate_callback' => function( $var ) {
 							return ! empty( $var );
-					    },
-				    ],
-			        'post_type' => [
-			        	'validate_callback' => function($var) {
-			        		foreach ( explode( ',', $var ) as $post_type ) {
-			        			if ( 'any' == $post_type ) {
-			        				continue;
-			        			} else {
-			        				if ( ! post_type_exists( $post_type ) ) {
-			        					return false;
-			        				}
-			        			}
-			        		}
+						},
+					],
+					'post_type' => [
+						'validate_callback' => function( $var ) {
+							foreach ( explode( ',', $var ) as $post_type ) {
+								if ( 'any' === $post_type ) {
+									continue;
+								} else {
+									if ( ! post_type_exists( $post_type ) ) {
+										return false;
+									}
+								}
+							}
 							return true;
-				        },
-			        ],
-			    ],
-			    'callback' => [ $this, 'handle_post' ],
-			]
+						},
+					],
+				],
+				'callback'            => [ $this, 'handle_post' ],
+			],
 		] );
 	}
 
@@ -65,10 +65,10 @@ class Rest extends Singleton {
 			return new \WP_Error( 'no_permission', __( 'No post found.', 'tscf' ), [ 'response' => 403 ] );
 		}
 		$query = new \WP_Query( [
-			'post_status' => 'any',
-			'post_type' => explode( ',', $request['post_type'] ),
-		    's' => trim( str_replace( '+', ' ', $request['q'] ) ),
-		    'posts_per_page' => 10,
+			'post_status'    => 'any',
+			'post_type'      => explode( ',', $request['post_type'] ),
+			's'              => trim( str_replace( '+', ' ', $request['q'] ) ),
+			'posts_per_page' => 10,
 		] );
 		if ( ! $query->have_posts() ) {
 			return new \WP_Error( 'no_posts', __( 'No post found.', 'tscf' ), [ 'response' => 404 ] );
@@ -86,11 +86,11 @@ class Rest extends Singleton {
 				 */
 				$text = apply_filters( 'tscf_post_search_response_text', $text, $post, $request );
 				return [
-					'id' => (int) $post->ID,
+					'id'   => (int) $post->ID,
 					'text' => $text,
 				];
 			}, $query->posts ),
-		    'total' => $query->found_posts,
+			'total' => $query->found_posts,
 		] );
 	}
 }

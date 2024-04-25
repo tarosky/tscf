@@ -17,7 +17,7 @@ class Editor extends Singleton {
 	 */
 	protected function on_construct() {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			add_action( 'admin_init', function(){
+			add_action( 'admin_init', function() {
 				// Add Ajax save point.
 				add_action( 'wp_ajax_tscf_save', [ $this, 'save_editor' ] );
 				// Add Field changer
@@ -53,8 +53,8 @@ class Editor extends Singleton {
 	public function admin_enqueue_scripts( $hook_suffix ) {
 		if ( $this->is_editor( $hook_suffix ) ) {
 			// Register assets
-			wp_register_script( 'angular', $this->url. '/lib/angular/angular.min.js', [], '1.5.8' );
-			wp_register_script( 'angular-ui-sortable', $this->url. '/lib/angular/sortable.min.js', [ 'angular', 'jquery-ui-sortable' ], '1.2.6' );
+			wp_register_script( 'angular', $this->url . '/lib/angular/angular.min.js', [], '1.5.8' );
+			wp_register_script( 'angular-ui-sortable', $this->url . '/lib/angular/sortable.min.js', [ 'angular', 'jquery-ui-sortable' ], '1.2.6' );
 			wp_enqueue_script( 'tscf-editor', $this->url . '/js/dist/editor.js', [
 				'angular-ui-sortable',
 			], '1.0.3', true );
@@ -72,7 +72,7 @@ class Editor extends Singleton {
 	 */
 	public function js_vars() {
 		// Check current validity.
-		$errors = [];
+		$errors   = [];
 		$editable = $this->parser->editable();
 		// Is editable?
 		if ( is_wp_error( $editable ) ) {
@@ -98,18 +98,18 @@ class Editor extends Singleton {
 			}
 		}
 		return [
-			'endpoint' => [
-				'save' => wp_nonce_url( admin_url( 'admin-ajax.php' ), 'tscf_edit' ).'&action=tscf_save',
-				'field' => wp_nonce_url( admin_url( 'admin-ajax.php' ), 'tscf_edit' ).'&action=tscf_field',
-				'template' => admin_url( 'admin-ajax.php' ).'?action=tscf_template',
+			'endpoint'  => [
+				'save'     => wp_nonce_url( admin_url( 'admin-ajax.php' ), 'tscf_edit' ) . '&action=tscf_save',
+				'field'    => wp_nonce_url( admin_url( 'admin-ajax.php' ), 'tscf_edit' ) . '&action=tscf_field',
+				'template' => admin_url( 'admin-ajax.php' ) . '?action=tscf_template',
 			],
-			'message' => [
+			'message'   => [
 				'delete' => __( 'Are you sure to delete this item?', 'tscf' ),
 			],
-			'errors' => $errors,
-			'settings' => $settings,
-			'new'      => __( 'New Field', 'tscf' ),
-			'cols'     => [
+			'errors'    => $errors,
+			'settings'  => $settings,
+			'new'       => __( 'New Field', 'tscf' ),
+			'cols'      => [
 				[
 					'label' => sprintf( __( '%d col', 'tscf' ), 1 ),
 					'value' => 1,
@@ -123,7 +123,7 @@ class Editor extends Singleton {
 					'value' => 3,
 				],
 			],
-			'context' => [
+			'context'   => [
 				[
 					'label' => __( 'Normal', 'tscf' ),
 					'value' => 'normal',
@@ -137,7 +137,7 @@ class Editor extends Singleton {
 					'value' => 'advanced',
 				],
 			],
-			'priority' => [
+			'priority'  => [
 				[
 					'label' => __( 'High', 'tscf' ),
 					'value' => 'high',
@@ -155,8 +155,8 @@ class Editor extends Singleton {
 					'value' => 'low',
 				],
 			],
-		    'postTypes' => $post_types,
-		    'types'    => $this->parser->available_types(),
+			'postTypes' => $post_types,
+			'types'     => $this->parser->available_types(),
 		];
 	}
 
@@ -167,7 +167,7 @@ class Editor extends Singleton {
 		$json = [
 			'success' => false,
 			'message' => '',
-			'errors' => [],
+			'errors'  => [],
 		];
 		try {
 			// Check nonce.
@@ -208,8 +208,8 @@ class Editor extends Singleton {
 				throw new \Exception( __( 'You have no permission.', 'tscf' ), 401 );
 			}
 			$templates = [];
-			$base = $this->root_dir;
-			foreach ( scandir( $base.'/assets/html' ) as $file ) {
+			$base      = $this->root_dir;
+			foreach ( scandir( $base . '/assets/html' ) as $file ) {
 				if ( preg_match( '/^([^.].*)\.php$/u', $file, $match ) ) {
 					$templates[] = $match[1];
 				}
@@ -223,8 +223,8 @@ class Editor extends Singleton {
 		} catch ( \Exception $e ) {
 			status_header( $e->getCode() );
 			wp_send_json( [
-				'error' => true,
-			    'message' => $e->getMessage(),
+				'error'   => true,
+				'message' => $e->getMessage(),
 			] );
 		}
 	}
@@ -236,7 +236,7 @@ class Editor extends Singleton {
 		$json = [
 			'success' => false,
 			'message' => '',
-			'errors' => [],
+			'errors'  => [],
 		];
 		try {
 			// Check nonce.
@@ -248,14 +248,14 @@ class Editor extends Singleton {
 				throw new \Exception( __( 'Permission denied.', 'tscf' ), 403 );
 			}
 			// Check data.
-			$type = $this->input->get( 'field' );
+			$type  = $this->input->get( 'field' );
 			$field = $this->parser->get_field( $type );
 			if ( is_wp_error( $field ) ) {
 				throw new \Exception( $field->get_error_message(), 400 );
 			}
 			// Everything O.K.
 			$json['success'] = true;
-			$json['field'] = $field;
+			$json['field']   = $field;
 			$json['message'] = sprintf( __( 'Field %s is available.', 'tscf' ), $type );
 		} catch ( \Exception $e ) {
 			$json['errors'][] = $e->getMessage();

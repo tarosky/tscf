@@ -18,6 +18,7 @@ trait Application {
 	 * Shorthand for __ and sprintf-ready.
 	 *
 	 * @deprecated 1.0.0
+	 * @todo Remove this method.
 	 * @param string $string
 	 *
 	 * @return string
@@ -25,6 +26,7 @@ trait Application {
 	public function _s( $string ) {
 		$args = func_get_args();
 		if ( 1 < count( $args ) ) {
+			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			$args[0] = __( $args[0], 'tscf' );
 
 			return call_user_func_array( 'sprintf', $args );
@@ -36,10 +38,13 @@ trait Application {
 	/**
 	 * Short hand for _e
 	 *
-	 * @deprecated 1.0.0
 	 * @param string $string
+	 *
+	 * @deprecated 1.0.0
+	 * @todo Remove this method.
 	 */
 	public function _e( $string ) {
+		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 		echo call_user_func_array( [ $this, '_s' ], func_get_args() );
 	}
 
@@ -49,7 +54,7 @@ trait Application {
 	 * @return bool
 	 */
 	protected function file_editable() {
-		
+
 		return ( ! defined( 'DISALLOW_FILE_EDIT' ) || ! DISALLOW_FILE_EDIT );
 	}
 

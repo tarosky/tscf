@@ -9,7 +9,7 @@ namespace Tarosky\TSCF\UI\Fields;
  *
  * @package tscf
  */
-abstract class Input extends Base{
+abstract class Input extends Base {
 
 	protected $type = 'text';
 
@@ -27,8 +27,8 @@ abstract class Input extends Base{
 		'default'     => '',
 		'placeholder' => '',
 		'description' => '',
-	    'max'         => '',
-	    'min'         => '',
+		'max'         => '',
+		'min'         => '',
 	];
 
 	/**
@@ -71,7 +71,7 @@ abstract class Input extends Base{
 	 *
 	 * @return mixed
 	 */
-	protected function filter($data) {
+	protected function filter( $data ) {
 		return $data;
 	}
 
@@ -80,15 +80,15 @@ abstract class Input extends Base{
 	 */
 	public function row() {
 		?>
-		<div class="tscf__group tscf__col<?= $this->field['col'] ?><?= $this->field['clear'] ? ' tscf__col--clear' : ''?>">
+		<div class="tscf__group tscf__col<?php echo $this->field['col']; ?><?php echo $this->field['clear'] ? ' tscf__col--clear' : ''; ?>">
 			<?php if ( $this->show_label ) : ?>
-				<label class="tscf__label" for="<?php echo esc_attr( $this->field['name'] ) ?>">
-					<?php echo esc_html( $this->field['label'] ) ?>
-					<?php if ( isset( $this->field['unit'] ) ) :?>
-						<small class="tscf__unit"><?= esc_html( $this->field['unit'] ) ?></small>
-					<?php endif;?>
+				<label class="tscf__label" for="<?php echo esc_attr( $this->field['name'] ); ?>">
+					<?php echo esc_html( $this->field['label'] ); ?>
+					<?php if ( isset( $this->field['unit'] ) ) : ?>
+						<small class="tscf__unit"><?php echo esc_html( $this->field['unit'] ); ?></small>
+					<?php endif; ?>
 					<?php if ( $this->field['required'] ) : ?>
-						<small class="tscf__required">* <?php echo esc_attr_e( 'Required', 'tscf' ) ?></small>
+						<small class="tscf__required">* <?php echo esc_attr_e( 'Required', 'tscf' ); ?></small>
 					<?php endif; ?>
 				</label>
 			<?php endif; ?>
@@ -97,7 +97,7 @@ abstract class Input extends Base{
 			</div>
 			<?php if ( $this->field['description'] ) : ?>
 				<p class="description">
-					<?php echo wp_kses( $this->field['description'], [ 'a' => [ 'class', 'href' ] ] ) ?>
+					<?php echo wp_kses( $this->field['description'], [ 'a' => [ 'class', 'href' ] ] ); ?>
 				</p>
 			<?php endif; ?>
 		</div>
@@ -118,15 +118,15 @@ abstract class Input extends Base{
 		}
 		$data = implode( ' ', $data_attr )
 		?>
-		<input class="<?php echo esc_attr( $classes ) ?>"
-		       name="<?php echo esc_attr( $this->field['name'] ) ?>" id="<?php echo esc_attr( $this->field['name'] ) ?>"
-		       type="<?php echo esc_attr( $this->type ) ?>"
+		<input class="<?php echo esc_attr( $classes ); ?>"
+			   name="<?php echo esc_attr( $this->field['name'] ); ?>" id="<?php echo esc_attr( $this->field['name'] ); ?>"
+			   type="<?php echo esc_attr( $this->type ); ?>"
 			<?php if ( $this->field['placeholder'] ) : ?>
-				placeholder="<?php echo esc_attr( $this->field['placeholder'] ) ?>"
+				placeholder="<?php echo esc_attr( $this->field['placeholder'] ); ?>"
 			<?php endif; ?>
-			   value="<?php echo esc_attr( $this->get_data( false ) ) ?>"
+			   value="<?php echo esc_attr( $this->get_data( false ) ); ?>"
 			<?php if ( $data ) : ?>
-				<?php echo $data ?>
+				<?php echo $data; ?>
 			<?php endif; ?> />
 		<?php
 	}
@@ -138,7 +138,7 @@ abstract class Input extends Base{
 	 *
 	 * @return mixed
 	 */
-	protected function filter_data_attributes($data) {
+	protected function filter_data_attributes( $data ) {
 		return $data;
 	}
 
@@ -149,7 +149,7 @@ abstract class Input extends Base{
 	 *
 	 * @return array
 	 */
-	protected function filter_class($classes) {
+	protected function filter_class( $classes ) {
 		return $classes;
 	}
 

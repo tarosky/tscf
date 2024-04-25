@@ -2,7 +2,7 @@
 
 namespace Tarosky\TSCF\UI\Fields;
 
-class Separator extends Base{
+class Separator extends Base {
 
 	protected $label = '';
 

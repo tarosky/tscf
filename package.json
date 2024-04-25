@@ -1,52 +1,71 @@
 {
-  "name": "tscf",
-  "version": "1.1.0",
-  "description": "TaroSky's Custom Field manager",
-  "main": "gulpfile.js",
-  "license": "GPL-3.0",
-  "scripts": {
-    "start": "gulp build && gulp watch",
-    "watch": "gulp watch",
-    "package": "gulp build",
-    "gulp": "gulp"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tarosky/tscf.git"
-  },
-  "keywords": [
-    "wordpress",
-    "custom",
-    "fields"
-  ],
-  "author": "Takahashi Fumiki <ftakahashi@tarosky.co.jp>",
-  "bugs": {
-    "url": "https://github.com/tarosky/tscf/issues"
-  },
-  "homepage": "https://github.com/tarosky/tscf#readme",
-  "devDependencies": {
-    "ace-builds": "^1.2.6",
-    "angular": "^1.5.8",
-    "angular-ui-sortable": "^0.18.0",
-    "browser-sync": "^2.11.0",
-    "event-stream": "^3.3.4",
-    "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^4.1.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-filter": "^5.1.0",
-    "gulp-include": "^2.3.1",
-    "gulp-jshint": "^2.1.0",
-    "gulp-load-plugins": "^1.5.0",
-    "gulp-notify": "^3.2.0",
-    "gulp-plumber": "^1.0.0",
-    "gulp-sass": "^3.1.0",
-    "gulp-sourcemaps": "^2.6.4",
-    "gulp-uglify": "^3.0.0",
-    "jquery-live-preview": "alanphoon/jquery-live-preview",
-    "jquery-ui-mp6": "^1.0.2",
-    "jquery-ui-timepicker-addon": "^1.5.5",
-    "jshint": "^2.9.5",
-    "jshint-stylish": "^2.2.1",
-    "select2": "^4.0.3"
-  }
+	"name": "tscf",
+	"version": "1.1.0",
+	"description": "TaroSky's Custom Field manager",
+	"main": "gulpfile.js",
+	"license": "GPL-3.0",
+	"scripts": {
+		"start": "wp-env start",
+		"update": "wp-env start --update",
+		"stop": "wp-env stop",
+		"env": "wp-env",
+		"cli": "wp-env run cli",
+		"cli:test": "wp-env run tests-cli",
+		"watch": "gulp watch",
+		"package": "gulp build",
+		"gulp": "gulp",
+		"lint": "gulp lint:js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/tarosky/tscf.git"
+	},
+	"keywords": [
+		"wordpress",
+		"custom",
+		"fields"
+	],
+	"engines": {
+		"node": ">= 14.0.0"
+	},
+	"author": "Takahashi Fumiki <ftakahashi@tarosky.co.jp>",
+	"bugs": {
+		"url": "https://github.com/tarosky/tscf/issues"
+	},
+	"homepage": "https://github.com/tarosky/tscf#readme",
+	"devDependencies": {
+		"@babel/eslint-parser": "^7.24.1",
+		"@wordpress/env": "^9.8.0",
+		"@wordpress/eslint-plugin": "^14.12.0",
+		"ace-builds": "^1.2.6",
+		"angular": "^1.5.8",
+		"angular-ui-sortable": "^0.18.0",
+		"gulp": "^4.0.0",
+		"gulp-autoprefixer": "^7.0.0",
+		"gulp-concat": "^2.6.0",
+		"gulp-eslint": "^6.0.0",
+		"gulp-filter": "^5.1.0",
+		"gulp-include": "^2.3.1",
+		"gulp-load-plugins": "^2.0",
+		"gulp-notify": "^3.2.0",
+		"gulp-plumber": "^1.2.0",
+		"gulp-rename": "^1.4.0",
+		"gulp-sass": "^4.0.2",
+		"gulp-sass-glob": "^1.0.9",
+		"gulp-sourcemaps": "^3.0",
+		"gulp-stylelint": "^13.0.0",
+		"gulp-uglify": "^3.0.0",
+		"jquery-live-preview": "alanphoon/jquery-live-preview",
+		"jquery-ui-mp6": "^1.0.2",
+		"jquery-ui-timepicker-addon": "^1.5.5",
+		"jshint": "^2.9.5",
+		"jshint-stylish": "^2.2.1",
+		"merge-stream": "^2.0.0",
+		"select2": "^4.0.3",
+		"stylelint": "^13.13.1",
+		"stylelint-config-wordpress": "^17.0.0"
+	},
+	"volta": {
+		"node": "14.21.3"
+	}
 }

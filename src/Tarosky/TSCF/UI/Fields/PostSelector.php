@@ -10,7 +10,7 @@ class PostSelector extends Input {
 
 	protected $default = [
 		'post_type' => 'post',
-	    'max'     => 0,
+		'max'       => 0,
 	];
 
 	protected $required = [
@@ -19,8 +19,8 @@ class PostSelector extends Input {
 
 	protected $default_to_drop = [
 		'placeholder',
-	    'min',
-	    'default'
+		'min',
+		'default',
 	];
 
 	/**
@@ -28,19 +28,21 @@ class PostSelector extends Input {
 	 */
 	protected function display_field() {
 		?>
-		<input type="hidden" name="<?php echo esc_attr( $this->field['name'] ) ?>" value="<?= esc_attr( $this->get_data( false ) ) ?>" />
+		<input type="hidden" name="<?php echo esc_attr( $this->field['name'] ); ?>" value="<?php echo esc_attr( $this->get_data( false ) ); ?>" />
 		<select class="tscf__input tscf__input--token"
-				data-post-type="<?= esc_attr( $this->field['post_type'] ) ?>"
-				data-limit="<?= esc_attr( $this->field['max'] ) ?>"
-				id="<?php echo esc_attr( $this->field['name'] ) ?>"
+				data-post-type="<?php echo esc_attr( $this->field['post_type'] ); ?>"
+				data-limit="<?php echo esc_attr( $this->field['max'] ); ?>"
+				id="<?php echo esc_attr( $this->field['name'] ); ?>"
 				<?php if ( 1 != $this->field['max'] ) : ?>
 					multiple="multiple"
 				<?php endif; ?>
 		>
-			<?php foreach ( array_filter( explode( ',', $this->get_data() ), function( $id ) {
+			<?php
+			foreach ( array_filter( explode( ',', $this->get_data() ), function( $id ) {
 				return is_numeric( $id );
-			}  ) as $post_id ) : ?>
-				<option value="<?= esc_attr( $post_id ) ?>" selected>
+			}  ) as $post_id ) :
+				?>
+				<option value="<?php echo esc_attr( $post_id ); ?>" selected>
 					<?php
 					$text = sprintf(
 						'%1$s(%2$s)',
@@ -57,17 +59,17 @@ class PostSelector extends Input {
 					 */
 					$text = apply_filters( 'tscf_post_selector_option_text', $text, $post_id, $this->field );
 					?>
-					<?= esc_html( $text ) ?>
-                </option>
+					<?php echo esc_html( $text ); ?>
+				</option>
 			<?php endforeach; ?>
 		</select>
 		<?php if ( $this->field['max'] ) : ?>
 			<p class="description">
 				<?php
 				printf(
-					__( 'You can choose %s.', 'tscf'),
+					__( 'You can choose %s.', 'tscf' ),
 					sprintf(
-						_n( '%d post', '%d posts', $this->field['max'], 'tscf'),
+						_n( '%d post', '%d posts', $this->field['max'], 'tscf' ),
 						$this->field['max']
 					)
 				);

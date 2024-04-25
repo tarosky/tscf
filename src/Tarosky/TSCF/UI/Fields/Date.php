@@ -7,7 +7,7 @@ namespace Tarosky\TSCF\UI\Fields;
  *
  * @package Tarosky\TSCF\UI\Fields
  */
-class Date extends Input{
+class Date extends Input {
 
 	protected $default = [
 		'date_format' => 'yy-mm-dd',

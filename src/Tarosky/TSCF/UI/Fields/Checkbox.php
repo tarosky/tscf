@@ -52,7 +52,8 @@ class Checkbox extends Radio {
 	 * @return bool
 	 */
 	protected function checked( $value, $current_value ) {
-		return array_search( $value, $current_value ) !== false;
+		// phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+		return in_array( $value, $current_value );
 	}
 
 
@@ -64,11 +65,17 @@ class Checkbox extends Radio {
 	 * @return string
 	 */
 	protected function normalize_save_data( $data ) {
-		return implode( ',', array_filter( array_map( function ( $var ) {
-			return trim( $var );
-		}, (array) $data ), function ( $var ) {
-			return ! empty( $var );
-		} ) );
+		return implode( ',', array_filter(
+			array_map(
+				function ( $var ) {
+					return trim( $var );
+				},
+				(array) $data
+			),
+			function ( $var ) {
+				return ! empty( $var );
+			}
+		) );
 	}
 
 
