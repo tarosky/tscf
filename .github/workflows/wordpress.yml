@@ -41,7 +41,7 @@ jobs:
         run: composer validate
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: composer install --prefer-dist
 
       - name: Start MySQL
         run: sudo systemctl start mysql
@@ -52,7 +52,27 @@ jobs:
       - name: Check PHP Unit
         run: composer test
 
-      - name: Check PHP styntax
+  lint:
+    runs-on: ubuntu-latest
+    name: WordPress Syntax Check
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          tools: composer
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Install dependencies
+        run: composer install --prefer-dist
+
+      - name: Check PHP syntax
         run: composer lint
 
   assets:

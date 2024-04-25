@@ -41,7 +41,7 @@ abstract class Base {
 	 * @param array $field
 	 */
 	public function __construct( $object, $field ) {
-		$this->field = $this->parse_default( $field );
+		$this->field  = $this->parse_default( $field );
 		$this->object = $object;
 	}
 

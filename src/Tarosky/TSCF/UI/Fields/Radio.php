@@ -20,7 +20,7 @@ class Radio extends Input {
 		$options       = (array) $this->field['options'];
 		if ( isset( $this->field['src'] ) ) {
 			foreach ( get_posts( $this->field['src'] ) as $p ) {
-				$options[$p->ID] = get_the_title( $p );
+				$options[ $p->ID ] = get_the_title( $p );
 			}
 		}
 		foreach ( $options as $value => $label ) {
@@ -47,10 +47,10 @@ class Radio extends Input {
 	protected function show_input( $value, $label, $current_value ) {
 		?>
 		<label class="tscf__label--inline tscf__label--multiple">
-			<input type="<?php echo esc_attr( $this->type ) ?>" name="<?php echo esc_attr( $this->get_name() ) ?>"
-			       value="<?php echo esc_attr( $value ) ?>"
-				<?php checked( $this->checked( $value, $current_value ) ) ?> />
-			<?php echo esc_html( $label ) ?>
+			<input type="<?php echo esc_attr( $this->type ); ?>" name="<?php echo esc_attr( $this->get_name() ); ?>"
+				value="<?php echo esc_attr( $value ); ?>"
+				<?php checked( $this->checked( $value, $current_value ) ); ?> />
+			<?php echo esc_html( $label ); ?>
 		</label>
 		<?php
 	}
@@ -64,7 +64,8 @@ class Radio extends Input {
 	 * @return bool
 	 */
 	protected function checked( $value, $current_value ) {
-		return $value == $current_value || ( '' === $current_value && $value == $this->field['default'] );
+		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+		return $value == $current_value || ( '' === $current_value && $value === $this->field['default'] );
 	}
 
 

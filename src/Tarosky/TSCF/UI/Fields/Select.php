@@ -23,7 +23,7 @@ class Select extends Radio {
 	 */
 	protected function show_input( $value, $label, $current_value ) {
 		?>
-		<option value="<?php echo esc_attr($value) ?>" <?php selected( $this->checked($value, $current_value) ) ?>><?php echo esc_html( $label ) ?></option>
+		<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $this->checked( $value, $current_value ) ); ?>><?php echo esc_html( $label ); ?></option>
 		<?php
 	}
 

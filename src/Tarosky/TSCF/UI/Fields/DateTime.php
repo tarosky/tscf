@@ -12,7 +12,7 @@ class DateTime extends Input {
 	protected $default = [
 		'date_format' => 'yy-mm-dd',
 		'time_format' => 'HH:mm:ss',
-	    'separator'   => ' ',
+		'separator'   => ' ',
 	];
 
 	/**
@@ -37,8 +37,8 @@ class DateTime extends Input {
 	protected function filter_data_attributes( $data ) {
 		return [
 			'data-date-format' => $this->field['date_format'],
-		    'data-time-format' => $this->field['time_format'],
-		    'data-separator'   => $this->field['separator'],
+			'data-time-format' => $this->field['time_format'],
+			'data-separator'   => $this->field['separator'],
 		];
 	}
 

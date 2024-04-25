@@ -52,25 +52,25 @@ class Parser extends Singleton {
 	 */
 	public function available_types() {
 		return [
-			'text'      => __( 'Text', 'tscf' ),
-			'text_area' => __( 'Text(Multi line)', 'tscf' ),
-			'password'  => __( 'Password', 'tscf' ),
-			'number'    => __( 'Number', 'tscf' ),
-			'boolean'   => __( 'Boolean', 'tscf' ),
-			'select'    => __( 'Select', 'tscf' ),
-			'radio'     => __( 'Radio Button', 'tscf' ),
-			'checkbox'  => __( 'Check Box', 'tscf' ),
-			'date_time' => __( 'DATETIME', 'tscf' ),
-			'date'      => __( 'DATE', 'tscf' ),
-			'iterator'  => __( 'Iterator', 'tscf' ),
-			'image'     => __( 'Image', 'tscf' ),
-			'url'       => __( 'URL', 'tscf' ),
-			'separator' => __( 'Separator', 'tscf' ),
-			'hidden'    => __( 'Hidden', 'tscf' ),
+			'text'            => __( 'Text', 'tscf' ),
+			'text_area'       => __( 'Text(Multi line)', 'tscf' ),
+			'password'        => __( 'Password', 'tscf' ),
+			'number'          => __( 'Number', 'tscf' ),
+			'boolean'         => __( 'Boolean', 'tscf' ),
+			'select'          => __( 'Select', 'tscf' ),
+			'radio'           => __( 'Radio Button', 'tscf' ),
+			'checkbox'        => __( 'Check Box', 'tscf' ),
+			'date_time'       => __( 'DATETIME', 'tscf' ),
+			'date'            => __( 'DATE', 'tscf' ),
+			'iterator'        => __( 'Iterator', 'tscf' ),
+			'image'           => __( 'Image', 'tscf' ),
+			'url'             => __( 'URL', 'tscf' ),
+			'separator'       => __( 'Separator', 'tscf' ),
+			'hidden'          => __( 'Hidden', 'tscf' ),
 			'taxonomy_single' => __( 'Single Taxonomy', 'tscf' ),
-		    'custom'    => __( 'Custom Class', 'tscf' ),
-		    'post_selector' => __( 'Select from Post', 'tscf' ),
-		    'code_editor' => __( 'Code Editor', 'tscf' ),
+			'custom'          => __( 'Custom Class', 'tscf' ),
+			'post_selector'   => __( 'Select from Post', 'tscf' ),
+			'code_editor'     => __( 'Code Editor', 'tscf' ),
 		];
 	}
 
@@ -87,7 +87,7 @@ class Parser extends Singleton {
 		}
 		$fields = $this->available_types();
 		if ( array_key_exists( $type, $fields ) ) {
-			$class_name = '\\Tarosky\\TSCF\\UI\\Fields\\'.implode( '', array_map( 'ucfirst', explode( '_', $type ) ) );
+			$class_name = '\\Tarosky\\TSCF\\UI\\Fields\\' . implode( '', array_map( 'ucfirst', explode( '_', $type ) ) );
 		} else {
 			if ( ! class_exists( $type ) ) {
 				return new \WP_Error( 'invalid_custom_class', sprintf( __( 'Custom Class %s doesn\'t exist.' ), $type ) );
@@ -128,12 +128,12 @@ class Parser extends Singleton {
 			return;
 		}
 		$this->initialized = true;
-		$this->data = wp_parse_args( (array) $json, [
-			'name' => '',
-		    'label' => '',
-		    'type' => 'post',
-		    'slug' => [],
-		    'fields' => [],
+		$this->data        = wp_parse_args( (array) $json, [
+			'name'   => '',
+			'label'  => '',
+			'type'   => 'post',
+			'slug'   => [],
+			'fields' => [],
 		]);
 	}
 

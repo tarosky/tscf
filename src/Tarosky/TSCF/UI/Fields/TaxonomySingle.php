@@ -9,8 +9,8 @@ class TaxonomySingle extends Select {
 
 	protected $default = [
 		'taxonomy'    => 'category',
-	    'only_child'  => true,
-	    'allow_empty' => false,
+		'only_child'  => true,
+		'allow_empty' => false,
 	];
 
 	protected $default_to_drop = [ 'options', 'max', 'min' ];
@@ -27,8 +27,8 @@ class TaxonomySingle extends Select {
 		$taxonomy      = $this->field['taxonomy'];
 		if ( $this->field['only_child'] ) {
 			$parents = get_terms( [
-				'taxonomy' => $taxonomy,
-			    'parent'   => 0,
+				'taxonomy'   => $taxonomy,
+				'parent'     => 0,
 				'hide_empty' => false,
 			] );
 			if ( $parents && ! is_wp_error( $parents ) ) {
@@ -50,7 +50,7 @@ class TaxonomySingle extends Select {
 		} else {
 			$terms = get_terms( [
 				'taxonomy'   => $taxonomy,
-			    'hide_empty' => false,
+				'hide_empty' => false,
 			] );
 			foreach ( $terms as $term ) {
 				$this->show_input( $term->term_id, $term->name, $current_value );
@@ -68,8 +68,8 @@ class TaxonomySingle extends Select {
 	 */
 	protected function show_input( $value, $label, $current_value ) {
 		?>
-		<option value="<?php echo esc_attr($value) ?>" <?php selected( false !== array_search( $value, $current_value ) ) ?>>
-			<?php echo esc_html( $label ) ?>
+		<option value="<?php echo esc_attr( $value ); ?>" <?php selected( false !== array_search( $value, $current_value ) ); ?>>
+			<?php echo esc_html( $label ); ?>
 		</option>
 		<?php
 	}
@@ -84,7 +84,7 @@ class TaxonomySingle extends Select {
 	 */
 	protected function get_data( $filter = true ) {
 		$taxonomy = $this->field['taxonomy'];
-		$terms = get_the_terms( $this->object->ID, $taxonomy );
+		$terms    = get_the_terms( $this->object->ID, $taxonomy );
 		return ( ! $terms || is_wp_error( $terms ) ) ? [] : array_map( function( $term ) {
 			return (int) $term->term_id;
 		}, $terms );
@@ -96,7 +96,7 @@ class TaxonomySingle extends Select {
 	 * @return int
 	 */
 	public function save_data() {
-		$data = $this->normalize_save_data( $this->input->post( $this->field['name'] ) );
+		$data     = $this->normalize_save_data( $this->input->post( $this->field['name'] ) );
 		$taxonomy = $this->field['taxonomy'];
 		if ( ! taxonomy_exists( $taxonomy ) ) {
 			return 0;
