@@ -187,7 +187,7 @@ abstract class Input extends Base {
 	 * @return mixed
 	 */
 	protected function normalize_save_data( $data ) {
-		return $data;
+		return $data ?? '';
 	}
 
 	/**
