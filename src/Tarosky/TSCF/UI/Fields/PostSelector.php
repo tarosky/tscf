@@ -31,10 +31,12 @@ class PostSelector extends Input {
 		<input type="hidden" name="<?php echo esc_attr( $this->field['name'] ); ?>" value="<?php echo esc_attr( $this->get_data( false ) ); ?>" />
 		<select class="tscf__input tscf__input--token"
 				data-post-type="<?php echo esc_attr( $this->field['post_type'] ); ?>"
+				data-placeholder="<?php echo esc_attr( $this->field['placeholder'] ); ?>"
 				data-limit="<?php echo esc_attr( $this->field['max'] ); ?>"
 				id="<?php echo esc_attr( $this->field['name'] ); ?>"
 				<?php if ( 1 != $this->field['max'] ) : ?>
 					multiple="multiple"
+					style="width: 99%;"
 				<?php endif; ?>
 		>
 			<?php
