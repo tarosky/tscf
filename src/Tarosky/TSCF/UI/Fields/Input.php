@@ -18,7 +18,7 @@ abstract class Input extends Base {
 	 */
 	protected $show_label = true;
 
-	protected $default_prototype = [
+	protected $default_prototype = array(
 		'name'        => '',
 		'label'       => '',
 		'col'         => 1,
@@ -29,7 +29,7 @@ abstract class Input extends Base {
 		'description' => '',
 		'max'         => '',
 		'min'         => '',
-	];
+	);
 
 	/**
 	 * Get data
@@ -97,7 +97,7 @@ abstract class Input extends Base {
 			</div>
 			<?php if ( $this->field['description'] ) : ?>
 				<p class="description">
-					<?php echo wp_kses( $this->field['description'], [ 'a' => [ 'class', 'href' ] ] ); ?>
+					<?php echo wp_kses( $this->field['description'], array( 'a' => array( 'class', 'href' ) ) ); ?>
 				</p>
 			<?php endif; ?>
 		</div>
@@ -108,23 +108,23 @@ abstract class Input extends Base {
 	 * Display field
 	 */
 	protected function display_field() {
-		$classes   = implode( ' ', $this->filter_class( [
+		$classes   = implode( ' ', $this->filter_class( array(
 			'tscf__input',
 			'tscf__input--' . $this->type,
-		] ) );
-		$data_attr = [];
-		foreach ( $this->filter_data_attributes( [] ) as $key => $value ) {
+		) ) );
+		$data_attr = array();
+		foreach ( $this->filter_data_attributes( array() ) as $key => $value ) {
 			$data_attr[] = sprintf( '%s="%s"', $key, esc_attr( $value ) );
 		}
 		$data = implode( ' ', $data_attr )
 		?>
 		<input class="<?php echo esc_attr( $classes ); ?>"
-			   name="<?php echo esc_attr( $this->field['name'] ); ?>" id="<?php echo esc_attr( $this->field['name'] ); ?>"
-			   type="<?php echo esc_attr( $this->type ); ?>"
+				name="<?php echo esc_attr( $this->field['name'] ); ?>" id="<?php echo esc_attr( $this->field['name'] ); ?>"
+				type="<?php echo esc_attr( $this->type ); ?>"
 			<?php if ( $this->field['placeholder'] ) : ?>
 				placeholder="<?php echo esc_attr( $this->field['placeholder'] ); ?>"
 			<?php endif; ?>
-			   value="<?php echo esc_attr( $this->get_data( false ) ); ?>"
+				value="<?php echo esc_attr( $this->get_data( false ) ); ?>"
 			<?php if ( $data ) : ?>
 				<?php echo $data; ?>
 			<?php endif; ?> />
@@ -211,6 +211,4 @@ abstract class Input extends Base {
 		}
 		return $error->errors ? $error : true;
 	}
-
-
 }

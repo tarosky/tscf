@@ -8,9 +8,9 @@ class Video extends Hidden {
 	/**
 	 * @var array Default values
 	 */
-	protected $default = [
+	protected $default = array(
 		'limit' => 1,
-	];
+	);
 
 	/**
 	 * Display field with video selector
@@ -18,7 +18,7 @@ class Video extends Hidden {
 	protected function display_field() {
 		parent::display_field();
 		wp_enqueue_media();
-		$media_ids = array_filter( explode( ',', $this->get_data( false ) ), function( $id ) {
+		$media_ids = array_filter( explode( ',', $this->get_data( false ) ), function ( $id ) {
 			return is_numeric( $id );
 		} );
 		?>
@@ -36,6 +36,4 @@ class Video extends Hidden {
 		<a class="button tscf__video--add" href="#"><?php esc_html_e( 'Select or Upload', 'tscf' ); ?></a>
 		<?php
 	}
-
-
 }

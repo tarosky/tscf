@@ -9,15 +9,15 @@ class Iterator extends Base {
 	/**
 	 * @var array Required fields.
 	 */
-	protected $required = [ 'fields' ];
+	protected $required = array( 'fields' );
 
-	protected $default = [
+	protected $default = array(
 		'col'         => 1,
 		'clear'       => false,
 		'max'         => 5,
 		'description' => '',
-		'fields'      => [],
-	];
+		'fields'      => array(),
+	);
 
 	/**
 	 * Render row
@@ -25,8 +25,8 @@ class Iterator extends Base {
 	public function row() {
 		?>
 		<div class="tscf__group tscf__col--clear tscf--iterator"
-			 data-max="<?php echo esc_attr( $this->field['max'] ); ?>"
-			 data-prefix="<?php echo esc_attr( $this->field['name'] ); ?>">
+			data-max="<?php echo esc_attr( $this->field['max'] ); ?>"
+			data-prefix="<?php echo esc_attr( $this->field['name'] ); ?>">
 			<div class="tscf__label--iterator">
 				<?php echo esc_html( $this->field['label'] ); ?>
 				<a class="button tscf__add" href="#">追加</a>
@@ -46,7 +46,7 @@ class Iterator extends Base {
 				<?php echo $this->single_row( 9999 ); ?>
 			</script>
 			<input type="hidden" class="tscf__index" name="_index_of_<?php echo $this->field['name']; ?>"
-				   value="<?php echo esc_attr( $counter ); ?>"/>
+					value="<?php echo esc_attr( $counter ); ?>"/>
 		</div>
 		<?php
 	}
@@ -106,7 +106,7 @@ class Iterator extends Base {
 				$table      = $wpdb->termmeta;
 				break;
 			default:
-				return [];
+				return array();
 				break;
 		}
 		$query   = <<<SQL
@@ -115,7 +115,7 @@ class Iterator extends Base {
 			  AND meta_key LIKE %s
 SQL;
 		$keys    = $wpdb->get_col( $wpdb->prepare( $query, $object_id, $key ) );
-		$indexes = [];
+		$indexes = array();
 		foreach ( $keys as $k ) {
 			if ( preg_match( '#_([0-9]+)$#u', $k, $matches ) ) {
 				if ( false === array_search( $matches[1], $indexes ) ) {
@@ -144,7 +144,7 @@ SQL;
 		// Save it all
 		$saved  = 0;
 		$length = $this->input->post( "_index_of_{$this->field['name']}" );
-		for ( $index = 1; $index <= $length; $index ++ ) {
+		for ( $index = 1; $index <= $length; $index++ ) {
 			foreach ( $this->field['fields'] as $field ) {
 				$field['name'] = "{$this->field['name']}_{$field['name']}_{$index}";
 				$class_name    = UIBase::get_field_class( $field );
@@ -184,6 +184,5 @@ SQL;
 SQL;
 
 		return $wpdb->query( $wpdb->prepare( $query, "{$this->field['name']}\_%", $id ) );
-
 	}
 }

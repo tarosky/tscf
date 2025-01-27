@@ -32,7 +32,5 @@ class Url extends Text {
 		</div>
 		<?php
 	}
-
-
 }
 

@@ -7,7 +7,7 @@ class Number extends Input {
 
 	protected $type = 'number';
 
-	protected $default = [
+	protected $default = array(
 		'unit' => '',
-	];
+	);
 }

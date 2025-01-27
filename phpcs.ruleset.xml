@@ -27,10 +27,6 @@
 		<exclude name="WordPress.WP.I18n.MissingTranslatorsComment" />
 	</rule>
 
-	<rule ref="PHPCompatibility">
-		<config name="testVersion" value="7.4-"/>
-	</rule>
-
 	<exclude-pattern>*/node_modules/*</exclude-pattern>
 	<exclude-pattern>*.js</exclude-pattern>
 	<exclude-pattern>*/vendor/*</exclude-pattern>

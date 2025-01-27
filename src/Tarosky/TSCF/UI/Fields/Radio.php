@@ -6,11 +6,11 @@ class Radio extends Input {
 
 	protected $type = 'radio';
 
-	protected $default = [
-		'options' => [],
-	];
+	protected $default = array(
+		'options' => array(),
+	);
 
-	protected $default_to_drop = [ 'min', 'max', 'placeholder' ];
+	protected $default_to_drop = array( 'min', 'max', 'placeholder' );
 
 	/**
 	 * Show field
@@ -67,6 +67,4 @@ class Radio extends Input {
 		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 		return $value == $current_value || ( '' === $current_value && $value === $this->field['default'] );
 	}
-
-
 }

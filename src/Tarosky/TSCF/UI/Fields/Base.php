@@ -13,25 +13,25 @@ abstract class Base {
 
 	use Application;
 
-	protected $field = [];
+	protected $field = array();
 
 	protected $object = null;
 
-	protected $default = [];
+	protected $default = array();
 
-	protected $default_prototype = [];
+	protected $default_prototype = array();
 
-	protected $default_to_drop = [];
+	protected $default_to_drop = array();
 
-	protected $required_base = [
+	protected $required_base = array(
 		'name',
 		'label',
-	];
+	);
 
 	/**
 	 * @var array Required params
 	 */
-	protected $required = [];
+	protected $required = array();
 
 
 	/**
@@ -77,9 +77,9 @@ abstract class Base {
 	 * @return array
 	 */
 	public static function get_field_list() {
-		$field = new static( null, [] );
-		$names = [];
-		foreach ( $field->parse_default( [] ) as $key => $value ) {
+		$field = new static( null, array() );
+		$names = array();
+		foreach ( $field->parse_default( array() ) as $key => $value ) {
 			switch ( $key ) {
 				case 'options':
 					$names[ $key ] = (object) null;

@@ -45,7 +45,7 @@ trait Application {
 	 */
 	public function _e( $string ) {
 		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
-		echo call_user_func_array( [ $this, '_s' ], func_get_args() );
+		echo call_user_func_array( array( $this, '_s' ), func_get_args() );
 	}
 
 	/**
@@ -85,7 +85,7 @@ trait Application {
 				return Parser::instance();
 				break;
 			case 'root_dir':
-				return dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
+				return dirname( __DIR__, 4 );
 				break;
 			case 'url':
 				if ( false !== strpos( $this->root_dir, 'wp-content/plugins' ) ) {

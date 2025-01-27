@@ -8,20 +8,20 @@ namespace Tarosky\TSCF\UI\Fields;
  */
 class PostSelector extends Input {
 
-	protected $default = [
+	protected $default = array(
 		'post_type' => 'post',
 		'max'       => 0,
-	];
+	);
 
-	protected $required = [
+	protected $required = array(
 		'post_type',
-	];
+	);
 
-	protected $default_to_drop = [
+	protected $default_to_drop = array(
 		'placeholder',
 		'min',
 		'default',
-	];
+	);
 
 	/**
 	 * Show data
@@ -40,7 +40,7 @@ class PostSelector extends Input {
 				<?php endif; ?>
 		>
 			<?php
-			foreach ( array_filter( explode( ',', $this->get_data() ), function( $id ) {
+			foreach ( array_filter( explode( ',', $this->get_data() ), function ( $id ) {
 				return is_numeric( $id );
 			}  ) as $post_id ) :
 				?>
@@ -80,6 +80,4 @@ class PostSelector extends Input {
 		<?php endif; ?>
 		<?php
 	}
-
-
 }

@@ -8,7 +8,7 @@ class Boolean extends Input {
 
 	protected $type = 'checkbox';
 
-	protected $default_to_drop = [ 'max', 'min', 'placeholder' ];
+	protected $default_to_drop = array( 'max', 'min', 'placeholder' );
 
 	protected function display_field() {
 		?>
@@ -19,6 +19,4 @@ class Boolean extends Input {
 		</label>
 		<?php
 	}
-
-
 }

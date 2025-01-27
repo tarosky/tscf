@@ -77,6 +77,4 @@ class Checkbox extends Radio {
 			}
 		) );
 	}
-
-
 }

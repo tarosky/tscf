@@ -29,5 +29,4 @@ class Separator extends Base {
 	public function save_data() {
 		// Do nothing.
 	}
-
 }
