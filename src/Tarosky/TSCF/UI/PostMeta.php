@@ -14,19 +14,18 @@ class PostMeta extends Base {
 	public function __construct( $object, array $fields ) {
 		parent::__construct( $object, $fields );
 		if ( is_admin() ) {
-			$fields = wp_parse_args( $fields, [
+			$fields = wp_parse_args( $fields, array(
 				'context'  => 'advanced',
 				'priority' => 'low',
-			] );
+			) );
 			add_meta_box(
 				$this->name,
 				$this->label,
-				[ $this, 'render' ],
+				array( $this, 'render' ),
 				$object->post_type,
 				$fields['context'],
 				$fields['priority']
 			);
 		}
 	}
-
 }

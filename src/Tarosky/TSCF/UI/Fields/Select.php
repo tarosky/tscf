@@ -26,6 +26,4 @@ class Select extends Radio {
 		<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $this->checked( $value, $current_value ) ); ?>><?php echo esc_html( $label ); ?></option>
 		<?php
 	}
-
-
 }

@@ -81,7 +81,7 @@ class Input extends Singleton {
 		if ( isset( $_FILES[ $key ]['error'] ) && UPLOAD_ERR_OK === $_FILES[ $key ]['error'] ) {
 			return $_FILES[ $key ];
 		} else {
-			return [];
+			return array();
 		}
 	}
 
@@ -143,6 +143,4 @@ class Input extends Singleton {
 
 		return $nonce && wp_verify_nonce( $nonce, $action );
 	}
-
-
 }

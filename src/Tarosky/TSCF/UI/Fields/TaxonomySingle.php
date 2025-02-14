@@ -7,13 +7,13 @@ class TaxonomySingle extends Select {
 
 	protected $type = 'taxonomy_single';
 
-	protected $default = [
+	protected $default = array(
 		'taxonomy'    => 'category',
 		'only_child'  => true,
 		'allow_empty' => false,
-	];
+	);
 
-	protected $default_to_drop = [ 'options', 'max', 'min' ];
+	protected $default_to_drop = array( 'options', 'max', 'min' );
 
 	/**
 	 * Show field
@@ -26,19 +26,19 @@ class TaxonomySingle extends Select {
 		$current_value = $this->get_data( false );
 		$taxonomy      = $this->field['taxonomy'];
 		if ( $this->field['only_child'] ) {
-			$parents = get_terms( [
+			$parents = get_terms( array(
 				'taxonomy'   => $taxonomy,
 				'parent'     => 0,
 				'hide_empty' => false,
-			] );
+			) );
 			if ( $parents && ! is_wp_error( $parents ) ) {
 				foreach ( $parents as $parent ) {
 					printf( '<optgroup label="%s">', esc_attr( $parent->name ) );
-					$children = get_terms( [
+					$children = get_terms( array(
 						'taxonomy'   => $taxonomy,
 						'hide_empty' => false,
 						'parent'     => $parent->term_id,
-					] );
+					) );
 					if ( $children && ! is_wp_error( $children ) ) {
 						foreach ( $children as $child ) {
 							$this->show_input( $child->term_id, $child->name, $current_value );
@@ -48,10 +48,10 @@ class TaxonomySingle extends Select {
 				}
 			}
 		} else {
-			$terms = get_terms( [
+			$terms = get_terms( array(
 				'taxonomy'   => $taxonomy,
 				'hide_empty' => false,
-			] );
+			) );
 			foreach ( $terms as $term ) {
 				$this->show_input( $term->term_id, $term->name, $current_value );
 			}
@@ -68,7 +68,7 @@ class TaxonomySingle extends Select {
 	 */
 	protected function show_input( $value, $label, $current_value ) {
 		?>
-		<option value="<?php echo esc_attr( $value ); ?>" <?php selected( false !== array_search( $value, $current_value ) ); ?>>
+		<option value="<?php echo esc_attr( $value ); ?>" <?php selected( in_array( $value, $current_value, true ) ); ?>>
 			<?php echo esc_html( $label ); ?>
 		</option>
 		<?php
@@ -85,7 +85,7 @@ class TaxonomySingle extends Select {
 	protected function get_data( $filter = true ) {
 		$taxonomy = $this->field['taxonomy'];
 		$terms    = get_the_terms( $this->object->ID, $taxonomy );
-		return ( ! $terms || is_wp_error( $terms ) ) ? [] : array_map( function( $term ) {
+		return ( ! $terms || is_wp_error( $terms ) ) ? array() : array_map( function ( $term ) {
 			return (int) $term->term_id;
 		}, $terms );
 	}

@@ -9,15 +9,15 @@ class Iterator extends Base {
 	/**
 	 * @var array Required fields.
 	 */
-	protected $required = [ 'fields' ];
+	protected $required = array( 'fields' );
 
-	protected $default = [
+	protected $default = array(
 		'col'         => 1,
 		'clear'       => false,
 		'max'         => 5,
 		'description' => '',
-		'fields'      => [],
-	];
+		'fields'      => array(),
+	);
 
 	/**
 	 * Render row
@@ -25,15 +25,18 @@ class Iterator extends Base {
 	public function row() {
 		?>
 		<div class="tscf__group tscf__col--clear tscf--iterator"
-			 data-max="<?php echo esc_attr( $this->field['max'] ); ?>"
-			 data-prefix="<?php echo esc_attr( $this->field['name'] ); ?>">
+			data-max="<?php echo esc_attr( $this->field['max'] ); ?>"
+			data-prefix="<?php echo esc_attr( $this->field['name'] ); ?>">
 			<div class="tscf__label--iterator">
 				<?php echo esc_html( $this->field['label'] ); ?>
 				<a class="button tscf__add" href="#">追加</a>
 			</div>
-			<?php if ( $desc = $this->field['description'] ) : ?>
-			<p class="description"><?php echo esc_html( $desc ); ?></p>
-			<?php endif; ?>
+			<?php
+			$desc = $this->field['description'];
+			if ( $desc ) :
+				?>
+				<p class="description"><?php echo esc_html( $desc ); ?></p>
+				<?php endif; ?>
 			<div class="tscf__childList">
 				<?php
 				$counter = 0;
@@ -46,7 +49,7 @@ class Iterator extends Base {
 				<?php echo $this->single_row( 9999 ); ?>
 			</script>
 			<input type="hidden" class="tscf__index" name="_index_of_<?php echo $this->field['name']; ?>"
-				   value="<?php echo esc_attr( $counter ); ?>"/>
+					value="<?php echo esc_attr( $counter ); ?>"/>
 		</div>
 		<?php
 	}
@@ -106,19 +109,20 @@ class Iterator extends Base {
 				$table      = $wpdb->termmeta;
 				break;
 			default:
-				return [];
+				return array();
 				break;
 		}
-		$query   = <<<SQL
+		$query = <<<SQL
 			SELECT meta_key FROM {$table}
 			WHERE {$object_key} = %d
 			  AND meta_key LIKE %s
 SQL;
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$keys    = $wpdb->get_col( $wpdb->prepare( $query, $object_id, $key ) );
-		$indexes = [];
+		$indexes = array();
 		foreach ( $keys as $k ) {
 			if ( preg_match( '#_([0-9]+)$#u', $k, $matches ) ) {
-				if ( false === array_search( $matches[1], $indexes ) ) {
+				if ( false === array_search( $matches[1], $indexes, true ) ) {
 					$indexes[] = $matches[1];
 				}
 			}
@@ -144,7 +148,7 @@ SQL;
 		// Save it all
 		$saved  = 0;
 		$length = $this->input->post( "_index_of_{$this->field['name']}" );
-		for ( $index = 1; $index <= $length; $index ++ ) {
+		for ( $index = 1; $index <= $length; $index++ ) {
 			foreach ( $this->field['fields'] as $field ) {
 				$field['name'] = "{$this->field['name']}_{$field['name']}_{$index}";
 				$class_name    = UIBase::get_field_class( $field );
@@ -183,7 +187,7 @@ SQL;
 			  AND {$id_name} = %d
 SQL;
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		return $wpdb->query( $wpdb->prepare( $query, "{$this->field['name']}\_%", $id ) );
-
 	}
 }

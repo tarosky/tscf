@@ -9,11 +9,11 @@ namespace Tarosky\TSCF\UI\Fields;
  */
 class DateTime extends Input {
 
-	protected $default = [
+	protected $default = array(
 		'date_format' => 'yy-mm-dd',
 		'time_format' => 'HH:mm:ss',
 		'separator'   => ' ',
-	];
+	);
 
 	/**
 	 * Add datetimepicker
@@ -35,12 +35,10 @@ class DateTime extends Input {
 	 * @return array
 	 */
 	protected function filter_data_attributes( $data ) {
-		return [
+		return array(
 			'data-date-format' => $this->field['date_format'],
 			'data-time-format' => $this->field['time_format'],
 			'data-separator'   => $this->field['separator'],
-		];
+		);
 	}
-
-
 }

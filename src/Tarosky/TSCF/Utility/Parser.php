@@ -18,7 +18,7 @@ class Parser extends Singleton {
 	/**
 	 * @var array Data store.
 	 */
-	private $data = [];
+	private $data = array();
 
 	/**
 	 * Get config file path
@@ -27,7 +27,7 @@ class Parser extends Singleton {
 	 */
 	public function config_file_path() {
 		$path = '';
-		foreach ( [ get_stylesheet_directory(), get_template_directory() ] as $dir ) {
+		foreach ( array( get_stylesheet_directory(), get_template_directory() ) as $dir ) {
 			if ( file_exists( $dir . DIRECTORY_SEPARATOR . 'tscf.json' ) ) {
 				$path = $dir . DIRECTORY_SEPARATOR . 'tscf.json';
 			}
@@ -51,7 +51,7 @@ class Parser extends Singleton {
 	 * @return array
 	 */
 	public function available_types() {
-		return [
+		return array(
 			'text'            => __( 'Text', 'tscf' ),
 			'text_area'       => __( 'Text(Multi line)', 'tscf' ),
 			'password'        => __( 'Password', 'tscf' ),
@@ -71,7 +71,7 @@ class Parser extends Singleton {
 			'custom'          => __( 'Custom Class', 'tscf' ),
 			'post_selector'   => __( 'Select from Post', 'tscf' ),
 			'code_editor'     => __( 'Code Editor', 'tscf' ),
-		];
+		);
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Parser extends Singleton {
 	 * @return \WP_Error|array
 	 */
 	public function get_field( $type ) {
-		if ( 'custom' == $type ) {
+		if ( 'custom' === $type ) {
 			return new \WP_Error( 'invalid_custom_class', __( 'Custom class name "custom" is prohibited.', 'tscf' ) );
 		}
 		$fields = $this->available_types();
@@ -128,13 +128,13 @@ class Parser extends Singleton {
 			return;
 		}
 		$this->initialized = true;
-		$this->data        = wp_parse_args( (array) $json, [
+		$this->data        = wp_parse_args( (array) $json, array(
 			'name'   => '',
 			'label'  => '',
 			'type'   => 'post',
-			'slug'   => [],
-			'fields' => [],
-		]);
+			'slug'   => array(),
+			'fields' => array(),
+		));
 	}
 
 	/**
@@ -193,15 +193,15 @@ class Parser extends Singleton {
 	 * @return array
 	 */
 	public function filter( $type, $sub_type, $object ) {
-		$valid_data = [];
+		$valid_data = array();
 		foreach ( $this->data as $data ) {
 			$this_type = ! isset( $data['type'] ) || 'post' === $data['type'] ? 'post' : $data['type'];
 			if ( $this_type === $type ) {
 				switch ( $type ) {
 					default:
 						// This is post meta, so check post_types.
-						$post_types  = isset( $data['post_types'] ) ? (array) $data['post_types'] : [];
-						$should_show = ( array_search( $sub_type, $post_types ) !== false );
+						$post_types  = isset( $data['post_types'] ) ? (array) $data['post_types'] : array();
+						$should_show = ( array_search( $sub_type, $post_types, true ) !== false );
 						break;
 				}
 				/**
@@ -216,14 +216,14 @@ class Parser extends Singleton {
 				$should_show = apply_filters( 'tscf_should_show', $should_show, $object, $data );
 				if ( $should_show ) {
 					// Check child values.
-					$fields = [];
+					$fields = array();
 					foreach ( $data['fields'] as $field ) {
 						// Check only_in
-						if ( isset( $field['only_in'] ) && false === array_search( $sub_type, (array) $field['only_in'] ) ) {
+						if ( isset( $field['only_in'] ) && false === array_search( $sub_type, (array) $field['only_in'], true ) ) {
 							continue;
 						}
 						// Check exclude
-						if ( isset( $field['exclude'] ) && false !== array_search( $sub_type, (array) $field['exclude'] ) ) {
+						if ( isset( $field['exclude'] ) && false !== array_search( $sub_type, (array) $field['exclude'], true ) ) {
 							continue;
 						}
 						$fields[] = $field;
@@ -282,7 +282,7 @@ class Parser extends Singleton {
 
 			return true;
 		} catch ( \Exception $e ) {
-			return new \WP_Error( $e->getCode(), $e->getMessage(), [ 'status' => $e->getCode() ] );
+			return new \WP_Error( $e->getCode(), $e->getMessage(), array( 'status' => $e->getCode() ) );
 		}
 	}
 
@@ -313,5 +313,4 @@ class Parser extends Singleton {
 		}
 		return true;
 	}
-
 }

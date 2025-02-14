@@ -9,9 +9,9 @@ namespace Tarosky\TSCF\UI\Fields;
  */
 class Date extends Input {
 
-	protected $default = [
+	protected $default = array(
 		'date_format' => 'yy-mm-dd',
-	];
+	);
 
 	protected function filter_class( $classes ) {
 		$classes[] = 'tscf__datepicker';
@@ -26,9 +26,8 @@ class Date extends Input {
 	 * @return array
 	 */
 	protected function filter_data_attributes( $data ) {
-		return [
+		return array(
 			'data-date-format' => $this->field['date_format'],
-		];
+		);
 	}
-
 }

@@ -9,7 +9,7 @@ namespace Tarosky\TSCF\Pattern;
  */
 class Singleton {
 
-	private static $instances = [];
+	private static $instances = array();
 
 	/**
 	 * Singleton constructor.

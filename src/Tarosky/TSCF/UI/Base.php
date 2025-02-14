@@ -17,7 +17,7 @@ abstract class Base {
 	/**
 	 * @var array
 	 */
-	protected $_fields = [];
+	protected $_fields = array();
 
 	/**
 	 * @var \WP_Post|\WP_Term
@@ -79,9 +79,9 @@ abstract class Base {
 	 * @return string
 	 */
 	public static function get_field_class( $field ) {
-		$field      = wp_parse_args( $field, [
+		$field      = wp_parse_args( $field, array(
 			'type' => 'text',
-		] );
+		) );
 		$lower_name = strtolower( $field['type'] );
 		switch ( $lower_name ) {
 			case 'separator':
@@ -136,7 +136,7 @@ abstract class Base {
 	public function __get( $key ) {
 		switch ( $key ) {
 			case 'fields':
-				return isset( $this->_fields['fields'] ) ? (array) $this->_fields['fields'] : [];
+				return isset( $this->_fields['fields'] ) ? (array) $this->_fields['fields'] : array();
 				break;
 			case 'name':
 			case 'label':
