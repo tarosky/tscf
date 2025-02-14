@@ -45,7 +45,7 @@ abstract class Base {
 		$this->object = $object;
 	}
 
-	abstract function row();
+	abstract public function row();
 
 	/**
 	 * Parse default arguments

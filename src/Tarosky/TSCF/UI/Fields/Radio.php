@@ -64,7 +64,7 @@ class Radio extends Input {
 	 * @return bool
 	 */
 	protected function checked( $value, $current_value ) {
-		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+		// phpcs:ignore Universal.Operators.StrictComparisons.LooseEqual
 		return $value == $current_value || ( '' === $current_value && $value === $this->field['default'] );
 	}
 }

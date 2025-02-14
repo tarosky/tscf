@@ -79,7 +79,8 @@ class Editor extends Singleton {
 			$errors = array_merge( $errors, $editable->get_error_messages() );
 		}
 		// Is valid?
-		if ( is_wp_error( ( $validation = $this->parser->validate() ) ) ) {
+		$validation = $this->parser->validate();
+		if ( is_wp_error( $validation ) ) {
 			$errors = array_merge( $errors, $validation->get_error_messages() );
 		}
 		// Settings
@@ -215,8 +216,8 @@ class Editor extends Singleton {
 				}
 			}
 			$request = $this->input->get( 'file' );
-			if ( false === array_search( $request, $templates ) ) {
-				throw new \Exception( __( 'Such templalte doesn\'t exist.', 'tscf' ), 404 );
+			if ( false === array_search( $request, $templates, true ) ) {
+				throw new \Exception( __( 'Such template doesn\'t exist.', 'tscf' ), 404 );
 			}
 			include $base . sprintf( '/assets/html/%s.php', $request );
 			exit;

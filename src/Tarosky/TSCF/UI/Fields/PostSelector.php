@@ -34,7 +34,7 @@ class PostSelector extends Input {
 				data-placeholder="<?php echo esc_attr( $this->field['placeholder'] ); ?>"
 				data-limit="<?php echo esc_attr( $this->field['max'] ); ?>"
 				id="<?php echo esc_attr( $this->field['name'] ); ?>"
-				<?php if ( 1 != $this->field['max'] ) : ?>
+				<?php if ( 1 !== (int) $this->field['max'] ) : ?>
 					multiple="multiple"
 					style="width: 99%;"
 				<?php endif; ?>

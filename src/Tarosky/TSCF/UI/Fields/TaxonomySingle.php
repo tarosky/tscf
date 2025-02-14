@@ -68,7 +68,7 @@ class TaxonomySingle extends Select {
 	 */
 	protected function show_input( $value, $label, $current_value ) {
 		?>
-		<option value="<?php echo esc_attr( $value ); ?>" <?php selected( false !== array_search( $value, $current_value ) ); ?>>
+		<option value="<?php echo esc_attr( $value ); ?>" <?php selected( in_array( $value, $current_value, true ) ); ?>>
 			<?php echo esc_html( $label ); ?>
 		</option>
 		<?php

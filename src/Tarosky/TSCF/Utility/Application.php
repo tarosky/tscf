@@ -31,6 +31,7 @@ trait Application {
 
 			return call_user_func_array( 'sprintf', $args );
 		} else {
+			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			return __( $string, 'tscf' );
 		}
 	}

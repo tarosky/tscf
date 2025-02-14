@@ -82,7 +82,7 @@ class Parser extends Singleton {
 	 * @return \WP_Error|array
 	 */
 	public function get_field( $type ) {
-		if ( 'custom' == $type ) {
+		if ( 'custom' === $type ) {
 			return new \WP_Error( 'invalid_custom_class', __( 'Custom class name "custom" is prohibited.', 'tscf' ) );
 		}
 		$fields = $this->available_types();
@@ -201,7 +201,7 @@ class Parser extends Singleton {
 					default:
 						// This is post meta, so check post_types.
 						$post_types  = isset( $data['post_types'] ) ? (array) $data['post_types'] : array();
-						$should_show = ( array_search( $sub_type, $post_types ) !== false );
+						$should_show = ( array_search( $sub_type, $post_types, true ) !== false );
 						break;
 				}
 				/**
@@ -219,11 +219,11 @@ class Parser extends Singleton {
 					$fields = array();
 					foreach ( $data['fields'] as $field ) {
 						// Check only_in
-						if ( isset( $field['only_in'] ) && false === array_search( $sub_type, (array) $field['only_in'] ) ) {
+						if ( isset( $field['only_in'] ) && false === array_search( $sub_type, (array) $field['only_in'], true ) ) {
 							continue;
 						}
 						// Check exclude
-						if ( isset( $field['exclude'] ) && false !== array_search( $sub_type, (array) $field['exclude'] ) ) {
+						if ( isset( $field['exclude'] ) && false !== array_search( $sub_type, (array) $field['exclude'], true ) ) {
 							continue;
 						}
 						$fields[] = $field;

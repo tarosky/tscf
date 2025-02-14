@@ -31,9 +31,12 @@ class Iterator extends Base {
 				<?php echo esc_html( $this->field['label'] ); ?>
 				<a class="button tscf__add" href="#">追加</a>
 			</div>
-			<?php if ( $desc = $this->field['description'] ) : ?>
-			<p class="description"><?php echo esc_html( $desc ); ?></p>
-			<?php endif; ?>
+			<?php
+			$desc = $this->field['description'];
+			if ( $desc ) :
+				?>
+				<p class="description"><?php echo esc_html( $desc ); ?></p>
+				<?php endif; ?>
 			<div class="tscf__childList">
 				<?php
 				$counter = 0;
@@ -109,16 +112,17 @@ class Iterator extends Base {
 				return array();
 				break;
 		}
-		$query   = <<<SQL
+		$query = <<<SQL
 			SELECT meta_key FROM {$table}
 			WHERE {$object_key} = %d
 			  AND meta_key LIKE %s
 SQL;
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$keys    = $wpdb->get_col( $wpdb->prepare( $query, $object_id, $key ) );
 		$indexes = array();
 		foreach ( $keys as $k ) {
 			if ( preg_match( '#_([0-9]+)$#u', $k, $matches ) ) {
-				if ( false === array_search( $matches[1], $indexes ) ) {
+				if ( false === array_search( $matches[1], $indexes, true ) ) {
 					$indexes[] = $matches[1];
 				}
 			}
@@ -183,6 +187,7 @@ SQL;
 			  AND {$id_name} = %d
 SQL;
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		return $wpdb->query( $wpdb->prepare( $query, "{$this->field['name']}\_%", $id ) );
 	}
 }
