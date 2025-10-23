@@ -1,114 +1,114 @@
-# TSCF - WordPress Plugin Development Rules
+# TSCF - WordPress プラグイン開発ルール
 
-## Project Overview
-TSCF (Tarosky Custom Field manager) is a WordPress plugin for managing custom fields efficiently.
-- WordPress plugin for custom field management
-- PHP 7.4+ required
-- Uses Composer for PHP dependencies
-- Uses npm for JavaScript dependencies
-- Gulp for build process
+## プロジェクト概要
+TSCF (Tarosky Custom Field manager) は、カスタムフィールドを効率的に管理するためのWordPressプラグインです。
+- WordPressのカスタムフィールド管理プラグイン
+- PHP 7.4以上が必要
+- PHP依存関係管理にComposerを使用
+- JavaScript依存関係管理にnpmを使用
+- ビルドプロセスにGulpを使用
 
-## Development Environment Setup
+## 開発環境セットアップ
 
-### Prerequisites
-- Node.js 16+ (managed with `n`)
-- PHP 7.4+
+### 前提条件
+- Node.js 16以上（`n`で管理）
+- PHP 7.4以上
 - Composer
 - Docker Desktop for Mac
 
-### Initial Setup
-1. Install PHP dependencies: `composer install`
-2. Install JavaScript dependencies: `npm install --ignore-scripts --legacy-peer-deps`
-3. Start WordPress environment: `npm start`
-4. Build assets: `npm run package`
-5. Watch for changes during development: `npm run watch`
+### 初期セットアップ
+1. PHP依存関係のインストール: `composer install`
+2. JavaScript依存関係のインストール: `npm install --ignore-scripts --legacy-peer-deps`
+3. WordPress環境の起動: `npm start`
+4. アセットのビルド: `npm run package`
+5. 開発中の変更監視: `npm run watch`
 
-### WordPress Environment
-- Development site: http://localhost:8888
-- Test site: http://localhost:8889
-- Uses @wordpress/env for local development
-- MySQL ports are dynamically assigned
+### WordPress環境
+- 開発サイト: http://localhost:8888
+- テストサイト: http://localhost:8889
+- ローカル開発に@wordpress/envを使用
+- MySQLポートは動的に割り当て
 
-## Code Quality & Linting
+## コード品質とリンティング
 
 ### PHP
-- Run syntax check: `composer lint`
-- Fix PHP issues: `composer fix`
-- Run tests: `composer test`
-- Follows WordPress coding standards
-- Uses PSR-0 autoloading for PHP classes
+- 構文チェック実行: `composer lint`
+- PHP問題の修正: `composer fix`
+- テスト実行: `composer test`
+- WordPressコーディング規約に準拠
+- PHPクラスにPSR-0オートローディングを使用
 
 ### JavaScript & CSS
-- Run JS/CSS syntax check: `npm run lint`
-- ESLint configuration: `.eslintrc`
-- Stylelint configuration: `.stylelintrc.json`
+- JS/CSS構文チェック実行: `npm run lint`
+- ESLint設定: `.eslintrc`
+- Stylelint設定: `.stylelintrc.json`
 
-## Important Files & Structure
+## 重要なファイルと構造
 
-### Main Files
-- Main plugin file: `tscf.php`
-- Bootstrap: `src/Tarosky/TSCF/Bootstrap.php`
-- Functions: `functions.php`
-- Admin interface: `admin.php`
+### メインファイル
+- メインプラグインファイル: `tscf.php`
+- ブートストラップ: `src/Tarosky/TSCF/Bootstrap.php`
+- 関数: `functions.php`
+- 管理画面インターフェース: `admin.php`
 
-### Assets
-- JavaScript source: `assets/js/src/`
-- SCSS source: `assets/scss/`
-- Built assets: `assets/css/` and `assets/js/dist/`
-- Build configuration: `gulpfile.js`
+### アセット
+- JavaScriptソース: `assets/js/src/`
+- SCSSソース: `assets/scss/`
+- ビルド済みアセット: `assets/css/` と `assets/js/dist/`
+- ビルド設定: `gulpfile.js`
 
-### PHP Classes
-- Namespace: `Tarosky\TSCF`
-- Pattern: `src/Tarosky/TSCF/Pattern/`
-- UI Components: `src/Tarosky/TSCF/UI/`
-- Field Types: `src/Tarosky/TSCF/UI/Fields/`
-- Utilities: `src/Tarosky/TSCF/Utility/`
+### PHPクラス
+- 名前空間: `Tarosky\TSCF`
+- パターン: `src/Tarosky/TSCF/Pattern/`
+- UIコンポーネント: `src/Tarosky/TSCF/UI/`
+- フィールドタイプ: `src/Tarosky/TSCF/UI/Fields/`
+- ユーティリティ: `src/Tarosky/TSCF/Utility/`
 
-## Build Process
+## ビルドプロセス
 
-### Development
-- Watch mode: `npm run watch`
-- Compiles SCSS to CSS
-- Bundles and minifies JavaScript
-- Copies vendor libraries
+### 開発
+- ウォッチモード: `npm run watch`
+- SCSSをCSSにコンパイル
+- JavaScriptをバンドル・圧縮
+- ベンダーライブラリをコピー
 
-### Production
-- Build all assets: `npm run package`
-- Minified and optimized output
-- Source maps generated
+### 本番
+- 全アセットのビルド: `npm run package`
+- 圧縮・最適化された出力
+- ソースマップ生成
 
-### Release Process
-- Uses GitHub Actions workflow (`.github/workflows/wordpress.yml`)
-- Automatic readme.txt generation from README.md
-- Version bumping in plugin files
-- ZIP file creation for distribution
+### リリースプロセス
+- GitHub Actionsワークフローを使用（`.github/workflows/wordpress.yml`）
+- README.mdからreadme.txtを自動生成
+- プラグインファイルのバージョン更新
+- 配布用ZIPファイル作成
 
-## Known Issues & Workarounds
+## 既知の問題と回避策
 
-### Node.js Compatibility
-- node-sass is deprecated and causes build issues with Node.js 18+
-- Workaround: Use `npm install --ignore-scripts --legacy-peer-deps`
-- Consider migrating to `sass` (Dart Sass) in the future
+### Node.js互換性
+- node-sassは非推奨で、Node.js 18以上でビルド問題が発生
+- 回避策: `npm install --ignore-scripts --legacy-peer-deps`を使用
+- 将来的に`sass`（Dart Sass）への移行を検討
 
-### Dependencies
-- Many dependencies are deprecated but still functional
-- Angular 1.x is used (legacy, but stable for this project)
-- WordPress environment requires Docker
+### 依存関係
+- 多くの依存関係が非推奨だが、まだ機能している
+- Angular 1.xを使用（レガシーだが、このプロジェクトでは安定）
+- WordPress環境にはDockerが必要
 
-## Testing
-- PHP Unit tests: `composer test`
-- WordPress test environment available at localhost:8889
-- Test bootstrap: `tests/bootstrap.php`
+## テスト
+- PHP単体テスト: `composer test`
+- WordPressテスト環境: localhost:8889で利用可能
+- テストブートストラップ: `tests/bootstrap.php`
 
-## Coding Standards
-- Follow WordPress coding standards for PHP
-- Use meaningful directory structure
-- Keep files under 500 lines when possible
-- Apply "separation of concerns" principle
-- Use consistent naming conventions
+## コーディング規約
+- PHPはWordPressコーディング規約に従う
+- 意味のあるディレクトリ構造を使用
+- ファイルは可能な限り500行以下に保つ
+- 「関心の分離」原則を適用
+- 一貫した命名規則を使用
 
-## Git Workflow
-- Repository: https://github.com/tarosky/tscf
-- Use `gh` command for issue/PR management
-- Commit only code-verifiable changes without permission
-- Request permission for UI changes or login-required processes
+## Gitワークフロー
+- リポジトリ: https://github.com/tarosky/tscf
+- issue/PR管理に`gh`コマンドを使用
+- 許可なしでコミットできるのはコードで確認可能な変更のみ
+- UI変更やログインが必要な処理は許可を求める
