@@ -1,1 +1,1 @@
-echo "pre-push hook temporarily disabled"
+echo "pre-pushフックには何も設定していません。"
