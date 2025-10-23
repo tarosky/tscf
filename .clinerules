@@ -160,8 +160,8 @@ huskyを使用してGitフックを管理し、コミット・プッシュ時に
 - 高速なフィードバックでコード品質をチェック
 
 **pre-push**: プッシュ前に実行
-- `npm run test:full`を実行（lint + PHPUnit テスト）
-- 包括的なテストでリポジトリの品質を保証
+- 現在は一時的に無効化（PHPUnitテストの問題のため）
+- 将来的に`npm run test:full`を実行予定（lint + PHPUnit テスト）
 
 ### huskyの動作確認
 
