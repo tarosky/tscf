@@ -156,11 +156,12 @@ huskyを使用してGitフックを管理し、コミット・プッシュ時に
 ### 設定済みフック
 
 **pre-commit**: コミット前に実行
-- 現在は基本的なメッセージ表示のみ
-- 将来的にlint-stagedと連携予定
+- `npm test`を実行（JavaScript lint + PHP lint）
+- 高速なフィードバックでコード品質をチェック
 
 **pre-push**: プッシュ前に実行
-- `composer test`を実行してPHPテストを実行
+- `npm run test:full`を実行（lint + PHPUnit テスト）
+- 包括的なテストでリポジトリの品質を保証
 
 ### huskyの動作確認
 
