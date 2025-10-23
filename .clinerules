@@ -1,114 +1,249 @@
-# TSCF - WordPress プラグイン開発ルール
+# TSCF - WordPress プラグイン開発ガイド
 
 ## プロジェクト概要
-TSCF (Tarosky Custom Field manager) は、カスタムフィールドを効率的に管理するためのWordPressプラグインです。
-- WordPressのカスタムフィールド管理プラグイン
-- PHP 7.4以上が必要
-- PHP依存関係管理にComposerを使用
-- JavaScript依存関係管理にnpmを使用
-- ビルドプロセスにGulpを使用
 
-## 開発環境セットアップ
+TSCF (Tarosky Custom Field manager) は、カスタムフィールドを効率的に管理するためのWordPressプラグインです。
+
+### 解決する課題
+- WordPressのカスタムフィールドの複雑な管理
+- JSONファイルによる設定の一元管理
+- 開発者向けのスケーラブルなカスタムフィールドシステム
+
+### 技術スタック
+- **PHP**: 7.4以上（PSR-0オートローディング）
+- **JavaScript**: Angular 1.x（レガシーだが安定）
+- **CSS**: SCSS（Gulp でコンパイル）
+- **ビルドツール**: Gulp
+- **依存関係管理**: Composer（PHP）、npm（JavaScript）
+- **開発環境**: @wordpress/env（Docker）
+
+## ディレクトリ構造
+
+```
+tscf/
+├── .github/                    # GitHub関連設定
+│   └── workflows/
+│       └── wordpress.yml       # WordPress.orgデプロイ・テスト
+├── assets/                     # ソースアセット（ビルド前）
+│   ├── html/                   # HTMLテンプレート
+│   ├── js/src/                 # JavaScriptソース
+│   │   ├── modules/            # Angular モジュール
+│   │   └── services/           # Angular サービス
+│   └── scss/                   # SCSSファイル
+├── bin/                        # ビルドスクリプト
+│   ├── build.sh                # プラグインビルド用スクリプト
+│   └── clean.sh                # クリーンアップスクリプト
+├── languages/                  # 翻訳ファイル
+│   ├── tscf.pot                # POTテンプレート
+│   ├── tscf-ja.po              # 日本語翻訳
+│   └── tscf-ja.mo              # コンパイル済み翻訳
+├── src/                        # PHPソースコード
+│   └── Tarosky/TSCF/
+│       ├── Pattern/            # 共通パターン・トレイト
+│       ├── UI/                 # UIコンポーネント
+│       │   └── Fields/         # フィールドタイプ実装
+│       ├── Utility/            # ユーティリティクラス
+│       ├── Bootstrap.php       # プラグイン初期化
+│       ├── Editor.php          # エディター機能
+│       └── Rest.php            # REST API
+├── tests/                      # PHPUnit テスト
+├── vendor/                     # Composer依存関係（生成される）
+├── node_modules/               # npm依存関係（生成される）
+├── tscf.php                    # プラグインメインファイル
+├── functions.php               # ヘルパー関数
+├── admin.php                   # 管理画面
+├── composer.json               # PHP依存関係定義
+├── package.json                # Node.js依存関係定義
+├── gulpfile.js                 # ビルド設定
+├── phpcs.ruleset.xml           # PHPコーディング規約
+└── .wp-env.json                # WordPress環境設定
+```
+
+### 主要ディレクトリの説明
+
+- **src/Tarosky/TSCF/Pattern/**: 各機能で共通利用される抽象クラスやトレイト
+- **src/Tarosky/TSCF/UI/Fields/**: 各フィールドタイプの実装（Text、Image、Date等）
+- **src/Tarosky/TSCF/Utility/**: ヘルパー関数やユーティリティクラス
+- **assets/js/src/modules/**: Angular 1.x のモジュール実装
+- **assets/html/**: 管理画面用のHTMLテンプレート
+
+## 環境設定
 
 ### 前提条件
-- Node.js 16以上（`n`で管理）
-- PHP 7.4以上
-- Composer
-- Docker Desktop for Mac
+- **Node.js**: 16以上（`n`で管理、package.jsonでVoltaバージョン指定）
+- **PHP**: 7.4以上
+- **Composer**: PHP依存関係管理
+- **Docker Desktop**: WordPress環境用
 
-### 初期セットアップ
-1. PHP依存関係のインストール: `composer install`
-2. JavaScript依存関係のインストール: `npm install --ignore-scripts --legacy-peer-deps`
-3. WordPress環境の起動: `npm start`
-4. アセットのビルド: `npm run package`
-5. 開発中の変更監視: `npm run watch`
+### 依存関係のインストール
+
+```bash
+# PHP依存関係
+composer install
+
+# JavaScript依存関係（node-sass問題の回避）
+npm install --ignore-scripts --legacy-peer-deps
+```
+
+### 開発環境の起動
+
+```bash
+# WordPress環境の起動
+npm start
+
+# 初回起動後や、WordPress/プラグインのバージョンを更新したい場合
+npm run update
+
+# 環境の停止
+npm stop
+```
 
 ### WordPress環境
-- 開発サイト: http://localhost:8888
-- テストサイト: http://localhost:8889
-- ローカル開発に@wordpress/envを使用
-- MySQLポートは動的に割り当て
+- **開発サイト**: http://localhost:8888
+- **テストサイト**: http://localhost:8889
+- **MySQL**: ポートは動的に割り当て
+- **WP-CLI**: `npm run cli -- <コマンド>`
 
-## コード品質とリンティング
+## 開発手順
 
-### PHP
-- 構文チェック実行: `composer lint`
-- PHP問題の修正: `composer fix`
-- テスト実行: `composer test`
-- WordPressコーディング規約に準拠
-- PHPクラスにPSR-0オートローディングを使用
+### ビルド
 
-### JavaScript & CSS
-- JS/CSS構文チェック実行: `npm run lint`
-- ESLint設定: `.eslintrc`
-- Stylelint設定: `.stylelintrc.json`
+```bash
+# 全アセットのビルド
+npm run package
 
-## 重要なファイルと構造
+# 開発中のファイル監視
+npm run watch
+```
 
-### メインファイル
-- メインプラグインファイル: `tscf.php`
-- ブートストラップ: `src/Tarosky/TSCF/Bootstrap.php`
-- 関数: `functions.php`
-- 管理画面インターフェース: `admin.php`
+### コードスタイルチェック
 
-### アセット
-- JavaScriptソース: `assets/js/src/`
-- SCSSソース: `assets/scss/`
-- ビルド済みアセット: `assets/css/` と `assets/js/dist/`
-- ビルド設定: `gulpfile.js`
+```bash
+# JavaScript/CSS
+npm run lint
 
-### PHPクラス
-- 名前空間: `Tarosky\TSCF`
-- パターン: `src/Tarosky/TSCF/Pattern/`
-- UIコンポーネント: `src/Tarosky/TSCF/UI/`
-- フィールドタイプ: `src/Tarosky/TSCF/UI/Fields/`
-- ユーティリティ: `src/Tarosky/TSCF/Utility/`
+# PHP
+composer lint
+```
 
-## ビルドプロセス
+### コードの自動修正
 
-### 開発
-- ウォッチモード: `npm run watch`
-- SCSSをCSSにコンパイル
-- JavaScriptをバンドル・圧縮
-- ベンダーライブラリをコピー
+```bash
+# PHP
+composer fix
+```
 
-### 本番
-- 全アセットのビルド: `npm run package`
-- 圧縮・最適化された出力
-- ソースマップ生成
+### テスト
 
-### リリースプロセス
-- GitHub Actionsワークフローを使用（`.github/workflows/wordpress.yml`）
-- README.mdからreadme.txtを自動生成
-- プラグインファイルのバージョン更新
-- 配布用ZIPファイル作成
+```bash
+# PHP単体テスト
+composer test
+
+# テスト環境でのWP-CLI
+npm run cli:test -- <コマンド>
+```
+
+## コア・コンセプト
+
+### カスタムフィールドの設計思想
+
+TSCFは「設定ファイル駆動」のカスタムフィールド管理を採用しています：
+
+1. **JSONファイルによる設定**: フィールド定義をJSONで管理
+2. **バージョン管理対応**: 設定ファイルをGitで管理可能
+3. **子テーマ対応**: 設定ファイルのオーバーライド機能
+4. **スケーラブル**: 大量のカスタムフィールドにも対応
+
+### フィールドタイプの拡張
+
+新しいフィールドタイプを追加する場合：
+
+```php
+// src/Tarosky/TSCF/UI/Fields/CustomField.php
+class CustomField extends Base {
+    protected function input( $name, $value, $field ) {
+        // フィールドのHTML出力
+    }
+
+    protected function sanitize( $input, $field ) {
+        // 入力値のサニタイズ
+    }
+}
+```
 
 ## 既知の問題と回避策
 
-### Node.js互換性
-- node-sassは非推奨で、Node.js 18以上でビルド問題が発生
-- 回避策: `npm install --ignore-scripts --legacy-peer-deps`を使用
-- 将来的に`sass`（Dart Sass）への移行を検討
+### Node.js互換性問題
 
-### 依存関係
-- 多くの依存関係が非推奨だが、まだ機能している
-- Angular 1.xを使用（レガシーだが、このプロジェクトでは安定）
-- WordPress環境にはDockerが必要
+⚠️ **重要**: node-sassは非推奨で、Node.js 18以上でビルドエラーが発生します。
 
-## テスト
-- PHP単体テスト: `composer test`
-- WordPressテスト環境: localhost:8889で利用可能
-- テストブートストラップ: `tests/bootstrap.php`
+**問題**:
+```
+gyp ERR! configure error
+AttributeError: 'module' object has no attribute 'sha1'
+```
 
-## コーディング規約
-- PHPはWordPressコーディング規約に従う
-- 意味のあるディレクトリ構造を使用
-- ファイルは可能な限り500行以下に保つ
-- 「関心の分離」原則を適用
-- 一貫した命名規則を使用
+**回避策**:
+```bash
+npm install --ignore-scripts --legacy-peer-deps
+```
 
-## Gitワークフロー
-- リポジトリ: https://github.com/tarosky/tscf
-- issue/PR管理に`gh`コマンドを使用
-- 許可なしでコミットできるのはコードで確認可能な変更のみ
-- UI変更やログインが必要な処理は許可を求める
+**将来の対応**: `sass`（Dart Sass）への移行を検討中
+
+### 依存関係の非推奨警告
+
+多くの依存関係が非推奨ですが、現在も機能しています：
+- Angular 1.x（レガシーだが、このプロジェクトでは安定）
+- 古いバージョンのGulpプラグイン
+- node-sass関連パッケージ
+
+### 開発時の注意事項
+
+⚠️ **以下の修正時は慎重に**:
+- `gulpfile.js`のSass設定
+- `package.json`のnode-sass関連依存関係
+- Angular 1.xのモジュール構造
+
+## リリース
+
+1. プルリクエストをmainブランチにマージ
+2. GitHub Actionsが自動実行：
+   - コード品質チェック
+   - アセットビルド
+   - readme.txt生成（README.mdから）
+   - バージョン更新
+3. タグ作成でリリース用ZIPファイル生成
+4. WordPress.orgへの手動デプロイ（必要に応じて）
+
+## トラブルシューティング
+
+### よくある問題
+
+**Q: `npm start`でエラーが発生する**
+A: Node.jsのバージョンを確認し、`npm install --ignore-scripts --legacy-peer-deps`を実行
+
+**Q: Sassのコンパイルエラー**
+A: `node_modules`を削除して再インストール
+
+**Q: PHPのオートローディングエラー**
+A: `composer install`を実行してvendorディレクトリを再生成
+
+### デバッグ方法
+
+```bash
+# WordPress環境のログ確認
+npm run cli -- log list
+
+# プラグインの有効化状態確認
+npm run cli -- plugin list
+
+# データベースの確認
+npm run cli -- db query "SELECT * FROM wp_options WHERE option_name LIKE 'tscf%'"
+```
+
+## 参考資料
+
+- [WordPress Plugin Handbook](https://developer.wordpress.org/plugins/)
+- [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/)
+- [Angular 1.x Documentation](https://docs.angularjs.org/api)
+- [Gulp Documentation](https://gulpjs.com/docs/en/getting-started/quick-start)
