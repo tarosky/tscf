@@ -1,8 +1,14 @@
 {
+	"parser": "@babel/eslint-parser",
+	"parserOptions": {
+		"requireConfigFile": false,
+		"babelOptions": {
+			"presets": ["@babel/preset-env"]
+		}
+	},
 	"env": {
 		"browser": true,
-		"jquery": true,
-		"es6": true
+		"jquery": true
 	},
 	"globals": {
 		"wp": false,
@@ -15,11 +21,27 @@
 		"Vue": false
 	},
 	"extends": [
-		"eslint:recommended"
+		"plugin:@wordpress/eslint-plugin/recommended-with-formatting"
 	],
 	"rules": {
 		"no-alert": "off",
-		"no-unused-vars": "warn",
-		"no-console": "warn"
+		"prettier/prettier": "off",
+		"object-shorthand": "off",
+		"jsdoc/require-jsdoc": "off",
+		"jsdoc/no-undefined-types": "off",
+		"react/react-in-jsx-scope": "off",
+		"react/jsx-sort-props": "off",
+		"jsdoc/check-tag-names": "off",
+		"import/order": "off",
+		"no-prototype-builtins": "off",
+		"object-curly-newline": "off",
+		"object-property-newline": "off",
+		"yoda": "off",
+		"strict": "off"
+	},
+	"settings": {
+		"react": {
+			"version": "16.9.0"
+		}
 	}
 }
