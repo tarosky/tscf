@@ -14,7 +14,8 @@
 		"watch": "gulp watch",
 		"package": "gulp build",
 		"gulp": "gulp",
-		"lint": "gulp lint:js"
+		"lint": "gulp lint:js",
+		"prepare": "husky"
 	},
 	"repository": {
 		"type": "git",
@@ -26,13 +27,24 @@
 		"fields"
 	],
 	"engines": {
-		"node": ">= 14.0.0"
+		"node": ">= 18.0.0"
 	},
 	"author": "Takahashi Fumiki <ftakahashi@tarosky.co.jp>",
 	"bugs": {
 		"url": "https://github.com/tarosky/tscf/issues"
 	},
 	"homepage": "https://github.com/tarosky/tscf#readme",
+	"lint-staged": {
+		"*.php": [
+			"composer lint"
+		],
+		"assets/js/src/**/*.js": [
+			"gulp lint:js"
+		],
+		"assets/scss/**/*.scss": [
+			"gulp lint:css"
+		]
+	},
 	"devDependencies": {
 		"@babel/eslint-parser": "^7.24.1",
 		"@wordpress/env": "^9.8.0",
@@ -55,11 +67,13 @@
 		"gulp-sourcemaps": "^3.0",
 		"gulp-stylelint": "^13.0.0",
 		"gulp-uglify": "^3.0.0",
+		"husky": "^9.1.7",
 		"jquery-live-preview": "alanphoon/jquery-live-preview",
 		"jquery-ui-mp6": "^1.0.2",
 		"jquery-ui-timepicker-addon": "^1.5.5",
 		"jshint": "^2.9.5",
 		"jshint-stylish": "^2.2.1",
+		"lint-staged": "^15.5.2",
 		"merge-stream": "^2.0.0",
 		"select2": "^4.0.3",
 		"stylelint": "^13.13.1",
