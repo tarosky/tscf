@@ -34,17 +34,6 @@
 		"url": "https://github.com/tarosky/tscf/issues"
 	},
 	"homepage": "https://github.com/tarosky/tscf#readme",
-	"lint-staged": {
-		"*.php": [
-			"composer lint"
-		],
-		"assets/js/src/**/*.js": [
-			"gulp lint:js"
-		],
-		"assets/scss/**/*.scss": [
-			"gulp lint:css"
-		]
-	},
 	"devDependencies": {
 		"@babel/eslint-parser": "^7.24.1",
 		"@wordpress/env": "^9.8.0",
@@ -80,6 +69,6 @@
 		"stylelint-config-wordpress": "^17.0.0"
 	},
 	"volta": {
-		"node": "14.21.3"
+		"node": "18.20.8"
 	}
 }
