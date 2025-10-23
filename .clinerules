@@ -86,8 +86,8 @@ tscf/
 # PHP依存関係
 composer install
 
-# JavaScript依存関係（node-sass問題の回避）
-npm install --ignore-scripts --legacy-peer-deps
+# JavaScript依存関係
+npm install
 ```
 
 ### 開発環境の起動
@@ -212,20 +212,21 @@ class CustomField extends Base {
 
 ### Node.js互換性問題
 
-⚠️ **重要**: node-sassは非推奨で、Node.js 18以上でビルドエラーが発生します。
+✅ **解決済み**: node-sassからDart Sassに移行済み
 
-**問題**:
+**以前の問題**:
 ```
 gyp ERR! configure error
 AttributeError: 'module' object has no attribute 'sha1'
 ```
 
-**回避策**:
-```bash
-npm install --ignore-scripts --legacy-peer-deps
-```
+**解決方法**:
+- `node-sass@4.14.1`（非推奨）を削除
+- `sass@1.69.0`（Dart Sass）に置き換え
+- `gulp-sass@5.1.0`に更新
+- gulpfile.jsを新しいAPIに対応
 
-**将来の対応**: `sass`（Dart Sass）への移行を検討中
+**現在の状況**: 通常の`npm install`で正常にインストール可能
 
 ### 依存関係の非推奨警告
 
