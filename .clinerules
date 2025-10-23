@@ -1,0 +1,114 @@
+# TSCF - WordPress Plugin Development Rules
+
+## Project Overview
+TSCF (Tarosky Custom Field manager) is a WordPress plugin for managing custom fields efficiently.
+- WordPress plugin for custom field management
+- PHP 7.4+ required
+- Uses Composer for PHP dependencies
+- Uses npm for JavaScript dependencies
+- Gulp for build process
+
+## Development Environment Setup
+
+### Prerequisites
+- Node.js 16+ (managed with `n`)
+- PHP 7.4+
+- Composer
+- Docker Desktop for Mac
+
+### Initial Setup
+1. Install PHP dependencies: `composer install`
+2. Install JavaScript dependencies: `npm install --ignore-scripts --legacy-peer-deps`
+3. Start WordPress environment: `npm start`
+4. Build assets: `npm run package`
+5. Watch for changes during development: `npm run watch`
+
+### WordPress Environment
+- Development site: http://localhost:8888
+- Test site: http://localhost:8889
+- Uses @wordpress/env for local development
+- MySQL ports are dynamically assigned
+
+## Code Quality & Linting
+
+### PHP
+- Run syntax check: `composer lint`
+- Fix PHP issues: `composer fix`
+- Run tests: `composer test`
+- Follows WordPress coding standards
+- Uses PSR-0 autoloading for PHP classes
+
+### JavaScript & CSS
+- Run JS/CSS syntax check: `npm run lint`
+- ESLint configuration: `.eslintrc`
+- Stylelint configuration: `.stylelintrc.json`
+
+## Important Files & Structure
+
+### Main Files
+- Main plugin file: `tscf.php`
+- Bootstrap: `src/Tarosky/TSCF/Bootstrap.php`
+- Functions: `functions.php`
+- Admin interface: `admin.php`
+
+### Assets
+- JavaScript source: `assets/js/src/`
+- SCSS source: `assets/scss/`
+- Built assets: `assets/css/` and `assets/js/dist/`
+- Build configuration: `gulpfile.js`
+
+### PHP Classes
+- Namespace: `Tarosky\TSCF`
+- Pattern: `src/Tarosky/TSCF/Pattern/`
+- UI Components: `src/Tarosky/TSCF/UI/`
+- Field Types: `src/Tarosky/TSCF/UI/Fields/`
+- Utilities: `src/Tarosky/TSCF/Utility/`
+
+## Build Process
+
+### Development
+- Watch mode: `npm run watch`
+- Compiles SCSS to CSS
+- Bundles and minifies JavaScript
+- Copies vendor libraries
+
+### Production
+- Build all assets: `npm run package`
+- Minified and optimized output
+- Source maps generated
+
+### Release Process
+- Uses GitHub Actions workflow (`.github/workflows/wordpress.yml`)
+- Automatic readme.txt generation from README.md
+- Version bumping in plugin files
+- ZIP file creation for distribution
+
+## Known Issues & Workarounds
+
+### Node.js Compatibility
+- node-sass is deprecated and causes build issues with Node.js 18+
+- Workaround: Use `npm install --ignore-scripts --legacy-peer-deps`
+- Consider migrating to `sass` (Dart Sass) in the future
+
+### Dependencies
+- Many dependencies are deprecated but still functional
+- Angular 1.x is used (legacy, but stable for this project)
+- WordPress environment requires Docker
+
+## Testing
+- PHP Unit tests: `composer test`
+- WordPress test environment available at localhost:8889
+- Test bootstrap: `tests/bootstrap.php`
+
+## Coding Standards
+- Follow WordPress coding standards for PHP
+- Use meaningful directory structure
+- Keep files under 500 lines when possible
+- Apply "separation of concerns" principle
+- Use consistent naming conventions
+
+## Git Workflow
+- Repository: https://github.com/tarosky/tscf
+- Use `gh` command for issue/PR management
+- Commit only code-verifiable changes without permission
+- Request permission for UI changes or login-required processes
