@@ -1,1 +1,1 @@
-composer test
+npm run test:full
