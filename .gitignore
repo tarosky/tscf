@@ -9,6 +9,13 @@ package-lock.json
 /assets/lib/
 /sanko/
 
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
 # Test files (should not be committed)
 test-*.txt
 test-*.js
