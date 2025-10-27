@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 const mergeStream = require( 'merge-stream' );
+const sass = require('gulp-sass')(require('sass'));
 
 let plumber = true;
 
@@ -14,12 +15,9 @@ gulp.task('sass', function () {
       errorHandler: $.notify.onError('<%= error.message %>')
     }))
     .pipe($.sourcemaps.init())
-    .pipe($.sass({
-      errLogToConsole: true,
-      outputStyle    : 'compressed',
-      sourceComments : 'normal',
-      sourcemap      : true
-    }))
+    .pipe(sass({
+      outputStyle: 'compressed'
+    }).on('error', sass.logError))
     .pipe($.sourcemaps.write('./map'))
     .pipe(gulp.dest('./assets/css'));
 });
@@ -120,4 +118,3 @@ gulp.task( 'noplumber', ( done ) => {
 	plumber = false;
 	done();
 } );
-
