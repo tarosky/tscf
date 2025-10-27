@@ -8,3 +8,11 @@ package-lock.json
 /assets/css/
 /assets/lib/
 /sanko/
+
+# Test files (should not be committed)
+test-*.txt
+test-*.js
+*-test.js
+*-test.txt
+*.test.js
+*.test.txt
