@@ -2,6 +2,8 @@ name: Deploy Plugin
 
 on:
   push:
+    branches:
+      - master
     tags:
       - '*'
   pull_request:
