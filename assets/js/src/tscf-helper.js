@@ -50,7 +50,7 @@
             results: data.posts
           };
         },
-        cache         : true
+        cache         : false
       }
     };
     if (0 < max) {
