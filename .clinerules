@@ -1,318 +1,55 @@
-# TSCF - WordPress プラグイン開発ガイド
-
-## プロジェクト概要
-
-TSCF (Tarosky Custom Field manager) は、カスタムフィールドを効率的に管理するためのWordPressプラグインです。
-
-### 解決する課題
-- WordPressのカスタムフィールドの複雑な管理
-- JSONファイルによる設定の一元管理
-- 開発者向けのスケーラブルなカスタムフィールドシステム
-
-### 技術スタック
-- **PHP**: 7.4以上（PSR-0オートローディング）
-- **JavaScript**: Angular 1.x（レガシーだが安定）
-- **CSS**: SCSS（Gulp でコンパイル）
-- **ビルドツール**: Gulp
-- **依存関係管理**: Composer（PHP）、npm（JavaScript）
-- **開発環境**: @wordpress/env（Docker）
-- **コード品質**: husky + lint-staged（Gitフック）
-
-## ディレクトリ構造
-
-```
-tscf/
-├── .github/                    # GitHub関連設定
-│   └── workflows/
-│       └── wordpress.yml       # WordPress.orgデプロイ・テスト
-├── .husky/                     # Gitフック設定
-│   ├── pre-commit              # コミット前フック
-│   └── pre-push                # プッシュ前フック
-├── assets/                     # ソースアセット（ビルド前）
-│   ├── html/                   # HTMLテンプレート
-│   ├── js/src/                 # JavaScriptソース
-│   │   ├── modules/            # Angular モジュール
-│   │   └── services/           # Angular サービス
-│   └── scss/                   # SCSSファイル
-├── bin/                        # ビルドスクリプト
-│   ├── build.sh                # プラグインビルド用スクリプト
-│   └── clean.sh                # クリーンアップスクリプト
-├── languages/                  # 翻訳ファイル
-│   ├── tscf.pot                # POTテンプレート
-│   ├── tscf-ja.po              # 日本語翻訳
-│   └── tscf-ja.mo              # コンパイル済み翻訳
-├── src/                        # PHPソースコード
-│   └── Tarosky/TSCF/
-│       ├── Pattern/            # 共通パターン・トレイト
-│       ├── UI/                 # UIコンポーネント
-│       │   └── Fields/         # フィールドタイプ実装
-│       ├── Utility/            # ユーティリティクラス
-│       ├── Bootstrap.php       # プラグイン初期化
-│       ├── Editor.php          # エディター機能
-│       └── Rest.php            # REST API
-├── tests/                      # PHPUnit テスト
-├── vendor/                     # Composer依存関係（生成される）
-├── node_modules/               # npm依存関係（生成される）
-├── tscf.php                    # プラグインメインファイル
-├── functions.php               # ヘルパー関数
-├── admin.php                   # 管理画面
-├── composer.json               # PHP依存関係定義
-├── package.json                # Node.js依存関係定義
-├── gulpfile.js                 # ビルド設定
-├── phpcs.ruleset.xml           # PHPコーディング規約
-└── .wp-env.json                # WordPress環境設定
-```
-
-### 主要ディレクトリの説明
-
-- **src/Tarosky/TSCF/Pattern/**: 各機能で共通利用される抽象クラスやトレイト
-- **src/Tarosky/TSCF/UI/Fields/**: 各フィールドタイプの実装（Text、Image、Date等）
-- **src/Tarosky/TSCF/Utility/**: ヘルパー関数やユーティリティクラス
-- **assets/js/src/modules/**: Angular 1.x のモジュール実装
-- **assets/html/**: 管理画面用のHTMLテンプレート
-- **.husky/**: Gitフック設定（コード品質管理）
-
-## 環境設定
-
-### 前提条件
-- **Node.js**: 18以上（Voltaでバージョン管理、package.jsonで指定）
-- **PHP**: 7.4以上
-- **Composer**: PHP依存関係管理
-- **Docker Desktop**: WordPress環境用
-
-### 依存関係のインストール
-
-```bash
-# PHP依存関係
-composer install
-
-# JavaScript依存関係
-npm install
-```
-
-### 開発環境の起動
-
-```bash
-# WordPress環境の起動
-npm start
-
-# 初回起動後や、WordPress/プラグインのバージョンを更新したい場合
-npm run update
-
-# 環境の停止
-npm stop
-```
+# TSCF - AI支援用ルール（メタ/運用）
 
-### WordPress環境
-- **開発サイト**: http://localhost:8888
-- **テストサイト**: http://localhost:8889
-- **MySQL**: ポートは動的に割り当て
-- **WP-CLI**: `npm run cli -- <コマンド>`
+本ファイルは AI 支援のための「最小限のメタ情報」を提供します。技術仕様・手順・設計の正（SSOT）は Development.md に集約します。本ファイルには詳細を記載しません（重複禁止）。
 
-## 開発手順
+## ドキュメントの役割分担
 
-### ビルド
+- Development.md（SSOT）
+  - 仕様・設計思想・依存関係・ディレクトリ構造・環境構築・日常コマンド・Husky 運用・コアコンセプト・拡張方法・既知の問題・回避策・リリース・トラブルシュート等、あらゆる技術情報の正。
+  - 変更が発生したら必ず更新する。
 
-```bash
-# 全アセットのビルド
-npm run package
+- .clinerules（本ファイル）
+  - AI 向け補助（運用方針・重複防止ルール・参照先の指示）。
+  - 技術的な詳細は記載しない。常に Development.md を参照する。
 
-# 開発中のファイル監視
-npm run watch
-```
+## 重複防止・更新ルール
 
-### コードスタイルチェック
+1. 技術情報を更新する際は、Development.md の該当節を更新する（SSOT 反映が先）。
+2. その後に、必要があれば本ファイルの「参照先」やメタ指針のみ最小更新。
+3. .clinerules に技術詳細（コード/手順/設定）を書かない。必ず Development.md の該当節へ集約する。
+4. .clinerules と Development.md に齟齬があれば、Development.md を正として .clinerules を追随修正する。
 
-```bash
-# JavaScript/CSS
-npm run lint
+## 参照ポインタ（AI の行動規範）
 
-# PHP
-composer lint
-```
+AI は回答/修正時に、以下の Development.md の該当節を「必ず」参照すること:
 
-### コードの自動修正
+- ディレクトリ構造/主要ディレクトリ: Development.md「ディレクトリ構造」
+- ブランチ運用/PR/コミット規約: Development.md「ブランチ運用とコントリビュート」
+- 環境要件/初期セットアップ/日常コマンド: Development.md「環境要件と初期セットアップ」「日常のコマンド」
+- Husky/品質管理: Development.md「Husky（コード品質管理）」
+- コア・コンセプト/フィールド拡張: Development.md「コア・コンセプト」「フィールドタイプの拡張」
+- トレードオフ/要注意領域/既知の問題: Development.md「トレードオフと重要な注意事項」「既知の問題と回避策」
+- 一時ファイル/サンプルの扱い: Development.md「一時ファイル/サンプルの扱い」
+- リリース/CI: Development.md「リリース」
+- トラブルシューティング/デバッグ: Development.md「トラブルシューティング / デバッグ」
 
-```bash
-# PHP
-composer fix
-```
+回答内で具体的手順や設定値に触れる場合は、Development.md の該当節を根拠として一貫性を保つこと。
 
-### テスト
+## PR/変更の作法（AI 実務指針）
 
-```bash
-# PHP単体テスト
-composer test
+- 変更は小さく分割。関連箇所の SSOT（Development.md）更新を含める。
+- ブランチ保護に従い、直接 push 禁止。PR 経由で `master` へ。
+- PR 本文に背景/変更点/確認方法/影響範囲を記載し、可能なら `Closes #<番号>` を付与。
+- 一時/検証ファイルは PR に含めない（詳細は Development.md の該当節）。
 
-# テスト環境でのWP-CLI
-npm run cli:test -- <コマンド>
-```
+## 既存情報の移行ポリシー
 
-## Husky（コード品質管理）
+- 旧来 .clinerules に存在した技術詳細は、順次 Development.md へ移設済み/今後も移設する。
+- 新規の詳細情報は、最初から Development.md に追加する。
 
-### 概要
-huskyを使用してGitフックを管理し、コミット・プッシュ時に自動的にコード品質チェックを実行します。
+## 例外・拡張
 
-### 設定済みフック
+- AI のみが知るべき運用メタ（例: 自動化やツールの安全策）が必要になった場合のみ、本ファイルに追記してよい。ただし、技術仕様の重複は不可。
+- 本ファイルが肥大化し始めたら、内容を Development.md に移し、本ファイルは参照と方針のみに戻す。
 
-**pre-commit**: コミット前に実行
-- `npm test`を実行（JavaScript lint + PHP lint）
-- 高速なフィードバックでコード品質をチェック
-
-**pre-push**: プッシュ前に実行
-- 現在は一時的に無効化（PHPUnitテストの問題のため）
-- 将来的に`npm run test:full`を実行予定（lint + PHPUnit テスト）
-
-### huskyの動作確認
-
-```bash
-# コミット時にpre-commitフックが動作することを確認
-git commit -m "Test commit"
-# → "Husky pre-commit hook is working!" が表示される
-
-# プッシュ時にpre-pushフックが動作することを確認
-git push
-# → composer test が実行される
-```
-
-### 今後の拡張予定
-- lint-stagedとの連携
-- PHPファイルのコミット前チェック
-- JavaScriptファイルのESLintチェック
-
-## コア・コンセプト
-
-### カスタムフィールドの設計思想
-
-TSCFは「設定ファイル駆動」のカスタムフィールド管理を採用しています：
-
-1. **JSONファイルによる設定**: フィールド定義をJSONで管理
-2. **バージョン管理対応**: 設定ファイルをGitで管理可能
-3. **子テーマ対応**: 設定ファイルのオーバーライド機能
-4. **スケーラブル**: 大量のカスタムフィールドにも対応
-
-### フィールドタイプの拡張
-
-新しいフィールドタイプを追加する場合：
-
-```php
-// src/Tarosky/TSCF/UI/Fields/CustomField.php
-class CustomField extends Base {
-    protected function input( $name, $value, $field ) {
-        // フィールドのHTML出力
-    }
-
-    protected function sanitize( $input, $field ) {
-        // 入力値のサニタイズ
-    }
-}
-```
-
-## 既知の問題と回避策
-
-### Node.js互換性問題
-
-✅ **解決済み**: node-sassからDart Sassに移行済み
-
-**以前の問題**:
-```
-gyp ERR! configure error
-AttributeError: 'module' object has no attribute 'sha1'
-```
-
-**解決方法**:
-- `node-sass@4.14.1`（非推奨）を削除
-- `sass@1.69.0`（Dart Sass）に置き換え
-- `gulp-sass@5.1.0`に更新
-- gulpfile.jsを新しいAPIに対応
-
-**現在の状況**: 通常の`npm install`で正常にインストール可能
-
-### 依存関係の非推奨警告
-
-多くの依存関係が非推奨ですが、現在も機能しています：
-- Angular 1.x（レガシーだが、このプロジェクトでは安定）
-- 古いバージョンのGulpプラグイン
-- node-sass関連パッケージ
-
-### 開発時の注意事項
-
-⚠️ **以下の修正時は慎重に**:
-- `gulpfile.js`のSass設定
-- `package.json`のnode-sass関連依存関係
-- Angular 1.xのモジュール構造
-- `.husky/`フックの設定変更
-
-### 一時的なテストファイルの管理
-
-**重要**: 開発・テスト目的で作成した一時的なファイルは、コミット前に必ず削除してください。
-
-#### 削除対象のファイルパターン
-- `test-*.txt`, `test-*.js` - テスト用ファイル
-- `*-test.js`, `*-test.txt` - テスト用ファイル
-- `*.test.js`, `*.test.txt` - テスト用ファイル
-- `debug-*`, `tmp-*` - デバッグ・一時ファイル
-- `sample-*` - サンプルファイル（プロダクション用でない場合）
-
-#### チェック手順
-1. コミット前に `git status` で追加されるファイルを確認
-2. 上記パターンに該当するファイルがないかチェック
-3. 該当ファイルがある場合は削除または `.gitignore` に追加
-4. 必要に応じて `.gitignore` のパターンを更新
-
-#### 例外
-- 正式なテストファイル（`tests/` ディレクトリ内など）
-- ドキュメント用のサンプルファイル
-- プロダクション環境で必要なファイル
-
-## リリース
-
-1. プルリクエストをmainブランチにマージ
-2. GitHub Actionsが自動実行：
-   - コード品質チェック
-   - アセットビルド
-   - readme.txt生成（README.mdから）
-   - バージョン更新
-3. タグ作成でリリース用ZIPファイル生成
-4. WordPress.orgへの手動デプロイ（必要に応じて）
-
-## トラブルシューティング
-
-### よくある問題
-
-**Q: `npm start`でエラーが発生する**
-A: Node.jsのバージョンを確認し、`npm install --ignore-scripts --legacy-peer-deps`を実行
-
-**Q: Sassのコンパイルエラー**
-A: `node_modules`を削除して再インストール
-
-**Q: PHPのオートローディングエラー**
-A: `composer install`を実行してvendorディレクトリを再生成
-
-**Q: huskyのフックが動作しない**
-A: `.husky/`ディレクトリの権限を確認し、`npx husky init`を再実行
-
-### デバッグ方法
-
-```bash
-# WordPress環境のログ確認
-npm run cli -- log list
-
-# プラグインの有効化状態確認
-npm run cli -- plugin list
-
-# データベースの確認
-npm run cli -- db query "SELECT * FROM wp_options WHERE option_name LIKE 'tscf%'"
-
-# huskyの設定確認
-npx husky
-```
-
-## 参考資料
-
-- [WordPress Plugin Handbook](https://developer.wordpress.org/plugins/)
-- [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/)
-- [Angular 1.x Documentation](https://docs.angularjs.org/api)
-- [Gulp Documentation](https://gulpjs.com/docs/en/getting-started/quick-start)
-- [Husky Documentation](https://typicode.github.io/husky/)
-- [lint-staged Documentation](https://github.com/okonet/lint-staged)
+以上。AI は常に Development.md を正とし、整合性と非重複を最優先に行動すること。
