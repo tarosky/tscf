@@ -109,7 +109,7 @@ tscf/
 ## 環境要件と初期セットアップ
 いずれもpackage.jsonおよびcomposer.jsonでバージョンを管理。
 
-- Node.js（npmでバージョン管理）
+- Node.js
 - PHP
 - Docker Desktop（wp-envを使用）
 Dockerの設定では、以下が可能です。
