@@ -100,19 +100,18 @@ class Editor extends Singleton {
 		}
 		// Taxonomies
 		$taxonomies = array();
-		foreach ( get_taxonomies( array(), OBJECT ) as $taxonomy ) {
-			switch ( $taxonomy->name ) {
-				case 'nav_menu':
-				case 'link_category':
-					// Skip object.
-					break;
-				default:
-					$taxonomies[] = array(
-						'name'  => $taxonomy->name,
-						'label' => isset( $taxonomy->label ) ? $taxonomy->label : ( isset( $taxonomy->labels->name ) ? $taxonomy->labels->name : $taxonomy->name ),
-					);
-					break;
+		foreach ( get_taxonomies( array( 'public' => true, 'show_ui' => true ), OBJECT ) as $taxonomy ) {
+			if ( in_array( $taxonomy->name, array( 'nav_menu', 'link_category', 'post_format' ), true ) ) {
+				continue;
 			}
+			if ( 0 === strpos( $taxonomy->name, 'wp_' ) ) {
+				// e.g. wp_theme, wp_template_part_area, wp_pattern_category
+				continue;
+			}
+			$taxonomies[] = array(
+				'name'  => $taxonomy->name,
+				'label' => isset( $taxonomy->label ) ? $taxonomy->label : ( isset( $taxonomy->labels->name ) ? $taxonomy->labels->name : $taxonomy->name ),
+			);
 		}
 		return array(
 			'endpoint'   => array(
