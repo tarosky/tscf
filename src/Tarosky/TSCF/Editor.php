@@ -57,7 +57,7 @@ class Editor extends Singleton {
 			wp_register_script( 'angular-ui-sortable', $this->url . '/lib/angular/sortable.min.js', array( 'angular', 'jquery-ui-sortable' ), '1.2.6' );
 			wp_enqueue_script( 'tscf-editor', $this->url . '/js/dist/editor.js', array(
 				'angular-ui-sortable',
-			), '1.0.3', true );
+			), tscf_version(), true );
 			// Register scripts
 			wp_localize_script( 'tscf-editor', 'TSCF', $this->js_vars() );
 			// Register CSS
@@ -98,19 +98,35 @@ class Editor extends Singleton {
 					break;
 			}
 		}
+		// Taxonomies
+		$taxonomies = array();
+		foreach ( get_taxonomies( array(), OBJECT ) as $taxonomy ) {
+			switch ( $taxonomy->name ) {
+				case 'nav_menu':
+				case 'link_category':
+					// Skip object.
+					break;
+				default:
+					$taxonomies[] = array(
+						'name'  => $taxonomy->name,
+						'label' => isset( $taxonomy->label ) ? $taxonomy->label : ( isset( $taxonomy->labels->name ) ? $taxonomy->labels->name : $taxonomy->name ),
+					);
+					break;
+			}
+		}
 		return array(
-			'endpoint'  => array(
+			'endpoint'   => array(
 				'save'     => wp_nonce_url( admin_url( 'admin-ajax.php' ), 'tscf_edit' ) . '&action=tscf_save',
 				'field'    => wp_nonce_url( admin_url( 'admin-ajax.php' ), 'tscf_edit' ) . '&action=tscf_field',
 				'template' => admin_url( 'admin-ajax.php' ) . '?action=tscf_template',
 			),
-			'message'   => array(
+			'message'    => array(
 				'delete' => __( 'Are you sure to delete this item?', 'tscf' ),
 			),
-			'errors'    => $errors,
-			'settings'  => $settings,
-			'new'       => __( 'New Field', 'tscf' ),
-			'cols'      => array(
+			'errors'     => $errors,
+			'settings'   => $settings,
+			'new'        => __( 'New Field', 'tscf' ),
+			'cols'       => array(
 				array(
 					'label' => sprintf( __( '%d col', 'tscf' ), 1 ),
 					'value' => 1,
@@ -124,7 +140,7 @@ class Editor extends Singleton {
 					'value' => 3,
 				),
 			),
-			'context'   => array(
+			'context'    => array(
 				array(
 					'label' => __( 'Normal', 'tscf' ),
 					'value' => 'normal',
@@ -138,7 +154,7 @@ class Editor extends Singleton {
 					'value' => 'advanced',
 				),
 			),
-			'priority'  => array(
+			'priority'   => array(
 				array(
 					'label' => __( 'High', 'tscf' ),
 					'value' => 'high',
@@ -156,8 +172,9 @@ class Editor extends Singleton {
 					'value' => 'low',
 				),
 			),
-			'postTypes' => $post_types,
-			'types'     => $this->parser->available_types(),
+			'postTypes'  => $post_types,
+			'taxonomies' => $taxonomies,
+			'types'      => $this->parser->available_types(),
 		);
 	}
 

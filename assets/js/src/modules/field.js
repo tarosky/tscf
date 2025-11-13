@@ -21,7 +21,21 @@ angular.module('tscf').directive('tscfField', ['$http', '$window', 'ui', functio
 
       $scope.priority = TSCF.priority;
 
+      // Taxonomies provided by server
+      $scope.taxonomies = TSCF.taxonomies || [];
+
       $scope.setting = $scope.groups[$scope.i];
+
+      // Defaults for backward compatibility
+      if (!$scope.setting.type) {
+        $scope.setting.type = 'post';
+      }
+      if (!$scope.setting.post_types) {
+        $scope.setting.post_types = [];
+      }
+      if (!$scope.setting.taxonomies) {
+        $scope.setting.taxonomies = [];
+      }
 
       $scope.toggle = function(target){
         ui.toggle(target);
@@ -36,6 +50,15 @@ angular.module('tscf').directive('tscfField', ['$http', '$window', 'ui', functio
           types.push(jQuery(input).val());
         });
         $scope.groups[$scope.i].post_types = types;
+      };
+
+      // Taxonomy checkbox changed
+      $scope.changeTaxCheckbox = function(){
+        var tax = [];
+        jQuery('#taxonomy-field-' + $scope.i).find('input:checked').each(function(i, input){
+          tax.push(jQuery(input).val());
+        });
+        $scope.groups[$scope.i].taxonomies = tax;
       };
 
       /**
