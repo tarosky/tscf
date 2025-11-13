@@ -43,6 +43,32 @@ class Bootstrap extends Singleton {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 10, 2 );
 		// Add hook on save_post.
 		add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
+
+		// Term meta hooks (edit screen render and save).
+		add_action( 'admin_init', function () {
+			if ( ! method_exists( $this->parser, 'get_term_taxonomies' ) ) {
+				return;
+			}
+			$taxonomies = $this->parser->get_term_taxonomies();
+			if ( empty( $taxonomies ) ) {
+				return;
+			}
+			foreach ( $taxonomies as $taxonomy ) {
+				// Render fields on term edit screen.
+				add_action( "{$taxonomy}_edit_form_fields", function ( $term ) use ( $taxonomy ) {
+					// $term is \WP_Term
+					$this->parser->register( 'term', $taxonomy, $term );
+				}, 10, 1 );
+
+				// Save fields when term is updated.
+				add_action( "edited_{$taxonomy}", function ( $term_id ) use ( $taxonomy ) {
+					$term = get_term( $term_id, $taxonomy );
+					if ( $term && ! is_wp_error( $term ) ) {
+						$this->parser->prepare( 'term', $taxonomy, $term );
+					}
+				}, 10, 1 );
+			}
+		} );
 	}
 
 	/**

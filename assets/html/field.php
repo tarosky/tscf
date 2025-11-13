@@ -49,6 +49,17 @@
 			</tr>
 			<tr>
 				<th>
+					<label for="field-type-{{i}}"><?php _e( 'Type', 'tscf' ) ?><span class="required">*</span></label>
+				</th>
+				<td>
+					<select id="field-type-{{i}}" ng-model="setting.type" ng-change="onTypeChange()">
+						<option value="post">post</option>
+						<option value="term">term</option>
+					</select>
+				</td>
+			</tr>
+			<tr ng-if="'post' == setting.type">
+				<th>
 					<label for="field-position-{{i}}"><?php _e( 'Position', 'tscf' ) ?></label>
 				</th>
 				<td>
@@ -56,7 +67,7 @@
 					        ng-options="p.value as p.label for p in context"></select>
 				</td>
 			</tr>
-			<tr>
+			<tr ng-if="'post' == setting.type">
 				<th>
 					<label for="field-priority-{{i}}"><?php _e( 'Priority', 'tscf' ) ?></label>
 				</th>
@@ -65,7 +76,7 @@
 					        ng-options="p.value as p.label for p in priority"></select>
 				</td>
 			</tr>
-			<tr>
+			<tr ng-if="'post' == setting.type">
 				<th>
 					<label><?php _e( 'Post Type', 'tscf' ) ?></label>
 				</th>
@@ -74,6 +85,18 @@
 						<input type="checkbox" ng-value="postType.name" ng-click="changeCheckbox(i)"
 						       ng-checked="-1 < setting.post_types.indexOf(postType.name)"/>
 						{{postType.label}}
+					</label>
+				</td>
+			</tr>
+			<tr ng-if="'term' == setting.type">
+				<th>
+					<label><?php _e( 'Taxonomy', 'tscf' ) ?></label>
+				</th>
+				<td id="taxonomy-field-{{i}}">
+					<label ng-repeat="tax in taxonomies" class="tscfe-label-block">
+						<input type="checkbox" ng-value="tax.name" ng-click="changeTaxCheckbox(i)"
+						       ng-checked="-1 < (setting.taxonomies || []).indexOf(tax.name)"/>
+						{{tax.label || tax.name}}
 					</label>
 				</td>
 			</tr>
