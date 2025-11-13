@@ -1,4 +1,4 @@
-angular.module('tscf').directive('tscfField', ['$http', '$window', 'ui', function($http, $window, ui){
+angular.module('tscf').directive('tscfField', ['$http', '$window', '$timeout', 'ui', function($http, $window, $timeout, ui){
 
   "use strict";
 
@@ -36,6 +36,49 @@ angular.module('tscf').directive('tscfField', ['$http', '$window', 'ui', functio
       if (!$scope.setting.taxonomies) {
         $scope.setting.taxonomies = [];
       }
+
+      // Type changed: clear the opposite side
+      $scope.onTypeChange = function () {
+        if ($scope.setting.type === 'post') {
+          // clear taxonomy selections
+          $scope.setting.taxonomies = [];
+          $timeout(function(){
+            try {
+              jQuery('#taxonomy-field-' + $scope.i).find('input:checked').prop('checked', false);
+            } catch (e) {}
+          }, 0);
+        } else if ($scope.setting.type === 'term') {
+          // clear post type selections
+          $scope.setting.post_types = [];
+          $timeout(function(){
+            try {
+              jQuery('#post-type-field-' + $scope.i).find('input:checked').prop('checked', false);
+            } catch (e) {}
+          }, 0);
+        }
+      };
+
+      // Also react via watcher to ensure model/DOM stay in sync even if ng-change didn't fire
+      $scope.$watch('setting.type', function(val, oldVal){
+        if (val === oldVal) {
+          return;
+        }
+        if (val === 'post') {
+          $scope.setting.taxonomies = [];
+          $timeout(function(){
+            try {
+              jQuery('#taxonomy-field-' + $scope.i).find('input:checked').prop('checked', false);
+            } catch (e) {}
+          }, 0);
+        } else if (val === 'term') {
+          $scope.setting.post_types = [];
+          $timeout(function(){
+            try {
+              jQuery('#post-type-field-' + $scope.i).find('input:checked').prop('checked', false);
+            } catch (e) {}
+          }, 0);
+        }
+      });
 
       $scope.toggle = function(target){
         ui.toggle(target);

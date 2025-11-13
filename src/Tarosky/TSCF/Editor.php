@@ -203,6 +203,39 @@ class Editor extends Singleton {
 				throw new \Exception( __( 'Data is mall-formed. Nothing saved.', 'tscf' ), 400 );
 			}
 			// Save check
+			// Normalize keys and order before saving:
+			// name, label, type, (post) post_types, (term) taxonomies, (post) context, (post) priority, description, fields
+			if ( is_array( $data ) ) {
+				$ordered = array();
+				foreach ( $data as $g ) {
+					if ( ! is_array( $g ) ) {
+						continue;
+					}
+					$type       = ( isset( $g['type'] ) && 'term' === $g['type'] ) ? 'term' : 'post';
+					$o          = array();
+					$o['name']  = isset( $g['name'] ) ? (string) $g['name'] : '';
+					$o['label'] = isset( $g['label'] ) ? (string) $g['label'] : '';
+					$o['type']  = $type;
+					if ( 'term' === $type ) {
+						$o['taxonomies'] = isset( $g['taxonomies'] ) ? (array) $g['taxonomies'] : array();
+					} elseif ( 'post' === $type ) {
+						$o['post_types'] = isset( $g['post_types'] ) ? (array) $g['post_types'] : array();
+						// Only add when present; PostMeta has defaults otherwise
+						if ( isset( $g['context'] ) && '' !== $g['context'] ) {
+							$o['context'] = (string) $g['context'];
+						}
+						if ( isset( $g['priority'] ) && '' !== $g['priority'] ) {
+							$o['priority'] = (string) $g['priority'];
+						}
+					}
+					if ( isset( $g['description'] ) && '' !== $g['description'] ) {
+						$o['description'] = (string) $g['description'];
+					}
+					$o['fields'] = isset( $g['fields'] ) ? (array) $g['fields'] : array();
+					$ordered[]   = $o;
+				}
+				$data = $ordered;
+			}
 			$error = $this->parser->save( json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE ) );
 			if ( is_wp_error( $error ) ) {
 				throw new \Exception( $error->get_error_message(), $error->get_error_code() );

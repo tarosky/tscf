@@ -23,7 +23,8 @@ class TermMeta extends Base {
 	 */
 	public function __construct( $object, array $fields ) {
 		parent::__construct( $object, $fields );
-		if ( is_admin() ) {
+		// 画面描画時のみ出力。保存（edited_{$taxonomy}）などのフック実行中は出力しない
+		if ( is_admin() && function_exists( 'current_filter' ) && preg_match( '/_edit_form_fields$/', current_filter() ) ) {
 			// ターム編集画面のテーブルに一行として出力
 			echo '<tr class="form-field">';
 			echo '<th scope="row"><label>' . esc_html( $this->label ) . '</label></th>';

@@ -40,6 +40,9 @@ abstract class Input extends Base {
 	 */
 	protected function get_data( $filter = true ) {
 		switch ( get_class( $this->object ) ) {
+			case 'WP_Term':
+				$value = get_term_meta( $this->object->term_id, $this->field['name'], true );
+				break;
 			case 'WP_Post':
 			default:
 				switch ( $this->field['name'] ) {

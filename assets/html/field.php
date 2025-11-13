@@ -52,13 +52,13 @@
 					<label for="field-type-{{i}}"><?php _e( 'Type', 'tscf' ) ?><span class="required">*</span></label>
 				</th>
 				<td>
-					<select id="field-type-{{i}}" ng-model="setting.type">
+					<select id="field-type-{{i}}" ng-model="setting.type" ng-change="onTypeChange()">
 						<option value="post">post</option>
 						<option value="term">term</option>
 					</select>
 				</td>
 			</tr>
-			<tr>
+			<tr ng-if="'post' == setting.type">
 				<th>
 					<label for="field-position-{{i}}"><?php _e( 'Position', 'tscf' ) ?></label>
 				</th>
@@ -67,7 +67,7 @@
 					        ng-options="p.value as p.label for p in context"></select>
 				</td>
 			</tr>
-			<tr>
+			<tr ng-if="'post' == setting.type">
 				<th>
 					<label for="field-priority-{{i}}"><?php _e( 'Priority', 'tscf' ) ?></label>
 				</th>
@@ -76,7 +76,7 @@
 					        ng-options="p.value as p.label for p in priority"></select>
 				</td>
 			</tr>
-			<tr>
+			<tr ng-if="'post' == setting.type">
 				<th>
 					<label><?php _e( 'Post Type', 'tscf' ) ?></label>
 				</th>
@@ -88,7 +88,7 @@
 					</label>
 				</td>
 			</tr>
-			<tr ng-show="'term' == setting.type">
+			<tr ng-if="'term' == setting.type">
 				<th>
 					<label><?php _e( 'Taxonomy', 'tscf' ) ?></label>
 				</th>

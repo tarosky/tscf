@@ -128,13 +128,27 @@ class Parser extends Singleton {
 			return;
 		}
 		$this->initialized = true;
-		$this->data        = wp_parse_args( (array) $json, array(
+		// Normalize JSON to a list of groups.
+		$raw = $json;
+		if ( is_array( $raw ) ) {
+			$is_list = array_keys( $raw ) === range( 0, count( $raw ) - 1 );
+			$list    = $is_list ? $raw : array( $raw );
+		} elseif ( is_object( $raw ) ) {
+			$list = array( (array) $raw );
+		} else {
+			$list = array();
+		}
+		$defaults   = array(
 			'name'   => '',
 			'label'  => '',
 			'type'   => 'post',
 			'slug'   => array(),
 			'fields' => array(),
-		));
+		);
+		$this->data = array();
+		foreach ( $list as $item ) {
+			$this->data[] = wp_parse_args( (array) $item, $defaults );
+		}
 	}
 
 	/**
