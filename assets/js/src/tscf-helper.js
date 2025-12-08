@@ -342,12 +342,23 @@
   $('.tscf--iterator').on('click', '.tscf__add', function (e) {
     e.preventDefault();
     // Check if max
-    var $container = $(this).parents('.tscf--iterator'),
+    var $container = $(this).closest('.tscf--iterator'),
         max        = parseInt($container.attr('data-max'), 10),
-        $template  = $container.find('.tscf__template');
-    if (!max || $container.find('.tscf__child').length < max) {
+        // 自身の iterator 直下のテンプレートのみを対象にする。ネストした iterator のテンプレートは無視する
+        $template  = $container.children('.tscf__template'),
+        $list      = $container.children('.tscf__childList');
+
+    if (!max || $list.children('.tscf__child').length < max) {
       var $newElem = $($template.html());
-      $newElem.appendTo($container.find('.tscf__childList'));
+
+      // 親の行を追加するときは、ネストしたiteratorの中身は空の状態から始める。既存行で入力済みの繰り返し値がそのまま複製されないようにリセットする
+      $newElem.find('.tscf--iterator').each(function () {
+        var $it = $(this);
+        $it.find('.tscf__childList').empty();
+        $it.find('.tscf__index').val(0);
+      });
+
+      $newElem.appendTo($list);
       $container.trigger('compute.tscf');
       $newElem.trigger('created.tscf');
     }
@@ -357,7 +368,7 @@
   $('.tscf--iterator').on('click', '.tscf__button', function (e) {
     e.preventDefault();
     if ($(this).hasClass('tscf__button--delete')) {
-      var $parent = $(this).parents('.tscf--iterator');
+      var $parent = $(this).closest('.tscf--iterator');
       $(this).parents('.tscf__child').remove();
       $parent.trigger('compute.tscf');
     }
@@ -375,16 +386,30 @@
 
   // Change index
   $('.tscf--iterator').on('compute.tscf', function (e, noHighlight) {
-    var prefix = $(this).attr('data-prefix'),
-        length = 0;
+    var prefix    = $(this).attr('data-prefix'),
+        length    = 0,
+        // prefix を正規表現用にエスケープ
+        escPrefix = prefix.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'),
+        // この iterator 直下のフィールドのみを対象にする。prefix_fieldName_index または prefix_fieldName_index[...
+        re        = new RegExp('^' + escPrefix + '_[^_]+_[0-9]+(\\[|$)');
+
     if (!noHighlight) {
       $(this).effect('highlight', {}, 500);
     }
-    $(this).find('.tscf__child').each(function (index, elt) {
+
+    // 直下の .tscf__childList 配下にある子行 .tscf__child のみを対象にする。
+    $(this).find('> .tscf__childList > .tscf__child').each(function (index, elt) {
       length++;
       $.each(['id', 'for', 'name'], function (nameIndex, prop) {
         $(elt).find('[' + prop + '^=' + prefix + '_]').each(function (i, input) {
-          $(input).attr(prop, $(input).attr(prop).replace(/_[0-9]+(\[?)/, function () {
+          var current = $(input).attr(prop);
+
+          // このiterator直下のフィールドだけをリネームする。ネストしたiteratorのフィールド（孫）があってもスキップする
+          if ( ! re.test(current) ) {
+            return;
+          }
+
+          $(input).attr(prop, current.replace(/_[0-9]+(\[?)/, function () {
             return '_' + ( index + 1 ) + arguments[1];
           }));
         });
