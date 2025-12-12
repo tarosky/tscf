@@ -390,7 +390,7 @@
         length    = 0,
         // prefix を正規表現用にエスケープ
         escPrefix = prefix.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'),
-        // この iterator 直下のフィールドのみを対象にする。prefix_fieldName_index または prefix_fieldName_index[...
+		// この iterator 直下のフィールドのみを対象にする。prefix_fieldName_index または prefix_fieldName_index[... NG例: prefix_fieldName_fieldName_index（アンダースコアが直下よりひとつ多い＝孫フィールド）
         re        = new RegExp('^' + escPrefix + '_[^_]+_[0-9]+(\\[|$)');
 
     if (!noHighlight) {

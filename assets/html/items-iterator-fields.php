@@ -6,6 +6,12 @@
 
 	<div class="tscfe-field-child" ng-repeat="(idx, f) in fields">
 		<div class="tscfe-field-item-meta">
+			<div class="message" ng-if="f._errors && f._errors.length">
+					<span class="error" ng-repeat="msg in f._errors">
+						<span class="dashicons dashicons-warning"></span>
+						{{ msg }}
+					</span>
+			</div>
 			<label class="block">
 				<span>
 					<?php _e( 'Label', 'tscf' ); ?>

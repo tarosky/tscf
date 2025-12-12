@@ -226,7 +226,26 @@
               display: inline-block;
               width: 5em;
             }
+		  	.description {
+			  color: #0073aa;
+			  display: inline-flex;
+			  width: auto;
+			  vertical-align: middle;
+			  gap: 5px;
+			}
           }
+		  .message {
+		    margin-bottom: 5px;
+		    font-weight: bold;
+		  	font-size: 1rem;
+		  	line-height: 2rem;
+		    .error {
+			  color: #e74656;
+			}
+		    .dashicons {
+			  vertical-align: text-bottom;
+		    }
+		  }
         }
         h4{
           font-size: 1em;

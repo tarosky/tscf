@@ -5,6 +5,12 @@
 		<div class="tscfe-field-item-inner">
 
 			<div class="tscfe-field-item-meta">
+				<div class="message" ng-if="field._errors && field._errors.length">
+					<span class="error" ng-repeat="msg in field._errors">
+						<span class="dashicons dashicons-warning"></span>
+						{{ msg }}
+					</span>
+				</div>
 				<label class="block">
 					<span>
 						<?php _e( 'Label', 'tscf' ) ?>
@@ -18,6 +24,10 @@
 						<span class="required">*</span>
 					</span>
 					<input type="text" ng-model="field.name"/>
+					<span class="description" ng-if="'iterator' == field.type">
+						<span class="dashicons dashicons-info"></span>
+						<?php _e( 'Keys of all fields under this iterator must NOT contain "_" (it is used internally as a separator).', 'tscf' ); ?>
+					</span>
 				</label>
 				<label id="change-type-{{i}}-{{j}}" class="block">
 					<span>

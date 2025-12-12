@@ -120,8 +120,16 @@ SQL;
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$keys    = $wpdb->get_col( $wpdb->prepare( $query, $object_id, $key ) );
 		$indexes = array();
+		$prefix  = $this->field['name'];
+		// tscf-helper.js の compute.tscf 内の正規表現と同じ
+		$pattern = sprintf(
+			'#^%s_[^_]+_([0-9]+)(\[|$)#u',
+			preg_quote( $prefix, '#' )
+		);
+
 		foreach ( $keys as $k ) {
-			if ( preg_match( '#_([0-9]+)$#u', $k, $matches ) ) {
+			// 自身の iterator 直下のフィールドだけを対象にする。ネストした iterator は無視する
+			if ( preg_match( $pattern, $k, $matches ) ) {
 				if ( false === array_search( $matches[1], $indexes, true ) ) {
 					$indexes[] = $matches[1];
 				}
