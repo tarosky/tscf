@@ -126,13 +126,32 @@
     height: auto;
     min-height: 5em;
   }
-  &childList{
+
+  // Iterator 子要素リスト（繰り返しフィールド）のツリー表示
+  &__childList{
     margin-top: 20px;
   }
+
   &__child{
     position: relative;
     border: 1px solid #eee;
-    padding: 20px;
+    padding: 16px 36px 16px 18px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    background: #fff;
+
+    // 左側に階層ガイドライン
+    &::before{
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #0073aa;
+      opacity: .25;
+    }
+
     &:nth-child(even){
       background: #f9f9f9;
     }
@@ -140,6 +159,39 @@
       height: 100px;
       border: 3px dashed #ddd;
       background: #faffd3;
+    }
+
+    // 2階層目
+    .tscf__child &{
+      margin-left: 18px;
+      background: #f7fbff;
+
+      &::before{
+        background: #1e8cbe;
+        opacity: .3;
+      }
+    }
+
+    // 3階層目
+    .tscf__child .tscf__child &{
+      margin-left: 32px;
+      background: #f7fdf8;
+
+      &::before{
+        background: #46b450;
+        opacity: .35;
+      }
+    }
+
+    // 4階層目以降
+    .tscf__child .tscf__child .tscf__child &{
+      margin-left: 46px;
+      background: #fffcf5;
+
+      &::before{
+        background: #ffb900;
+        opacity: .4;
+      }
     }
   }
 
