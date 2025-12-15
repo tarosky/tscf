@@ -339,7 +339,8 @@
   // ----------------------------------
   //
   // Add button for iterator.
-  $('.tscf--iterator').on('click', '.tscf__add', function (e) {
+  // document 委譲にして、動的に追加される入れ子iteratorでの多重発火を防ぐ
+  $(document).on('click', '.tscf--iterator .tscf__add', function (e) {
     e.preventDefault();
     // Check if max
     var $container = $(this).closest('.tscf--iterator'),
@@ -365,7 +366,7 @@
   });
 
   // Remove button for iterator
-  $('.tscf--iterator').on('click', '.tscf__button', function (e) {
+  $(document).on('click', '.tscf--iterator .tscf__button', function (e) {
     e.preventDefault();
     if ($(this).hasClass('tscf__button--delete')) {
       var $parent = $(this).closest('.tscf--iterator');
@@ -386,7 +387,7 @@
   });
 
   // Change index
-  $('.tscf--iterator').on('compute.tscf', function (e, noHighlight) {
+  $(document).on('compute.tscf', '.tscf--iterator', function (e, noHighlight) {
     var prefix    = $(this).attr('data-prefix'),
         length    = 0,
         // prefix を正規表現用にエスケープ
