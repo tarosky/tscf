@@ -123,7 +123,7 @@ SQL;
 		$prefix  = $this->field['name'];
 		// tscf-helper.js の compute.tscf 内の正規表現と同じ
 		$pattern = sprintf(
-			'#^%s_[^_]+_([0-9]+)(\[|$)#u',
+			'#^%s_[^_]+_([0-9]+)(\[|_|$)#u',
 			preg_quote( $prefix, '#' )
 		);
 
@@ -136,6 +136,39 @@ SQL;
 			}
 		}
 		sort( $indexes );
+		return $indexes;
+	}
+
+	/**
+	 * Get indexes from $_POST keys.
+	 *
+	 * JS 側の index hidden（_index_of_xxx）が欠けている場合でも、POST された name を走査して存在する index を検出するためのフォールバック処理。
+	 *
+	 * @return int[]
+	 */
+	protected function get_posted_indexes() {
+		$indexes = array();
+		$prefix  = isset( $this->field['name'] ) ? $this->field['name'] : '';
+
+		if ( ! $prefix ) {
+			return $indexes;
+		}
+
+		$pattern = sprintf(
+			'#^%s_[^_]+_([0-9]+)(\[|_|$)#u',
+			preg_quote( $prefix, '#' )
+		);
+
+		foreach ( array_keys( $_POST ) as $key ) {
+			if ( preg_match( $pattern, $key, $matches ) ) {
+				if ( ! in_array( $matches[1], $indexes, true ) ) {
+					$indexes[] = (int) $matches[1];
+				}
+			}
+		}
+
+		sort( $indexes, SORT_NUMERIC );
+
 		return $indexes;
 	}
 
@@ -156,7 +189,24 @@ SQL;
 		// Save it all
 		$saved  = 0;
 		$length = $this->input->post( "_index_of_{$this->field['name']}" );
-		for ( $index = 1; $index <= $length; $index++ ) {
+		$length = is_numeric( $length ) ? (int) $length : 0;
+
+		$indexes = array();
+
+		// 通常は hidden の _index_of_xxx を信頼する
+		if ( $length > 0 ) {
+			$indexes = range( 1, $length );
+		}
+
+		// 念のため、POST された name から検出した index もマージしておく
+		// （_index_of_xxx が小さすぎる場合でも、実際に存在する行 index は漏らさない）
+		$post_indexes = $this->get_posted_indexes();
+		if ( $post_indexes ) {
+			$indexes = array_values( array_unique( array_merge( $indexes, $post_indexes ) ) );
+			sort( $indexes, SORT_NUMERIC );
+		}
+
+		foreach ( $indexes as $index ) {
 			foreach ( $this->field['fields'] as $field ) {
 				$field['name'] = "{$this->field['name']}_{$field['name']}_{$index}";
 				$class_name    = UIBase::get_field_class( $field );

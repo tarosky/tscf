@@ -387,13 +387,17 @@
   });
 
   // Change index
-  $(document).on('compute.tscf', '.tscf--iterator', function (e, noHighlight) {
-    var prefix    = $(this).attr('data-prefix'),
+  // いま処理している iterator 直下のindexだけを更新する。ネストしたiteratorのフィールド（孫）はスキップする
+  $( document ).on( 'compute.tscf', '.tscf--iterator', function( e, noHighlight ) {
+    var prefix    = $( this ).attr( 'data-prefix' ),
         length    = 0,
         // prefix を正規表現用にエスケープ
-        escPrefix = prefix.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'),
-		// この iterator 直下のフィールドのみを対象にする。prefix_fieldName_index または prefix_fieldName_index[... NG例: prefix_fieldName_fieldName_index（アンダースコアが直下よりひとつ多い＝孫フィールド）
-        re        = new RegExp('^' + escPrefix + '_[^_]+_[0-9]+(\\[|$)');
+        escPrefix = prefix.replace( /[-[\]/{}()*+?.\\^$|]/g, '\\$&' ),
+        // 先頭が prefix_フィールド名_数字 もしくはその後ろに [ _ のどちらかが続くものだけが対象。iterator.php の Iterator::get_field_indexes() と同じ条件
+        // 例: repeater_test_aaa_1, repeater_test_bbb_1_ccc_9999 など
+        re        = new RegExp( '^' + escPrefix + '_[^_]+_[0-9]+(\\[|_|$)' ),
+        // 例: repeater_test_bbb_1_ccc_9999 の repeater_test_bbb_ までをキャプチャ
+        headRe    = new RegExp( '^(' + escPrefix + '_[^_]+_)\\d+' );
 
     if (!noHighlight) {
       $(this).effect('highlight', {}, 500);
@@ -405,20 +409,22 @@
       $.each(['id', 'for', 'name'], function (nameIndex, prop) {
         $(elt).find('[' + prop + '^=' + prefix + '_]').each(function (i, input) {
           var current = $(input).attr(prop);
-
-          // このiterator直下のフィールドだけをリネームする。ネストしたiteratorのフィールド（孫）があってもスキップする
+          // この iterator 直下のフィールドでなければスキップ
           if ( ! re.test(current) ) {
             return;
           }
 
-          $(input).attr(prop, current.replace(/_[0-9]+(\[?)/, function () {
-            return '_' + ( index + 1 ) + arguments[1];
-          }));
-        });
-      });
-    });
-    $(this).find('.tscf__index').val(length);
-  });
+          // いま処理している iterator 自身の直下の行 index だけを並び順に合わせて振り直す
+          $( input ).attr( prop, current.replace( headRe, function( match, p1 ) {
+            return p1 + ( index + 1 );
+          } ) );
+        } );
+      } );
+    } );
+
+    // いま処理している iterator 自身の index hidden (_index_of_xxx) だけを更新する。ネストした iterator の index hidden までは書き換えない
+    $( this ).find( '> .tscf__index' ).val( length );
+  } );
 
   // Set initial value
   $(document).ready(function () {
