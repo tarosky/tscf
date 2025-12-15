@@ -369,7 +369,8 @@
     e.preventDefault();
     if ($(this).hasClass('tscf__button--delete')) {
       var $parent = $(this).closest('.tscf--iterator');
-      $(this).parents('.tscf__child').remove();
+      // 最も近い .tscf__child（この行）だけを削除する。入れ子の親行までは削除しない
+      $(this).closest('.tscf__child').remove();
       $parent.trigger('compute.tscf');
     }
   });
