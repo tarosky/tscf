@@ -45,9 +45,9 @@ class Iterator extends Base {
 				}
 				?>
 			</div>
-			<script type="text/template" class="tscf__template">
+			<template class="tscf__template">
 				<?php echo $this->single_row( 9999 ); ?>
-			</script>
+			</template>
 			<input type="hidden" class="tscf__index" name="_index_of_<?php echo $this->field['name']; ?>"
 					value="<?php echo esc_attr( $counter ); ?>"/>
 		</div>
