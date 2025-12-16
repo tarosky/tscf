@@ -5,6 +5,12 @@
 		<div class="tscfe-field-item-inner">
 
 			<div class="tscfe-field-item-meta">
+				<div class="message" ng-if="field._errors && field._errors.length">
+					<span class="error" ng-repeat="msg in field._errors">
+						<span class="dashicons dashicons-warning"></span>
+						{{ msg }}
+					</span>
+				</div>
 				<label class="block">
 					<span>
 						<?php _e( 'Label', 'tscf' ) ?>
@@ -18,13 +24,17 @@
 						<span class="required">*</span>
 					</span>
 					<input type="text" ng-model="field.name"/>
+					<span class="description" ng-if="'iterator' == field.type">
+						<span class="dashicons dashicons-info"></span>
+						<?php _e( 'Keys of all fields under this iterator must NOT contain "_" (it is used internally as a separator).', 'tscf' ); ?>
+					</span>
 				</label>
 				<label id="change-type-{{i}}-{{j}}" class="block">
 					<span>
 						<?php _e( 'Type', 'tscf' ) ?>
 						<span class="required">*</span>
 					</span>
-					<select ng-model="field.type" ng-change="changeType(j)"
+					<select ng-model="field.type" ng-change="changeFieldType(field)"
 					        ng-options="type.name as type.label for type in types"></select>
 					<input type="text" placeholder="<?php _e( 'Class Name' ) ?>"
 					       ng-hide="'custom' != field.type" ng-model="field.class_name"/>
@@ -44,13 +54,13 @@
 					<button class="button-toggle" ng-click="toggle('#toggle-layout-' + i + '-' + j)" title="<?php esc_attr_e( 'Detail', 'tscf' ) ?>">
 						<span class="dashicons dashicons-admin-generic"></span>
 					</button>
-					<button class="button-delete" ng-click="removeField(j)" title="<?php esc_attr_e( 'Remove Field', 'tscf' ) ?>">
+					<button class="button-delete" ng-click="removeFieldAt(fields, j)" title="<?php esc_attr_e( 'Remove Field', 'tscf' ) ?>">
 						<span class="dashicons dashicons-no"></span>
 					</button>
-					<button class="button-up" ng-if="0 < j" title="<?php esc_attr_e( 'Move down', 'tscf' ) ?>" ng-click="move(j, -1)">
+					<button class="button-up" ng-if="0 < j" title="<?php esc_attr_e( 'Move down', 'tscf' ) ?>" ng-click="moveField(fields, j, -1)">
 						<span class="dashicons dashicons-arrow-up-alt2"></span>
 					</button>
-					<button class="button-down" ng-if="fields.length - 1 != j" title="<?php esc_attr_e( 'Move up', 'tscf' ) ?>" ng-click="move(j, 1)">
+					<button class="button-down" ng-if="fields.length - 1 != j" title="<?php esc_attr_e( 'Move up', 'tscf' ) ?>" ng-click="moveField(fields, j, 1)">
 						<span class="dashicons dashicons-arrow-down-alt2"></span>
 					</button>
 				</div>
@@ -136,35 +146,7 @@
 					<tscf-options options="field.options"></tscf-options>
 				</div>
 				<div class="fields" ng-if="'iterator' == field.type">
-					<h4>
-						<button ng-click="addChildField(j)"><?php _e( 'Add Field', 'tscf' ) ?></button>
-						<?php _e( 'Fields', 'tscf' ) ?>
-					</h4>
-
-					<div class="tscfe-field-child" ng-repeat="(k, f) in field.fields">
-						<label class="block">
-							<span>
-								<?php _e( 'Label', 'tscf' ) ?>
-								<span class="required">*</span>
-							</span>
-							<input type="text" ng-model="f.label"/>
-						</label>
-						<label class="block">
-							<span>
-								<?php _e( 'Key', 'tscf' ) ?>
-								<span class="required">*</span>
-							</span>
-							<input type="text" ng-model="f.name"/>
-						</label>
-						<label class="block">
-							<span>
-								<?php _e( 'Type', 'tscf' ) ?>
-								<span class="required">*</span>
-							</span>
-							<select ng-model="f.type" ng-change="changeChildType(j, k)"
-									ng-options="type.name as type.label for type in childTypes"></select>
-						</label>
-					</div>
+					<tscf-iterator-fields fields="field.fields"></tscf-iterator-fields>
 				</div>
 			</div>
 		</div>

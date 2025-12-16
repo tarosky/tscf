@@ -109,6 +109,113 @@ function tscf_repeat_field( $group, $post = null ) {
 }
 
 /**
+ * Recursively build iterator tree (supports nested iterator levels)
+ *
+ * メタキー:
+ * group_child_1_grandchild_2_field_3
+ * のようなパターンを
+ * [ 1 => [ 'child' => [ 2 => [ 'grandchild' => [ 3 => [ 'field' => value ] ] ] ] ] ]
+ * のような入れ子配列に変換する
+ *
+ * @param string              $group Group (iterator root) meta key prefix.
+ * @param null|int|WP_Post    $post  Post object.
+ * @return array
+ */
+function tscf_iterator( $group, $post = null ) {
+	$post = get_post( $post );
+	if ( ! $post ) {
+		return [];
+	}
+
+	$tree = [];
+	$meta = get_post_custom( $post->ID );
+
+	foreach ( $meta as $key => $values ) {
+		if ( 0 !== strpos( $key, $group . '_' ) ) {
+			continue;
+		}
+
+		$value  = current( $values );
+		$suffix = substr( $key, strlen( $group ) + 1 );
+		if ( '' === $suffix ) {
+			continue;
+		}
+
+		$parts = explode( '_', $suffix );
+		$count = count( $parts );
+		if ( $count < 2 ) {
+			continue;
+		}
+
+		$cursor =& $tree;
+
+		for ( $i = 0; $i < $count; $i += 2 ) {
+			if ( ! isset( $parts[ $i + 1 ] ) ) {
+				break;
+			}
+			$name  = $parts[ $i ];
+			$index = (int) $parts[ $i + 1 ];
+
+			if ( ! isset( $cursor[ $index ] ) || ! is_array( $cursor[ $index ] ) ) {
+				$cursor[ $index ] = [];
+			}
+
+			// 最後のペアであれば値を代入して終了
+			if ( $i + 2 >= $count ) {
+				$cursor[ $index ][ $name ] = $value;
+				break;
+			}
+
+			if ( ! isset( $cursor[ $index ][ $name ] ) || ! is_array( $cursor[ $index ][ $name ] ) ) {
+				$cursor[ $index ][ $name ] = [];
+			}
+
+			$cursor =& $cursor[ $index ][ $name ];
+		}
+
+		unset( $cursor );
+	}
+
+	return tscf_iterator_sort_recursive( $tree );
+}
+
+/**
+ * Recursively sort iterator by numeric index keys.
+ * iterator の配列を数字キー順でソートする
+ *
+ * @param mixed $node Node
+ *
+ * @return mixed
+ */
+function tscf_iterator_sort_recursive( $node ) {
+	// 配列であれば再帰
+	if ( ! is_array( $node ) ) {
+		return $node;
+	}
+
+	$keys       = array_keys( $node );
+	$numeric    = array_filter(
+		$keys,
+		function( $k ) {
+			return is_int( $k ) || ctype_digit( (string) $k );
+		}
+	);
+	$is_numeric = count( $numeric ) === count( $keys );
+
+	if ( $is_numeric ) {
+		ksort( $node );
+	}
+
+	foreach ( $node as $k => $v ) {
+		if ( is_array( $v ) ) {
+			$node[ $k ] = tscf_iterator_sort_recursive( $v );
+		}
+	}
+
+	return $node;
+}
+
+/**
  * Get images
  *
  * @package tscf
