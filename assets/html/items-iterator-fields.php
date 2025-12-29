@@ -36,6 +36,9 @@
 			</label>
 
 			<div class="tscfe-field-item-controller">
+				<button class="button-toggle" ng-if="f.hasOwnProperty('options')" ng-click="f._showOptions = !f._showOptions" title="<?php esc_attr_e( 'Detail', 'tscf' ) ?>">
+					<span class="dashicons dashicons-admin-generic"></span>
+				</button>
 				<button class="button-delete" ng-click="removeFieldAt(fields, idx)" title="<?php esc_attr_e( 'Remove Field', 'tscf' ) ?>">
 					<span class="dashicons dashicons-no"></span>
 				</button>
@@ -45,6 +48,14 @@
 				<button class="button-down" ng-if="fields.length - 1 != idx" title="<?php esc_attr_e( 'Move up', 'tscf' ) ?>" ng-click="moveField(fields, idx, 1)">
 					<span class="dashicons dashicons-arrow-down-alt2"></span>
 				</button>
+			</div>
+		</div>
+
+		<div class="tscfe-field-item-atts" ng-if="f.hasOwnProperty('options')" ng-show="f._showOptions">
+			<hr />
+			<div class="options">
+				<h4><?php _e( 'Options', 'tscf' ); ?></h4>
+				<tscf-options options="f.options"></tscf-options>
 			</div>
 		</div>
 
