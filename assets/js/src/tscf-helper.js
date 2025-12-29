@@ -50,7 +50,7 @@
             results: data.posts
           };
         },
-        cache         : true
+        cache         : false,
       }
     };
     if (0 < max) {
@@ -339,26 +339,39 @@
   // ----------------------------------
   //
   // Add button for iterator.
-  $('.tscf--iterator').on('click', '.tscf__add', function (e) {
+  // document 委譲にして、動的に追加される入れ子iteratorでの多重発火を防ぐ
+  $(document).on('click', '.tscf--iterator .tscf__add', function (e) {
     e.preventDefault();
     // Check if max
-    var $container = $(this).parents('.tscf--iterator'),
+    var $container = $(this).closest('.tscf--iterator'),
         max        = parseInt($container.attr('data-max'), 10),
-        $template  = $container.find('.tscf__template');
-    if (!max || $container.find('.tscf__child').length < max) {
+        // 自身の iterator 直下のテンプレートのみを対象にする。ネストした iterator のテンプレートは無視する
+        $template  = $container.children('.tscf__template'),
+        $list      = $container.children('.tscf__childList');
+
+    if (!max || $list.children('.tscf__child').length < max) {
       var $newElem = $($template.html());
-      $newElem.appendTo($container.find('.tscf__childList'));
+
+      // 親の行を追加するときは、ネストしたiteratorの中身は空の状態から始める。既存行で入力済みの繰り返し値がそのまま複製されないようにリセットする
+      $newElem.find('.tscf--iterator').each(function () {
+        var $it = $(this);
+        $it.find('.tscf__childList').empty();
+        $it.find('.tscf__index').val(0);
+      });
+
+      $newElem.appendTo($list);
       $container.trigger('compute.tscf');
       $newElem.trigger('created.tscf');
     }
   });
 
   // Remove button for iterator
-  $('.tscf--iterator').on('click', '.tscf__button', function (e) {
+  $(document).on('click', '.tscf--iterator .tscf__button', function (e) {
     e.preventDefault();
     if ($(this).hasClass('tscf__button--delete')) {
-      var $parent = $(this).parents('.tscf--iterator');
-      $(this).parents('.tscf__child').remove();
+      var $parent = $(this).closest('.tscf--iterator');
+      // 最も近い .tscf__child（この行）だけを削除する。入れ子の親行までは削除しない
+      $(this).closest('.tscf__child').remove();
       $parent.trigger('compute.tscf');
     }
   });
@@ -374,24 +387,44 @@
   });
 
   // Change index
-  $('.tscf--iterator').on('compute.tscf', function (e, noHighlight) {
-    var prefix = $(this).attr('data-prefix'),
-        length = 0;
+  // いま処理している iterator 直下のindexだけを更新する。ネストしたiteratorのフィールド（孫）はスキップする
+  $( document ).on( 'compute.tscf', '.tscf--iterator', function( e, noHighlight ) {
+    var prefix    = $( this ).attr( 'data-prefix' ),
+        length    = 0,
+        // prefix を正規表現用にエスケープ
+        escPrefix = prefix.replace( /[-[\]/{}()*+?.\\^$|]/g, '\\$&' ),
+        // 先頭が prefix_フィールド名_数字 もしくはその後ろに [ _ のどちらかが続くものだけが対象。iterator.php の Iterator::get_field_indexes() と同じ条件
+        // 例: repeater_test_aaa_1, repeater_test_bbb_1_ccc_9999 など
+        re        = new RegExp( '^' + escPrefix + '_[^_]+_[0-9]+(\\[|_|$)' ),
+        // 例: repeater_test_bbb_1_ccc_9999 の repeater_test_bbb_ までをキャプチャ
+        headRe    = new RegExp( '^(' + escPrefix + '_[^_]+_)\\d+' );
+
     if (!noHighlight) {
       $(this).effect('highlight', {}, 500);
     }
-    $(this).find('.tscf__child').each(function (index, elt) {
+
+    // 直下の .tscf__childList 配下にある子行 .tscf__child のみを対象にする。
+    $(this).find('> .tscf__childList > .tscf__child').each(function (index, elt) {
       length++;
       $.each(['id', 'for', 'name'], function (nameIndex, prop) {
         $(elt).find('[' + prop + '^=' + prefix + '_]').each(function (i, input) {
-          $(input).attr(prop, $(input).attr(prop).replace(/_[0-9]+(\[?)/, function () {
-            return '_' + ( index + 1 ) + arguments[1];
-          }));
-        });
-      });
-    });
-    $(this).find('.tscf__index').val(length);
-  });
+          var current = $(input).attr(prop);
+          // この iterator 直下のフィールドでなければスキップ
+          if ( ! re.test(current) ) {
+            return;
+          }
+
+          // いま処理している iterator 自身の直下の行 index だけを並び順に合わせて振り直す
+          $( input ).attr( prop, current.replace( headRe, function( match, p1 ) {
+            return p1 + ( index + 1 );
+          } ) );
+        } );
+      } );
+    } );
+
+    // いま処理している iterator 自身の index hidden (_index_of_xxx) だけを更新する。ネストした iterator の index hidden までは書き換えない
+    $( this ).find( '> .tscf__index' ).val( length );
+  } );
 
   // Set initial value
   $(document).ready(function () {

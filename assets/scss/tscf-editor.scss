@@ -24,6 +24,33 @@
       padding-bottom: $pad * 2;
       border-left: 1px solid #ddd;
     }
+
+    // モバイルでは1カラムにする（サイドを上、メインを下）
+    @media screen and (max-width: 782px) {
+      & {
+        display: flex;
+        flex-direction: column;
+      }
+      &-side {
+        order: 1;
+        float: none;
+        width: 100%;
+        margin-left: 0;
+        padding-top: 0;
+        padding-left: 0;
+        padding-right: $pad;
+        padding-bottom: $pad;
+        border-left: none;
+        border-top: 1px solid #ddd;
+        margin-top: 0;
+      }
+      &-main {
+        order: 2;
+        float: none;
+        width: 100%;
+        padding-right: $pad;
+      }
+    }
     &-clear {
       clear: left;
     }
@@ -68,7 +95,7 @@
       }
     }
 
-    &-label-block{
+    &-label-block {
       display: inline-block;
       background: #f9f9f9;
       border: 1px solid #ddd;
@@ -199,7 +226,26 @@
               display: inline-block;
               width: 5em;
             }
+		  	.description {
+			  color: #0073aa;
+			  display: inline-flex;
+			  width: auto;
+			  vertical-align: middle;
+			  gap: 5px;
+			}
           }
+		  .message {
+		    margin-bottom: 5px;
+		    font-weight: bold;
+		  	font-size: 1rem;
+		  	line-height: 2rem;
+		    .error {
+			  color: #e74656;
+			}
+		    .dashicons {
+			  vertical-align: text-bottom;
+		    }
+		  }
         }
         h4{
           font-size: 1em;
@@ -271,17 +317,70 @@
           }
         }
       }
-    }
-    &-field-child {
-      display: block;
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
-      &:last-child {
-        border-bottom: none;
-      }
-      .block > span{
-        display: inline-block;
-        width: 6em;
+
+      // iterator の入れ子レベルごとの見た目
+      &-child {
+        display: block;
+        padding: 12px 12px 12px 18px;
+        border-bottom: 1px solid #ddd;
+        background: #fff;
+        position: relative;
+        border-radius: 4px;
+        margin-bottom: 4px;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .block > span{
+          display: inline-block;
+          width: 6em;
+        }
+
+        // ベース: 左に淡いガイドライン
+        &::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 4px;
+          background: rgb(0, 169, 217);
+          opacity: 0.3;
+        }
+
+        // 2階層目
+        .tscfe-field-child {
+          margin-left: 18px;
+          background: #f7fbff !important;
+
+          &::before {
+            background: #1e8cbe;
+            opacity: 0.25;
+          }
+        }
+
+        // 3階層目
+        .tscfe-field-child .tscfe-field-child {
+          margin-left: 32px;
+          background: #f7fdf8 !important;
+
+          &::before {
+            background: #46b450;
+            opacity: 0.3;
+          }
+        }
+
+        // 4階層目以降
+        .tscfe-field-child .tscfe-field-child .tscfe-field-child {
+          margin-left: 46px;
+          background: #fffcf5 !important;
+
+          &::before {
+            background: #ffb900;
+            opacity: 0.35;
+          }
+        }
       }
     }
   }

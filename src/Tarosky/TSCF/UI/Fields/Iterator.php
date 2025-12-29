@@ -45,9 +45,9 @@ class Iterator extends Base {
 				}
 				?>
 			</div>
-			<script type="text/template" class="tscf__template">
+			<template class="tscf__template">
 				<?php echo $this->single_row( 9999 ); ?>
-			</script>
+			</template>
 			<input type="hidden" class="tscf__index" name="_index_of_<?php echo $this->field['name']; ?>"
 					value="<?php echo esc_attr( $counter ); ?>"/>
 		</div>
@@ -120,14 +120,55 @@ SQL;
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$keys    = $wpdb->get_col( $wpdb->prepare( $query, $object_id, $key ) );
 		$indexes = array();
+		$prefix  = $this->field['name'];
+		// tscf-helper.js の compute.tscf 内の正規表現と同じ
+		$pattern = sprintf(
+			'#^%s_[^_]+_([0-9]+)(\[|_|$)#u',
+			preg_quote( $prefix, '#' )
+		);
+
 		foreach ( $keys as $k ) {
-			if ( preg_match( '#_([0-9]+)$#u', $k, $matches ) ) {
+			// 自身の iterator 直下のフィールドだけを対象にする。ネストした iterator は無視する
+			if ( preg_match( $pattern, $k, $matches ) ) {
 				if ( false === array_search( $matches[1], $indexes, true ) ) {
 					$indexes[] = $matches[1];
 				}
 			}
 		}
 		sort( $indexes );
+		return $indexes;
+	}
+
+	/**
+	 * Get indexes from $_POST keys.
+	 *
+	 * JS 側の index hidden（_index_of_xxx）が欠けている場合でも、POST された name を走査して存在する index を検出するためのフォールバック処理。
+	 *
+	 * @return int[]
+	 */
+	protected function get_posted_indexes() {
+		$indexes = array();
+		$prefix  = isset( $this->field['name'] ) ? $this->field['name'] : '';
+
+		if ( ! $prefix ) {
+			return $indexes;
+		}
+
+		$pattern = sprintf(
+			'#^%s_[^_]+_([0-9]+)(\[|_|$)#u',
+			preg_quote( $prefix, '#' )
+		);
+
+		foreach ( array_keys( $_POST ) as $key ) {
+			if ( preg_match( $pattern, $key, $matches ) ) {
+				if ( ! in_array( $matches[1], $indexes, true ) ) {
+					$indexes[] = (int) $matches[1];
+				}
+			}
+		}
+
+		sort( $indexes, SORT_NUMERIC );
+
 		return $indexes;
 	}
 
@@ -148,7 +189,24 @@ SQL;
 		// Save it all
 		$saved  = 0;
 		$length = $this->input->post( "_index_of_{$this->field['name']}" );
-		for ( $index = 1; $index <= $length; $index++ ) {
+		$length = is_numeric( $length ) ? (int) $length : 0;
+
+		$indexes = array();
+
+		// 通常は hidden の _index_of_xxx を信頼する
+		if ( $length > 0 ) {
+			$indexes = range( 1, $length );
+		}
+
+		// 念のため、POST された name から検出した index もマージしておく
+		// （_index_of_xxx が小さすぎる場合でも、実際に存在する行 index は漏らさない）
+		$post_indexes = $this->get_posted_indexes();
+		if ( $post_indexes ) {
+			$indexes = array_values( array_unique( array_merge( $indexes, $post_indexes ) ) );
+			sort( $indexes, SORT_NUMERIC );
+		}
+
+		foreach ( $indexes as $index ) {
 			foreach ( $this->field['fields'] as $field ) {
 				$field['name'] = "{$this->field['name']}_{$field['name']}_{$index}";
 				$class_name    = UIBase::get_field_class( $field );
