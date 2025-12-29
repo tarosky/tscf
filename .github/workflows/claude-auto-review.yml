@@ -1,0 +1,97 @@
+name: Claude Code PR Review
+
+on:
+  pull_request:
+    types: [ opened ]
+  issue_comment: # issue または PR のコメントを指す。PR も内部的には Issue 扱い
+    types: [ created ] # 新規コメントでのみトリガー。編集や削除はスルー
+  pull_request_review_comment: # Files changed タブの行コメント
+    types: [ created ]
+  issues:
+    types: [ opened ]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  id-token: write
+
+jobs:
+  # プルリクエストでの自動レビュー
+  auto-review:
+    # PR作成者が外部ユーザーの場合と、このリポジトリ以外のリポジトリからのPRでは実行されない
+    if: |
+      github.event_name == 'pull_request' &&
+      contains( fromJSON( '["OWNER","MEMBER","COLLABORATOR"]' ), github.event.pull_request.author_association ) &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code Review
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          track_progress: true
+          # /review だけだとPRコメントじゃなくてサマリーだけに結果が出力されたため、プロンプトを追加
+          prompt: |
+            /review
+            
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Please review this pull request with a focus on:
+            - Code quality and best practices
+            - Potential bugs or issues
+            - Security implications
+            - Performance considerations
+
+            Note: The PR branch is already checked out in the current working directory.
+            
+            Please review the changes in this pull request and post your review results as comments on this pull request in japanese.
+            No approval is required to post comments on PR.
+          # PRレビューでは GitHub API を使うため Github ツールのみ許可する
+          claude_args: | 
+            --model claude-sonnet-4-5-20250929
+            --system-prompt "Please speak in Japanese."
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
+
+  # @claude とコメントすると走る
+  call-claude:
+    if: |
+      (
+        github.event_name == 'issue_comment' &&
+        contains( github.event.comment.body, '@claude' ) &&
+        contains( fromJSON( '["OWNER","MEMBER","COLLABORATOR"]' ), github.event.comment.author_association )
+      ) ||
+      (
+        github.event_name == 'pull_request_review_comment' &&
+        contains( github.event.comment.body, '@claude' ) &&
+        contains( fromJSON( '["OWNER","MEMBER","COLLABORATOR"]' ), github.event.comment.author_association )
+      ) ||
+      (
+        github.event_name == 'issues' &&
+        contains( github.event.issue.body, '@claude' ) &&
+        contains( fromJSON( '["OWNER","MEMBER","COLLABORATOR"]' ), github.event.issue.author_association )
+      )
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Run Claude Code Review when calling
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          track_progress: true
+          claude_args: |
+            --model claude-sonnet-4-5-20250929
+            --system-prompt "Please speak in Japanese."
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
