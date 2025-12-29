@@ -57,7 +57,7 @@ class Editor extends Singleton {
 			wp_register_script( 'angular-ui-sortable', $this->url . '/lib/angular/sortable.min.js', array( 'angular', 'jquery-ui-sortable' ), '1.2.6' );
 			wp_enqueue_script( 'tscf-editor', $this->url . '/js/dist/editor.js', array(
 				'angular-ui-sortable',
-			), '1.0.3', true );
+			), tscf_version(), true );
 			// Register scripts
 			wp_localize_script( 'tscf-editor', 'TSCF', $this->js_vars() );
 			// Register CSS
@@ -98,19 +98,34 @@ class Editor extends Singleton {
 					break;
 			}
 		}
+		// Taxonomies
+		$taxonomies = array();
+		foreach ( get_taxonomies( array( 'public' => true, 'show_ui' => true ), OBJECT ) as $taxonomy ) {
+			if ( in_array( $taxonomy->name, array( 'nav_menu', 'link_category', 'post_format' ), true ) ) {
+				continue;
+			}
+			if ( 0 === strpos( $taxonomy->name, 'wp_' ) ) {
+				// e.g. wp_theme, wp_template_part_area, wp_pattern_category
+				continue;
+			}
+			$taxonomies[] = array(
+				'name'  => $taxonomy->name,
+				'label' => isset( $taxonomy->label ) ? $taxonomy->label : ( isset( $taxonomy->labels->name ) ? $taxonomy->labels->name : $taxonomy->name ),
+			);
+		}
 		return array(
-			'endpoint'  => array(
+			'endpoint'   => array(
 				'save'     => wp_nonce_url( admin_url( 'admin-ajax.php' ), 'tscf_edit' ) . '&action=tscf_save',
 				'field'    => wp_nonce_url( admin_url( 'admin-ajax.php' ), 'tscf_edit' ) . '&action=tscf_field',
 				'template' => admin_url( 'admin-ajax.php' ) . '?action=tscf_template',
 			),
-			'message'   => array(
+			'message'    => array(
 				'delete' => __( 'Are you sure to delete this item?', 'tscf' ),
 			),
-			'errors'    => $errors,
-			'settings'  => $settings,
-			'new'       => __( 'New Field', 'tscf' ),
-			'cols'      => array(
+			'errors'     => $errors,
+			'settings'   => $settings,
+			'new'        => __( 'New Field', 'tscf' ),
+			'cols'       => array(
 				array(
 					'label' => sprintf( __( '%d col', 'tscf' ), 1 ),
 					'value' => 1,
@@ -124,7 +139,7 @@ class Editor extends Singleton {
 					'value' => 3,
 				),
 			),
-			'context'   => array(
+			'context'    => array(
 				array(
 					'label' => __( 'Normal', 'tscf' ),
 					'value' => 'normal',
@@ -138,7 +153,7 @@ class Editor extends Singleton {
 					'value' => 'advanced',
 				),
 			),
-			'priority'  => array(
+			'priority'   => array(
 				array(
 					'label' => __( 'High', 'tscf' ),
 					'value' => 'high',
@@ -156,8 +171,9 @@ class Editor extends Singleton {
 					'value' => 'low',
 				),
 			),
-			'postTypes' => $post_types,
-			'types'     => $this->parser->available_types(),
+			'postTypes'  => $post_types,
+			'taxonomies' => $taxonomies,
+			'types'      => $this->parser->available_types(),
 		);
 	}
 
@@ -186,6 +202,39 @@ class Editor extends Singleton {
 				throw new \Exception( __( 'Data is mall-formed. Nothing saved.', 'tscf' ), 400 );
 			}
 			// Save check
+			// Normalize keys and order before saving:
+			// name, label, type, (post) post_types, (term) taxonomies, (post) context, (post) priority, description, fields
+			if ( is_array( $data ) ) {
+				$ordered = array();
+				foreach ( $data as $g ) {
+					if ( ! is_array( $g ) ) {
+						continue;
+					}
+					$type       = ( isset( $g['type'] ) && 'term' === $g['type'] ) ? 'term' : 'post';
+					$o          = array();
+					$o['name']  = isset( $g['name'] ) ? (string) $g['name'] : '';
+					$o['label'] = isset( $g['label'] ) ? (string) $g['label'] : '';
+					$o['type']  = $type;
+					if ( 'term' === $type ) {
+						$o['taxonomies'] = isset( $g['taxonomies'] ) ? (array) $g['taxonomies'] : array();
+					} elseif ( 'post' === $type ) {
+						$o['post_types'] = isset( $g['post_types'] ) ? (array) $g['post_types'] : array();
+						// Only add when present; PostMeta has defaults otherwise
+						if ( isset( $g['context'] ) && '' !== $g['context'] ) {
+							$o['context'] = (string) $g['context'];
+						}
+						if ( isset( $g['priority'] ) && '' !== $g['priority'] ) {
+							$o['priority'] = (string) $g['priority'];
+						}
+					}
+					if ( isset( $g['description'] ) && '' !== $g['description'] ) {
+						$o['description'] = (string) $g['description'];
+					}
+					$o['fields'] = isset( $g['fields'] ) ? (array) $g['fields'] : array();
+					$ordered[]   = $o;
+				}
+				$data = $ordered;
+			}
 			$error = $this->parser->save( json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE ) );
 			if ( is_wp_error( $error ) ) {
 				throw new \Exception( $error->get_error_message(), $error->get_error_code() );

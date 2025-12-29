@@ -1,4 +1,4 @@
-angular.module('tscf').directive('tscfField', ['$http', '$window', 'ui', function($http, $window, ui){
+angular.module('tscf').directive('tscfField', ['$http', '$window', '$timeout', 'ui', function($http, $window, $timeout, ui){
 
   "use strict";
 
@@ -21,7 +21,64 @@ angular.module('tscf').directive('tscfField', ['$http', '$window', 'ui', functio
 
       $scope.priority = TSCF.priority;
 
+      // Taxonomies provided by server
+      $scope.taxonomies = TSCF.taxonomies || [];
+
       $scope.setting = $scope.groups[$scope.i];
+
+      // Defaults for backward compatibility
+      if (!$scope.setting.type) {
+        $scope.setting.type = 'post';
+      }
+      if (!$scope.setting.post_types) {
+        $scope.setting.post_types = [];
+      }
+      if (!$scope.setting.taxonomies) {
+        $scope.setting.taxonomies = [];
+      }
+
+      // Type changed: clear the opposite side
+      $scope.onTypeChange = function () {
+        if ($scope.setting.type === 'post') {
+          // clear taxonomy selections
+          $scope.setting.taxonomies = [];
+          $timeout(function(){
+            try {
+              jQuery('#taxonomy-field-' + $scope.i).find('input:checked').prop('checked', false);
+            } catch (e) {}
+          }, 0);
+        } else if ($scope.setting.type === 'term') {
+          // clear post type selections
+          $scope.setting.post_types = [];
+          $timeout(function(){
+            try {
+              jQuery('#post-type-field-' + $scope.i).find('input:checked').prop('checked', false);
+            } catch (e) {}
+          }, 0);
+        }
+      };
+
+      // Also react via watcher to ensure model/DOM stay in sync even if ng-change didn't fire
+      $scope.$watch('setting.type', function(val, oldVal){
+        if (val === oldVal) {
+          return;
+        }
+        if (val === 'post') {
+          $scope.setting.taxonomies = [];
+          $timeout(function(){
+            try {
+              jQuery('#taxonomy-field-' + $scope.i).find('input:checked').prop('checked', false);
+            } catch (e) {}
+          }, 0);
+        } else if (val === 'term') {
+          $scope.setting.post_types = [];
+          $timeout(function(){
+            try {
+              jQuery('#post-type-field-' + $scope.i).find('input:checked').prop('checked', false);
+            } catch (e) {}
+          }, 0);
+        }
+      });
 
       $scope.toggle = function(target){
         ui.toggle(target);
@@ -36,6 +93,15 @@ angular.module('tscf').directive('tscfField', ['$http', '$window', 'ui', functio
           types.push(jQuery(input).val());
         });
         $scope.groups[$scope.i].post_types = types;
+      };
+
+      // Taxonomy checkbox changed
+      $scope.changeTaxCheckbox = function(){
+        var tax = [];
+        jQuery('#taxonomy-field-' + $scope.i).find('input:checked').each(function(i, input){
+          tax.push(jQuery(input).val());
+        });
+        $scope.groups[$scope.i].taxonomies = tax;
       };
 
       /**

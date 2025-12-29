@@ -118,9 +118,12 @@ angular.module('tscf').controller( 'tscfEditor', [ '$scope', '$http', '$window',
   }
 
   /**
-   * Save settings with validation.
+   * Save settings with validation and formatting.
+   *
+   * JSONエディタの保存時にバリデーションと整形を行う
    */
   $scope.saveFields = function(){
+
     var hasError = { value: false };
 
     // まず既存の per-field エラーをクリア
@@ -143,7 +146,7 @@ angular.module('tscf').controller( 'tscfEditor', [ '$scope', '$http', '$window',
       }
     });
 
-    // 実際に _errors を持つフィールドが 1 つでもあるかどうかで判定する
+    // 実際に _errors を持つフィールドが1つでもあるかどうかで判定する
     var anyError = false;
     angular.forEach($scope.settings, function(group){
       if (group && Array.isArray(group.fields)) {
@@ -184,10 +187,41 @@ angular.module('tscf').controller( 'tscfEditor', [ '$scope', '$http', '$window',
     // 既存のサーバー側エラー情報はクリアしておく
     $scope.errors = [];
 
+    // JSON出力順と不要キー削除をここで制御する
+    var payload = [];
+    angular.forEach($scope.settings, function(s){
+      var o = {};
+      // 基本情報
+      o.name  = s.name || '';
+      o.label = s.label || '';
+      o.type  = s.type || 'post';
+      // 出力: post のときのみ post_types、term のときは taxonomies を出力
+      if (o.type === 'term') {
+        // term のときは taxonomies を出力し、context/priority は出力しない（プロパティ削除）
+        o.taxonomies = s.taxonomies || [];
+      } else {
+        // post のときのみ post_types を出力
+        o.post_types = s.post_types || [];
+        // post のときは context/priority が設定されていれば出力（未設定ならデフォルト適用のため出力しない）
+        if (s.context) {
+          o.context = s.context;
+        }
+        if (s.priority) {
+          o.priority = s.priority;
+        }
+      }
+      // 任意項目
+      if (s.description) {
+        o.description = s.description;
+      }
+      o.fields = s.fields || [];
+      payload.push(o);
+    });
+
     $http({
       method: 'POST',
       url: TSCF.endpoint.save,
-      data: $scope.settings
+      data: payload
     }).then(
       function(response){
         // Success

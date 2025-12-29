@@ -128,13 +128,27 @@ class Parser extends Singleton {
 			return;
 		}
 		$this->initialized = true;
-		$this->data        = wp_parse_args( (array) $json, array(
+		// Normalize JSON to a list of groups.
+		$raw = $json;
+		if ( is_array( $raw ) ) {
+			$is_list = array_keys( $raw ) === range( 0, count( $raw ) - 1 );
+			$list    = $is_list ? $raw : array( $raw );
+		} elseif ( is_object( $raw ) ) {
+			$list = array( (array) $raw );
+		} else {
+			$list = array();
+		}
+		$defaults   = array(
 			'name'   => '',
 			'label'  => '',
 			'type'   => 'post',
 			'slug'   => array(),
 			'fields' => array(),
-		));
+		);
+		$this->data = array();
+		foreach ( $list as $item ) {
+			$this->data[] = wp_parse_args( (array) $item, $defaults );
+		}
 	}
 
 	/**
@@ -148,6 +162,9 @@ class Parser extends Singleton {
 		$this->build();
 		$valid_data = $this->filter( $type, $sub_type, $object );
 		switch ( $type ) {
+			case 'term':
+				$class_name = 'Tarosky\\TSCF\\UI\\TermMeta';
+				break;
 			default:
 				$class_name = 'Tarosky\\TSCF\\UI\\PostMeta';
 				break;
@@ -169,6 +186,9 @@ class Parser extends Singleton {
 		$this->build();
 		$valid_data = $this->filter( $type, $sub_type, $object );
 		switch ( $type ) {
+			case 'term':
+				$class_name = 'Tarosky\\TSCF\\UI\\TermMeta';
+				break;
 			default:
 				$class_name = 'Tarosky\\TSCF\\UI\\PostMeta';
 				break;
@@ -198,6 +218,11 @@ class Parser extends Singleton {
 			$this_type = ! isset( $data['type'] ) || 'post' === $data['type'] ? 'post' : $data['type'];
 			if ( $this_type === $type ) {
 				switch ( $type ) {
+					case 'term':
+						// This is term meta, so check taxonomies.
+						$taxonomies  = isset( $data['taxonomies'] ) ? (array) $data['taxonomies'] : array();
+						$should_show = ( array_search( $sub_type, $taxonomies, true ) !== false );
+						break;
 					default:
 						// This is post meta, so check post_types.
 						$post_types  = isset( $data['post_types'] ) ? (array) $data['post_types'] : array();
@@ -293,6 +318,25 @@ class Parser extends Singleton {
 	 */
 	public function validate() {
 		return true;
+	}
+
+	/**
+	 * Get taxonomies specified in term-type groups.
+	 *
+	 * @return array
+	 */
+	public function get_term_taxonomies() {
+		$this->build();
+		$list = array();
+		foreach ( (array) $this->data as $data ) {
+			$this_type = ! isset( $data['type'] ) || 'post' === $data['type'] ? 'post' : $data['type'];
+			if ( 'term' === $this_type ) {
+				foreach ( (array) ( isset( $data['taxonomies'] ) ? $data['taxonomies'] : array() ) as $tax ) {
+					$list[] = (string) $tax;
+				}
+			}
+		}
+		return array_values( array_unique( $list ) );
 	}
 
 	/**
