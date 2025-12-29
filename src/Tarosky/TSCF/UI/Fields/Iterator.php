@@ -105,7 +105,7 @@ class Iterator extends Base {
 				break;
 			case 'WP_Term':
 				$object_key = 'term_id';
-				$object_id  = $this->object->ID;
+				$object_id  = $this->object->term_id;
 				$table      = $wpdb->termmeta;
 				break;
 			default:

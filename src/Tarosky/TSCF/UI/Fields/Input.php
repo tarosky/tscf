@@ -119,7 +119,7 @@ abstract class Input extends Base {
 		foreach ( $this->filter_data_attributes( array() ) as $key => $value ) {
 			$data_attr[] = sprintf( '%s="%s"', $key, esc_attr( $value ) );
 		}
-		$data = implode( ' ', $data_attr )
+		$data = implode( ' ', $data_attr );
 		?>
 		<input class="<?php echo esc_attr( $classes ); ?>"
 				name="<?php echo esc_attr( $this->field['name'] ); ?>" id="<?php echo esc_attr( $this->field['name'] ); ?>"
