@@ -42,9 +42,9 @@
 
 #### 1. コメントから呼び出す
 
-##### `@gemini-cli`、`@claude`
+##### `@gemini-cli`と`@claude`をコメントで使用する
 
-プルリクエストやイシューのコメントに `@gemini-cli` `@claude`を含めた文章を書くと、それぞれ Gemini CLI と Claude Code を呼び出すことができます。
+プルリクエストやイシューのコメントに `@gemini-cli`もしくは`@claude`を含めた文章を書くと、それぞれ Gemini CLI と Claude Code を呼び出すことができます。
 
 `@gemini-cli` や `@claude` に続く文章が、それぞれ Gemini CLI と Claude Code のプロンプトとして渡されます。
 
