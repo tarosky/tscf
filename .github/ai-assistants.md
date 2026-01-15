@@ -46,7 +46,7 @@
 
 プルリクエストやイシューのコメントに `@gemini-cli` `@claude`を含めた文章を書くと、それぞれ Gemini CLI と Claude Code を呼び出すことができます。
 
-`@gemini-cli`、`@claude`に続く文章はプロンプトとして、それぞれ Gemini CLI と Claude Code に渡されます。
+`@gemini-cli` や `@claude` に続く文章が、それぞれ Gemini CLI と Claude Code のプロンプトとして渡されます。
 
 ###### 例
 ```
