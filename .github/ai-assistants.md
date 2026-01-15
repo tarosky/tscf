@@ -9,8 +9,8 @@
 
 ## 注意
 - 2025年12月29日現在、Gemini CLIがうまく動いていません。
-- 環境情報を渡しても正しくそれらを受け取ってくれない問題が発生中で、自動レビューがうまく動かない状態です。 
-- 公式リポジトリのissue: https://github.com/google-github-actions/run-gemini-cli/issues/425
+  - 環境情報を渡しても正しくそれらを受け取ってくれない問題が発生中で、自動レビューがうまく動かない状態です。 
+  - 公式リポジトリのissue: https://github.com/google-github-actions/run-gemini-cli/issues/425
   - 対処方法はありますが、公式の対応を待っています。
 
 ---
@@ -42,15 +42,19 @@
 
 #### 1. コメントから呼び出す
 
-##### `@gemini-cli`、`@claude`
+##### `@gemini-cli`と`@claude`をコメントで使用する
 
-プルリクエストやイシューのコメントに `@gemini-cli` `@claude`を含めた文章を書くと、それぞれ Gemini CLI と Claude Code を呼び出すことができます。
+プルリクエストやイシューのコメントに `@gemini-cli`もしくは`@claude`を含めた文章を書くと、それぞれ Gemini CLI と Claude Code を呼び出すことができます。
 
-`@gemini-cli`、`@claude`に続く文章はプロンプトとしてGemini CLIに渡されます。
+`@gemini-cli` や `@claude` に続く文章が、それぞれ Gemini CLI と Claude Code のプロンプトとして渡されます。
 
 ###### 例
 ```
 @gemini-cli 修正したので、もう一度レビューしてください。
+```
+
+```
+@claude このプルリクエストの内容をジュニアエンジニアにわかりやすいように説明してください。
 ```
 
 ## 2. ガード（セキュリティ）
