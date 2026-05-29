@@ -65,76 +65,76 @@ msgstr "設定ファイルがありません。<code>tscf.json</code>をテー�
 msgid "Otherwise, you can edit it <a href=\"%s\">directly</a>."
 msgstr "もしくは、<a href=\"%s\">直接作成</a>することができます。"
 
-#: src/Tarosky/TSCF/Editor.php:123
+#: src/Tarosky/TSCF/Editor.php:125
 msgid "Are you sure to delete this item?"
 msgstr "このアイテムを削除してよろしいですか？"
 
-#: src/Tarosky/TSCF/Editor.php:127
+#: src/Tarosky/TSCF/Editor.php:129
 msgid "New Field"
 msgstr "新しいフィールド"
 
-#: src/Tarosky/TSCF/Editor.php:130
+#: src/Tarosky/TSCF/Editor.php:132
 #, php-format
 msgid "%d col"
 msgstr "%d 列"
 
-#: src/Tarosky/TSCF/Editor.php:134
-#: src/Tarosky/TSCF/Editor.php:138
+#: src/Tarosky/TSCF/Editor.php:136
+#: src/Tarosky/TSCF/Editor.php:140
 #, php-format
 msgid "%d cols"
 msgstr "%d 列"
 
-#: src/Tarosky/TSCF/Editor.php:144
+#: src/Tarosky/TSCF/Editor.php:146
 msgid "Normal"
 msgstr "ノーマル"
 
-#: src/Tarosky/TSCF/Editor.php:148
+#: src/Tarosky/TSCF/Editor.php:150
 msgid "Side"
 msgstr "横"
 
-#: src/Tarosky/TSCF/Editor.php:152
+#: src/Tarosky/TSCF/Editor.php:154
 msgid "Advanced"
 msgstr "アドバンスド"
 
-#: src/Tarosky/TSCF/Editor.php:158
+#: src/Tarosky/TSCF/Editor.php:160
 msgid "High"
 msgstr "高い"
 
-#: src/Tarosky/TSCF/Editor.php:162
+#: src/Tarosky/TSCF/Editor.php:164
 msgid "Default"
 msgstr "通常"
 
-#: src/Tarosky/TSCF/Editor.php:166
+#: src/Tarosky/TSCF/Editor.php:168
 msgid "Core"
 msgstr "コア"
 
-#: src/Tarosky/TSCF/Editor.php:170
+#: src/Tarosky/TSCF/Editor.php:172
 msgid "Low"
 msgstr "低い"
 
-#: src/Tarosky/TSCF/Editor.php:192
-#: src/Tarosky/TSCF/Editor.php:294
+#: src/Tarosky/TSCF/Editor.php:194
+#: src/Tarosky/TSCF/Editor.php:296
 msgid "Invalid access."
 msgstr "無効なアクセスです。"
 
-#: src/Tarosky/TSCF/Editor.php:196
-#: src/Tarosky/TSCF/Editor.php:298
+#: src/Tarosky/TSCF/Editor.php:198
+#: src/Tarosky/TSCF/Editor.php:300
 msgid "Permission denied."
 msgstr "権限がありません。"
 
-#: src/Tarosky/TSCF/Editor.php:202
+#: src/Tarosky/TSCF/Editor.php:204
 msgid "Data is mall-formed. Nothing saved."
 msgstr "データ形式が不正です。保存されませんでした。"
 
-#: src/Tarosky/TSCF/Editor.php:244
+#: src/Tarosky/TSCF/Editor.php:246
 msgid "Config file saved."
 msgstr "設定ファイルが保存されました。"
 
-#: src/Tarosky/TSCF/Editor.php:258
+#: src/Tarosky/TSCF/Editor.php:260
 msgid "You have no permission."
 msgstr "権限がありません。"
 
-#: src/Tarosky/TSCF/Editor.php:309
+#: src/Tarosky/TSCF/Editor.php:311
 #, php-format
 msgid "Field %s is available."
 msgstr "フィールド %s は利用可能です。"
@@ -332,7 +332,7 @@ msgstr ""
 msgid "TAROSKY INC. <info@tarosky.co.jp>"
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:269
+#: src/Tarosky/TSCF/Editor.php:271
 msgid "Such template doesn't exist."
 msgstr ""
 

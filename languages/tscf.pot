@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-29T06:47:57+00:00\n"
+"POT-Creation-Date: 2026-05-29T15:19:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: tscf\n"
@@ -253,80 +253,80 @@ msgstr ""
 msgid "Otherwise, you can edit it <a href=\"%s\">directly</a>."
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:123
+#: src/Tarosky/TSCF/Editor.php:125
 msgid "Are you sure to delete this item?"
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:127
+#: src/Tarosky/TSCF/Editor.php:129
 msgid "New Field"
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:130
+#: src/Tarosky/TSCF/Editor.php:132
 #, php-format
 msgid "%d col"
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:134
-#: src/Tarosky/TSCF/Editor.php:138
+#: src/Tarosky/TSCF/Editor.php:136
+#: src/Tarosky/TSCF/Editor.php:140
 #, php-format
 msgid "%d cols"
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:144
+#: src/Tarosky/TSCF/Editor.php:146
 msgid "Normal"
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:148
+#: src/Tarosky/TSCF/Editor.php:150
 msgid "Side"
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:152
+#: src/Tarosky/TSCF/Editor.php:154
 msgid "Advanced"
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:158
+#: src/Tarosky/TSCF/Editor.php:160
 msgid "High"
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:162
+#: src/Tarosky/TSCF/Editor.php:164
 msgid "Default"
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:166
+#: src/Tarosky/TSCF/Editor.php:168
 msgid "Core"
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:170
+#: src/Tarosky/TSCF/Editor.php:172
 msgid "Low"
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:192
-#: src/Tarosky/TSCF/Editor.php:294
+#: src/Tarosky/TSCF/Editor.php:194
+#: src/Tarosky/TSCF/Editor.php:296
 msgid "Invalid access."
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:196
-#: src/Tarosky/TSCF/Editor.php:298
+#: src/Tarosky/TSCF/Editor.php:198
+#: src/Tarosky/TSCF/Editor.php:300
 msgid "Permission denied."
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:202
+#: src/Tarosky/TSCF/Editor.php:204
 msgid "Data is mall-formed. Nothing saved."
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:244
+#: src/Tarosky/TSCF/Editor.php:246
 msgid "Config file saved."
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:258
+#: src/Tarosky/TSCF/Editor.php:260
 msgid "You have no permission."
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:269
+#: src/Tarosky/TSCF/Editor.php:271
 msgid "Such template doesn't exist."
 msgstr ""
 
-#: src/Tarosky/TSCF/Editor.php:309
+#: src/Tarosky/TSCF/Editor.php:311
 #, php-format
 msgid "Field %s is available."
 msgstr ""
