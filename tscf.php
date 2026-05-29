@@ -23,7 +23,7 @@ add_action( 'plugins_loaded', 'tscf_plugins_loaded' );
  */
 function tscf_plugins_loaded() {
 	// Add translation.
-	load_plugin_textdomain( 'tscf', false, 'tscf/languages' );
+	load_plugin_textdomain( 'tscf', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	// Start.
 	if ( version_compare( phpversion(), '5.4.*', '<' ) ) {
 		add_action( 'admin_notices', 'tscf_admin_notice' );

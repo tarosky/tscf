@@ -9,6 +9,14 @@
 		],
 		"fix": [
 			"phpcbf --standard=phpcs.ruleset.xml ./src"
+		],
+		"i18n:pot": "wp i18n make-pot . languages/tscf.pot --slug=tscf --domain=tscf --exclude=tests,node_modules,vendor,sanko",
+		"i18n:po": "wp i18n update-po languages/tscf.pot languages/",
+		"i18n:mo": "wp i18n make-mo languages/",
+		"i18n": [
+			"@i18n:pot",
+			"@i18n:po",
+			"@i18n:mo"
 		]
 	},
 	"authors": [
