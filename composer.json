@@ -10,13 +10,15 @@
 		"fix": [
 			"phpcbf --standard=phpcs.ruleset.xml ./src"
 		],
-		"i18n:pot": "wp i18n make-pot . languages/tscf.pot --slug=tscf --domain=tscf --exclude=tests,node_modules,vendor",
+		"i18n:pot": "wp i18n make-pot . languages/tscf.pot --slug=tscf --domain=tscf --exclude=tests,node_modules,vendor,assets/lib,assets/js/dist",
 		"i18n:po": "wp i18n update-po languages/tscf.pot languages/",
 		"i18n:mo": "wp i18n make-mo languages/",
+		"i18n:json": "wp i18n make-json languages/ --no-purge",
 		"i18n": [
 			"@i18n:pot",
 			"@i18n:po",
-			"@i18n:mo"
+			"@i18n:mo",
+			"@i18n:json"
 		]
 	},
 	"authors": [
