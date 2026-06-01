@@ -1,0 +1,21 @@
+# 外部パートナーが参加するリポにもそのまま置いてよい（シークレット・鍵はゼロ）。
+#
+# 動作:
+#   release が「リリース（prerelease ではない）」として publish されたら、
+#   tarosky/workflows の reusable workflow を呼び出して watchtower へ通知する。
+
+name: Notify watchtower on release
+
+on:
+  release:
+    types: [released]   # prerelease は除外。両方拾いたければ [released, prereleased] に変更
+
+jobs:
+  notify:
+    permissions:
+      id-token: write   # reusable 側ジョブの id-token: write はここから継承される
+      contents: read
+    uses: tarosky/workflows/.github/workflows/watchtower-notify.yml@main
+    # audience を上書きしたい場合のみ:
+    # with:
+    #   audience: watchtower
