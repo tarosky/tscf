@@ -91,7 +91,7 @@ abstract class Input extends Base {
 						<small class="tscf__unit"><?php echo esc_html( $this->field['unit'] ); ?></small>
 					<?php endif; ?>
 					<?php if ( $this->field['required'] ) : ?>
-						<small class="tscf__required">* <?php echo esc_attr_e( 'Required', 'tscf' ); ?></small>
+						<small class="tscf__required">* <?php esc_attr_e( 'Required', 'tscf' ); ?></small>
 					<?php endif; ?>
 				</label>
 			<?php endif; ?>
