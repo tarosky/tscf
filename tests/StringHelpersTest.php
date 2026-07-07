@@ -3,7 +3,7 @@
  * Test string utilities.
  */
 
-class TestStringHelpers extends WP_UnitTestCase {
+class StringHelpersTest extends WP_UnitTestCase {
 
 	/**
 	 * Test string replacers.
