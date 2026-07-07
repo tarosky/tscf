@@ -57,7 +57,9 @@ class Editor extends Singleton {
 			wp_register_script( 'angular-ui-sortable', $this->url . '/lib/angular/sortable.min.js', array( 'angular', 'jquery-ui-sortable' ), '1.2.6' );
 			wp_enqueue_script( 'tscf-editor', $this->url . '/js/dist/editor.js', array(
 				'angular-ui-sortable',
+				'wp-i18n',
 			), tscf_version(), true );
+			wp_set_script_translations( 'tscf-editor', 'tscf', $this->root_dir . '/languages' );
 			// Register scripts
 			wp_localize_script( 'tscf-editor', 'TSCF', $this->js_vars() );
 			// Register CSS
