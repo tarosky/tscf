@@ -39,7 +39,9 @@ TSCF は、WordPress のカスタムフィールドを効率的に管理する�
 tscf/
 ├── .github/                    # GitHub関連設定
 │   └── workflows/
-│       └── wordpress.yml       # WordPress.orgデプロイ・テスト
+│       ├── test.yml            # PR時のテスト（PHPCS/PHPUnit/アセットlint等）
+│       ├── release-drafter.yml # リリースノート自動ドラフト
+│       └── release.yml         # リリースpublish時にzipをビルドして添付
 ├── .husky/                     # Gitフック設定
 │   ├── pre-commit              # コミット前フック
 │   └── pre-push                # プッシュ前フック（必要に応じ有効化）
@@ -168,7 +170,8 @@ composer fix        # PHP
 
 テスト:
 ```bash
-composer test       # PHP 単体テスト
+npm start           # wp-env起動（初回・環境更新時）
+npm test            # wp-env内でPHPUnitを実行
 ```
 
 WP-CLI 例:
@@ -185,19 +188,10 @@ npm run cli -- log list
 - Git フックによる自動チェックを実施（pre-commit / pre-push）
 
 設定済みフック:
-- pre-commit: npm test（JS/CSS lint + PHP lint 相当を実行想定）
+- pre-commit: npm run lint:all（JS/CSS lint + PHP lint）
 - pre-push: 現状は一時的に無効化（将来的に npm run test:full を想定）
 
-動作確認:
-```bash
-# pre-commit 確認
-git commit -m "Test commit"
-# → "Husky pre-commit hook is working!" が表示される
-
-# pre-push 確認
-git push
-# → composer test 等が実行される構成に調整可能
-```
+`npm test`（PHPUnit）はwp-envの起動を伴うため、pre-commitには含めていません。
 
 将来的な拡張:
 - lint-staged 連携
