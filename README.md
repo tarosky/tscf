@@ -3,8 +3,6 @@ TSCF - Tarosky Custom Field manager
 
 Contributors: Takahashi_Fumiki, tarosky  
 Tags: custom field  
-Requires at least: 5.9.0  
-Requires PHP: 7.4  
 Tested up to: 6.5  
 Stable tag: 1.2.0  
 License: GPLv3 or later  
