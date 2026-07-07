@@ -15,8 +15,9 @@
 		"package": "gulp build",
 		"gulp": "gulp",
 		"lint": "gulp lint:js",
-		"test": "npm run lint && composer lint",
-		"test:full": "npm run test && composer test",
+		"lint:all": "npm run lint && composer lint",
+		"test": "RESULT=${PWD##*/} && wp-env run tests-cli ./wp-content/plugins/$RESULT/vendor/bin/phpunit -c ./wp-content/plugins/$RESULT/phpunit.xml.dist",
+		"test:full": "npm run lint:all && npm test",
 		"prepare": "husky"
 	},
 	"repository": {
@@ -29,7 +30,7 @@
 		"fields"
 	],
 	"engines": {
-		"node": ">= 18.0.0"
+		"node": ">= 20.0.0"
 	},
 	"author": "Takahashi Fumiki <ftakahashi@tarosky.co.jp>",
 	"bugs": {
@@ -73,8 +74,5 @@
 		"select2": "^4.0.3",
 		"stylelint": "^13.13.1",
 		"stylelint-config-wordpress": "^17.0.0"
-	},
-	"volta": {
-		"node": "18.20.8"
 	}
 }

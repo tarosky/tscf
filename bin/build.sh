@@ -6,7 +6,7 @@ set -e
 PREFIX="refs/tags/"
 VERSION=${1#"$PREFIX"}
 
-echo "Building Render Faster v${VERSION}..."
+echo "Building TSCF v${VERSION}..."
 
 # Install composer.
 composer install --no-dev --prefer-dist

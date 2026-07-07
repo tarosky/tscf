@@ -3,8 +3,6 @@ TSCF - Tarosky Custom Field manager
 
 Contributors: Takahashi_Fumiki, tarosky  
 Tags: custom field  
-Requires at least: 5.9.0  
-Requires PHP: 7.4  
 Tested up to: 6.5  
 Stable tag: 1.2.0  
 License: GPLv3 or later  
@@ -70,9 +68,13 @@ W.I.P
 
 ## Changelog
 
-### 1.2.0
+### 2.1.0
 
-* Add support for term meta (taxonomy).
+* Add support for term meta fields. Taxonomy edit screens (e.g. category, tag) can now show and save TSCF fields, selectable as "term" type from Custom Field Config.
+* Add support for nested (repeater) iterator fields. Iterators can now contain other iterators, with no nesting limit.
+* Fix: the options editor UI (checkbox/radio/select) was not shown for iterator child fields.
+* Fix: incremental search results for "select from posts" fields were cached for several minutes, showing stale/empty results after a no-hit search.
+* Add a note about theme write permissions affecting the "Custom Field Config" menu.
 
 ### 1.1.1
 

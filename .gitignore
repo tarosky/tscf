@@ -3,7 +3,7 @@
 npm-debug.log
 composer.lock
 /wordpress
-package-lock.json
+.phpunit.result.cache
 /assets/js/dist/
 /assets/css/
 /assets/lib/

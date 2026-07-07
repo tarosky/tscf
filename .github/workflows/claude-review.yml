@@ -2,7 +2,7 @@ name: Claude Code PR Review
 
 on:
   workflow_run:
-    workflows: ["Deploy Plugin"]
+    workflows: ["Test Plugin"]
     types: [completed]
   issue_comment:
     types: [created]
